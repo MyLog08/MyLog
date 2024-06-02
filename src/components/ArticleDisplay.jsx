@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import supabase from '../supabase/supabase';
+import dayjs from 'dayjs';
 
 const ArticleDisplay = () => {
   // 테스트용 게시글 아이디
@@ -54,16 +55,8 @@ const ArticleDisplay = () => {
           <span>{userNickname.nickname}</span>
           <span>
             {article.createdAt === article.updatedAt
-              ? new Date(article.createdAt).toLocaleDateString('ko-KR', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })
-              : new Date(article.updatedAt).toLocaleDateString('ko-KR', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
+              ? dayjs(article.createdAt).format('YYYY년 MM월 DD일')
+              : dayjs(article.updatedAt).format('YYYY년 MM월 DD일')}
           </span>
           <span>♥ {article.like}</span>
         </div>
