@@ -1,12 +1,12 @@
-import { Provider } from 'react-redux';
 import Router from './shared/Router';
-import { store } from './redux/store';
+import GlobalStyle, { AppContainer } from './styles/GlobalStyle';
 
 const App = () => {
   return (
-    <Provider store={store}>
+    <AppContainer>
+      <GlobalStyle />
       <Router />
-    </Provider>
+    </AppContainer>
   );
 };
 
