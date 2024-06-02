@@ -1,11 +1,13 @@
 import { Provider } from 'react-redux';
-import Router from './shared/Router';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
 import { store } from './redux/store';
+import Router from './shared/Router';
 
 const App = () => {
   return (
     <Provider store={store}>
       <Router />
+      <RegisterPage />
     </Provider>
   );
 };
