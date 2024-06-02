@@ -27,12 +27,12 @@ function RegisterForm() {
     <div>
       <h1>회원가입</h1>
       <form>
-        <Input label="이름" value={name} name="name" id="name" onChange={handleOnChange} />
-        <Input label="이메일" value={email} name="email" id="email" onChange={handleOnChange} />
-        <Input label="닉네임" value={nickname} name="nickname" id="nickname" onChange={handleOnChange} />
-        <Input label="생년월일" type="date" value={birth} name="birth" id="birth" onChange={handleOnChange} />
+        <Input placeholder="이름" value={name} name="name" id="name" onChange={handleOnChange} />
+        <Input placeholder="이메일" value={email} name="email" id="email" onChange={handleOnChange} />
+        <Input placeholder="닉네임" value={nickname} name="nickname" id="nickname" onChange={handleOnChange} />
+        <Input placeholder="생년월일" value={birth} name="birth" id="birth" onChange={handleOnChange} />
         <Input
-          label="비밀번호"
+          placeholder="비밀번호"
           type="password"
           value={password}
           name="password"
@@ -40,7 +40,7 @@ function RegisterForm() {
           onChange={handleOnChange}
         />
         <Input
-          label="비밀번호확인"
+          placeholder="비밀번호확인"
           type="password"
           value={confirm}
           name="confirm"
