@@ -31,47 +31,38 @@ function RegisterForm() {
     const newErrors = {};
 
     if (!validateNameLength(name)) {
-      console.log('이름은 2글자 이상이어야 합니다.');
       newErrors.name = '이름은 2글자 이상이어야 합니다.';
     }
 
     if (!validateEmailFormat(email)) {
-      console.log('올바른 이메일 형식이 아닙니다.');
       newErrors.email = '올바른 이메일 형식이 아닙니다.';
     }
 
     try {
       if (await validateCheckDuplicate('email', email)) {
-        console.error('이미 사용중인 이메일 입니다.');
         newErrors.email = '이미 사용중인 이메일 입니다.';
       }
     } catch (err) {
-      console.error(err.message);
       newErrors.email = '이미 사용중인 이메일 입니다.';
     }
 
     try {
       if (await validateCheckDuplicate('nickname', nickname)) {
-        console.error('이미 사용중인 닉네임 입니다.');
         newErrors.nickname = '이미 사용중인 닉네임 입니다.';
       }
     } catch (err) {
-      console.error(err.message);
       newErrors.nickname = '이미 사용중인 닉네임 입니다.';
     }
 
     if (!validatePasswordFormat(password)) {
-      console.error('비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.');
       newErrors.password = '비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.';
     }
 
     if (password !== confirm) {
-      console.log('비밀번호가 일치하지 않습니다.');
       newErrors.confirm = '비밀번호가 일치하지 않습니다.';
     }
 
     if (!name || !email || !nickname || !birth || !password || !confirm) {
-      console.log('모든 필드를 입력해주세요.');
       newErrors.general = '모든 필드를 입력해주세요.';
     }
 
