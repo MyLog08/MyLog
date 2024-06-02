@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+
 
 const UserProfile = ({ user }) => {
   const posts = [
@@ -15,18 +16,19 @@ const UserProfile = ({ user }) => {
     '작성한 글 ',
     '작성한 글 ',
     '작성한 글 ',
-    '작성한 글 '
+    '작성한 글 ',
   ];
-  // const reasonToUse = [ reason, setReason] = useState('')
+
+ 
 
   return (
     <div style={{ display: 'flex', padding: '20px' }}>
       <section style={{ width: '30%', padding: '20px', borderRight: '1px solid #ddd' }}>
         <img src={user.profilePic} alt="Profile" style={{ width: '100%' }} />
         <h2>{user.username}</h2>
-        <span>Followers: {user.follower}</span>
-        <span>Following: {user.following}</span>
-        <input />
+        <span style={{display:'flex'}}>Followers : {user.follower}</span>
+        <span>Following : {user.following}</span>
+        <p>'Mylog 운영 이유'</p>
       </section>
       <section style={{ overflowY: 'scroll', height: '500px', width: '70%', padding: '20px' }}>
         {posts.map((post, index) => (
