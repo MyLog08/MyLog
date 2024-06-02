@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import useFormInputs from '../../hooks/useInput';
 import supabase from '../../supabase/supabase';
 import Button from '../Button';
@@ -28,7 +29,7 @@ function RegisterForm() {
 
     try {
       // TODO 테스트용 date 포메팅
-      const date = new Date(Date.UTC(2020, 11, 20, 3, 23, 16, 738));
+      const date = dayjs().format('YYYY-MM-DD hh:mm:ss');
       const { data, error } = await supabase.from('Users').insert({
         name,
         email,
