@@ -1,6 +1,12 @@
 import dayjs from 'dayjs';
 import useFormInputs from '../../hooks/useInput';
 import supabase from '../../supabase/supabase';
+import {
+  validateCheckDuplicate,
+  validateEmailFormat,
+  validateNameLength,
+  validatePasswordFormat
+} from '../../utils/validators';
 import Button from '../Button';
 import Input from '../Input';
 
@@ -18,17 +24,65 @@ function RegisterForm() {
 
   const { name, email, nickname, birth, password, confirm } = inputs;
 
+  const validateForm = async () => {
+    if (!validateNameLength(name)) {
+      console.log('이름은 2글자 이상이어야 합니다.');
+      return false;
+    }
+
+    if (!validateEmailFormat(email)) {
+      console.log('올바른 이메일 형식이 아닙니다.');
+      return false;
+    }
+
+    try {
+      if (await validateCheckDuplicate('email', email)) {
+        console.error('이미 사용중인 이메일 입니다.');
+        return false;
+      }
+    } catch (err) {
+      console.error(err.message);
+      return false;
+    }
+
+    try {
+      if (await validateCheckDuplicate('nickname', nickname)) {
+        console.error('이미 사용중인 닉네임 입니다.');
+        return false;
+      }
+    } catch (err) {
+      console.error(err.message);
+      return false;
+    }
+
+    if (!validatePasswordFormat(password)) {
+      console.error('비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.');
+      return false;
+    }
+
+    if (password !== confirm) {
+      console.log('비밀번호가 일치하지 않습니다.');
+      return false;
+    }
+
+    if (!name || !email || !nickname || !birth || !password || !confirm) {
+      console.log('모든 필드를 입력해주세요.');
+      return false;
+    }
+
+    return true;
+  };
+
   const handleOnSubmit = async (e) => {
     e.preventDefault();
 
-    // TODO 유효성 검사 변경해야함.
-    if (password !== confirm) {
-      alert('비밀번호 불일치');
+    const validate = await validateForm();
+
+    if (!validate) {
       return;
     }
 
     try {
-      // TODO 테스트용 date 포메팅
       const date = dayjs().format('YYYY-MM-DD hh:mm:ss');
       const { data, error } = await supabase.from('Users').insert({
         name,
