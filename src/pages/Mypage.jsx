@@ -1,12 +1,11 @@
 import React from 'react';
-import MyProfile from '../components/MyProfile';
-import EditProfilePage from '../components/EditProfilePage';
+import UserProfile from '../components/UserProfile';
 
-const Mypage = () => {
+const Mypage = ({user, onEditProfile}) => {
   return (
     <>
-     <MyProfile />
-     <EditProfilePage />
+     <UserProfile user={user} />
+     <button onClick={onEditProfile}>프로필 수정</button>
     </>
   );
 };
