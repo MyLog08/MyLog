@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useState } from 'react';
 import useFormInputs from '../../hooks/useInput';
 import supabase from '../../supabase/supabase';
 import {
@@ -22,55 +23,60 @@ function RegisterForm() {
 
   const { inputs, handleOnChange, handleResetInputs } = useFormInputs(initialState);
 
+  const [errors, setErrors] = useState({});
+
   const { name, email, nickname, birth, password, confirm } = inputs;
 
   const validateForm = async () => {
+    const newErrors = {};
+
     if (!validateNameLength(name)) {
       console.log('이름은 2글자 이상이어야 합니다.');
-      return false;
+      newErrors.name = '이름은 2글자 이상이어야 합니다.';
     }
 
     if (!validateEmailFormat(email)) {
       console.log('올바른 이메일 형식이 아닙니다.');
-      return false;
+      newErrors.email = '올바른 이메일 형식이 아닙니다.';
     }
 
     try {
       if (await validateCheckDuplicate('email', email)) {
         console.error('이미 사용중인 이메일 입니다.');
-        return false;
+        newErrors.email = '이미 사용중인 이메일 입니다.';
       }
     } catch (err) {
       console.error(err.message);
-      return false;
+      newErrors.email = '이미 사용중인 이메일 입니다.';
     }
 
     try {
       if (await validateCheckDuplicate('nickname', nickname)) {
         console.error('이미 사용중인 닉네임 입니다.');
-        return false;
+        newErrors.nickname = '이미 사용중인 닉네임 입니다.';
       }
     } catch (err) {
       console.error(err.message);
-      return false;
+      newErrors.nickname = '이미 사용중인 닉네임 입니다.';
     }
 
     if (!validatePasswordFormat(password)) {
       console.error('비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.');
-      return false;
+      newErrors.password = '비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.';
     }
 
     if (password !== confirm) {
       console.log('비밀번호가 일치하지 않습니다.');
-      return false;
+      newErrors.confirm = '비밀번호가 일치하지 않습니다.';
     }
 
     if (!name || !email || !nickname || !birth || !password || !confirm) {
       console.log('모든 필드를 입력해주세요.');
-      return false;
+      newErrors.general = '모든 필드를 입력해주세요.';
     }
 
-    return true;
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleOnSubmit = async (e) => {
@@ -103,6 +109,7 @@ function RegisterForm() {
 
       alert('회원가입 완료');
       handleResetInputs();
+      setErrors({});
     } catch (err) {
       console.error(err);
       alert('회원가입 중 오류 발생');
@@ -114,8 +121,11 @@ function RegisterForm() {
       <h1>회원가입</h1>
       <form onSubmit={handleOnSubmit}>
         <Input placeholder="이름" value={name} name="name" id="name" onChange={handleOnChange} />
+        {errors.name && <div style={{ color: 'red' }}>{errors.name}</div>}
         <Input placeholder="이메일" value={email} name="email" id="email" onChange={handleOnChange} />
+        {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
         <Input placeholder="닉네임" value={nickname} name="nickname" id="nickname" onChange={handleOnChange} />
+        {errors.nickname && <div style={{ color: 'red' }}>{errors.nickname}</div>}
         <Input placeholder="생년월일" value={birth} name="birth" id="birth" onChange={handleOnChange} />
         <Input
           placeholder="비밀번호"
@@ -125,6 +135,7 @@ function RegisterForm() {
           id="password"
           onChange={handleOnChange}
         />
+        {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
         <Input
           placeholder="비밀번호확인"
           type="password"
@@ -133,6 +144,8 @@ function RegisterForm() {
           id="confirm"
           onChange={handleOnChange}
         />
+        {errors.confirm && <div style={{ color: 'red' }}>{errors.confirm}</div>}
+        {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>}
         <Button value="가입하기" />
       </form>
     </div>
