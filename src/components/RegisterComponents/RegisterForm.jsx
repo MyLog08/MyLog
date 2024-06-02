@@ -1,27 +1,20 @@
-import { useState } from 'react';
+import useFormInputs from '../../hooks/useInput';
 import Button from '../Button';
 import Input from '../Input';
 
 function RegisterForm() {
-  const [inputs, setInputs] = useState({
+  const initialState = {
     name: '',
     email: '',
     nickname: '',
     birth: '',
     password: '',
     confirm: ''
-  });
+  };
+
+  const { inputs, setInputs, handleOnChange, handleResetInputs } = useFormInputs(initialState);
 
   const { name, email, nickname, birth, password, confirm } = inputs;
-
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-
-    setInputs({
-      ...inputs,
-      [name]: value
-    });
-  };
 
   return (
     <div>
