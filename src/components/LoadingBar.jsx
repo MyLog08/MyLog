@@ -1,0 +1,14 @@
+import { LoadingWrapper, Ellipsis1, Ellipsis2, Ellipsis3, Ellipsis4 } from '../styles/LoadingBarStyle'; // 스타일을 임포트합니다.
+
+const LoadingBar = () => {
+  return (
+    <LoadingWrapper>
+      <Ellipsis1 />
+      <Ellipsis2 />
+      <Ellipsis3 />
+      <Ellipsis4 />
+    </LoadingWrapper>
+  );
+};
+
+export default LoadingBar;
