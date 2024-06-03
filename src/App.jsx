@@ -1,12 +1,13 @@
 import Router from './shared/Router';
-import GlobalStyle, { AppContainer } from './styles/GlobalStyle';
+import { AppContainer, PageWrapper } from './styles/GlobalStyle';
 
 const App = () => {
   return (
-    <AppContainer>
-      <GlobalStyle />
-      <Router />
-    </AppContainer>
+    <PageWrapper>
+      <AppContainer>
+        <Router />
+      </AppContainer>
+    </PageWrapper>
   );
 };
 

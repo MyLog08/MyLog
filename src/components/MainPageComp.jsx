@@ -10,7 +10,7 @@ import {
   Image,
   ImageCard,
   ImageGrid,
-  LatestPopularButtons,
+  MainSort,
   SortButton
 } from '../styles/GlobalStyle';
 import Header from './Header';
@@ -32,33 +32,56 @@ const MainPageComp = () => {
         if (sortBy === 'popular') {
           data = data.sort((a, b) => b.like - a.like);
         } else {
-          data = data.sort((a, b) => new Date(b.updateAt) - new Date(a.updateAt));
+          data = data.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
         }
-        setArticles(
-          data.map((article) => ({
-            ...article,
-            updatedAt: dayjs(article.updatedAt).format('YYYY년 MM월 DD일'),
-            imageUrlArray: JSON.parse(article.imageUrl)
-          }))
+
+        const updatedArticles = await Promise.all(
+          data.map(async (article) => {
+            const { data: userNicknameData, error: userNicknameError } = await supabase
+              .from('Users')
+              .select('nickname')
+              .eq('userId', article.userId)
+              .single();
+            if (userNicknameError) {
+              console.log(userNicknameError);
+              return null;
+            }
+            const fetchedNickname = userNicknameData.nickname;
+
+            return {
+              ...article,
+              updatedAt: dayjs(article.updatedAt).format('YYYY년 MM월 DD일'),
+              imageUrlArray: JSON.parse(article.imageUrl),
+              userNickname: fetchedNickname
+            };
+          })
         );
+
+        const filteredArticles = updatedArticles.filter((article) => article !== null);
+
+        setArticles(filteredArticles);
       } catch (error) {
         console.error('Error Fetching Articles:', error.message);
       }
     };
     fetchArticles();
   }, [sortBy]);
-
-  const handleSortToggle = () => {
-    setSortBy(sortBy === 'latest' ? 'popular' : 'latest');
+  const handleSortToggle = (sortCriteria) => {
+    setSortBy(sortCriteria);
   };
 
   return (
     <div>
       <Header />
       <Content>
-        <LatestPopularButtons>
-          <SortButton onClick={handleSortToggle}>{sortBy === 'latest' ? '최신순' : '인기순'}</SortButton>
-        </LatestPopularButtons>
+        <MainSort>
+          <SortButton onClick={() => handleSortToggle('latest')} selected={sortBy === 'latest'}>
+            Newest
+          </SortButton>
+          <SortButton onClick={() => handleSortToggle('popular')} selected={sortBy === 'popular'}>
+            Popular
+          </SortButton>
+        </MainSort>
         <ImageGrid>
           {articles.map((article) => {
             const truncatedContent =
@@ -78,8 +101,10 @@ const MainPageComp = () => {
                   <ArticleDate>{article.updatedAt}</ArticleDate>
                 </Details>
                 <AuthorBox>
-                  <ArticleAuthor>by {article.author}</ArticleAuthor>
-                  <ArticleLikes>♥ {article.like}</ArticleLikes>
+                  <ArticleAuthor>by {article.userNickname}</ArticleAuthor>
+                  <ArticleLikes>
+                    <img src="src\assets\HeartIconBlue.png" alt="Heart Icon" /> {article.like}
+                  </ArticleLikes>
                 </AuthorBox>
               </ImageCard>
             );

@@ -3,12 +3,13 @@ import {
   LoggedInButtons,
   LoginButton,
   Logo,
+  LogoutButton,
   ProfileButton,
   SearchBar,
   WriteButton
 } from '../styles/GlobalStyle';
 import { useState } from 'react';
-import myLogoImage from '../assets/MyLogLogo_1.png';
+import myLogoImage from '../assets/MyLogLogo_blue_bold.png';
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,15 +21,15 @@ const Header = () => {
   return (
     <HeaderContainer>
       <Logo src={myLogoImage} alt="로고" />
-      <SearchBar type="text" placeholder="검색" />
+      <SearchBar type="text" placeholder="Search..." />
       {isLoggedIn ? (
         <LoggedInButtons>
-          <WriteButton>글 쓰기</WriteButton>
-          <ProfileButton>내 프로필</ProfileButton>
-          <LoginButton onClick={handleLogin}>로그아웃</LoginButton>
+          <WriteButton>Write</WriteButton>
+          <ProfileButton>My Profile</ProfileButton>
+          <LogoutButton onClick={handleLogin}>Log Out</LogoutButton>
         </LoggedInButtons>
       ) : (
-        <LoginButton onClick={handleLogin}>로그인</LoginButton>
+        <LoginButton onClick={handleLogin}>Log In</LoginButton>
       )}
     </HeaderContainer>
   );
