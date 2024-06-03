@@ -12,7 +12,7 @@ function EditProfile({ user, onUpdateProfile }) {
     confirmPassword: ''
   });
   const [errors, setErrors] = useState({});
-  const [nicknames, setNicknames] = useState(['sampleUser', 'testUser']); // 예시 중복 닉네임 리스트
+  const [nicknames, setNicknames] = useState(['sampleUser', 'testUser']);
   const [profilePictureFile, setProfilePictureFile] = useState(null);
 
   const handleChange = (e) => {
@@ -23,54 +23,51 @@ function EditProfile({ user, onUpdateProfile }) {
     });
   };
 
-  const handleFileChange = (e) => {
-    setProfilePictureFile(e.target.files[0]);
-  };
-
   const validateForm = () => {
     let newErrors = {};
     // 이름 2글자 이상
     if (inputs.name.length < 2) {
       newErrors.name = '이름은 2글자 이상이어야 합니다.';
     }
-
     // 비밀번호 검사 (영문 대문자, 특수문자 포함 8자리 이상)
     if (!/^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/.test(inputs.password)) {
       newErrors.password = '비밀번호는 영문 대문자, 특수문자 포함 8자리 이상이어야 합니다.';
     }
-
     // 닉네임 중복 검사
     if (nicknames.includes(inputs.nickname)) {
       newErrors.nickname = '해당 닉네임은 이미 사용 중입니다.';
     }
-
     // 새 비밀번호와 새 비밀번호 확인이 일치하는지 검사
     if (inputs.newPassword !== inputs.confirmPassword) {
       newErrors.confirmPassword = '새 비밀번호가 일치하지 않습니다.';
     }
-
     // 모든 입력값이 채워져 있는지 검사
     Object.keys(inputs).forEach((key) => {
       if (!inputs[key] && key !== 'newPassword' && key !== 'confirmPassword') {
         newErrors[key] = `${key}은(는) 필수 입력값입니다.`;
       }
     });
-
+    console.log(newErrors);
     setErrors(newErrors);
 
     // 에러가 없으면 true 반환
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleFileChange = (e) => {
+    console.log(e.target.files);
+    setProfilePictureFile(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log('폼 제출 성공');
+      alert('폼 제출 성공');
 
       let profilePictureUrl = inputs.profilePicture;
       if (profilePictureFile) {
         const { data, error: uploadError } = await supabase.storage
-          .from('profile-pictures')
+          .from('Users')
           .upload(`public/${profilePictureFile.name}`, profilePictureFile);
 
         if (uploadError) {
@@ -81,16 +78,18 @@ function EditProfile({ user, onUpdateProfile }) {
         profilePictureUrl = data.Key; // 업로드된 이미지의 URL
       }
 
-      const { error } = await supabase.from('Users').update({
-        profilePicture: profilePictureUrl,
-        userName: inputs.name,
-        newPassword: inputs.newPassword
-      });
+      const { error } = await supabase
+        .from('Users')
+        .update({
+          profilePicture: profilePictureUrl,
+          userName: inputs.name,
+          newPassword: inputs.newPassword
+        })
+        .eq('id', user.id);
 
       if (error) {
         console.error('프로필 업데이트 실패', error);
       } else {
-        // 업데이트 성공시 로직
         const updatedUser = {
           ...user,
           userName: inputs.name,
@@ -99,20 +98,17 @@ function EditProfile({ user, onUpdateProfile }) {
         onUpdateProfile(updatedUser);
       }
     } else {
-      console.log('유효성 검사 실패');
+      alert('유효성 검사 실패');
     }
   };
   const handleDeactivateProfile = async () => {
-    const { error } = await supabase
-    .from('Users')
-    .delete()
-    .match({ id: user.id });
+    const { error } = await supabase.from('Users').delete().match({ id: user.id });
 
     if (error) {
       console.error('계정 삭제 실패', error);
     } else {
       alert('계정이 성공적으로 삭제되었습니다.');
-      navigate('/login'); 
+      navigate('/login');
     }
   };
   // 뒤로 가기 버튼
