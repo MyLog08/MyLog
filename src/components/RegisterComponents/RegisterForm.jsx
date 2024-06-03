@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { handleAuthSignUp, handleUserAuthorizationData, handleUserRegisterInsert } from '../../api/authApi';
+import { handleAuthSignUp, handleUserRegisterInsert } from '../../api/authApi';
 import useFormInputs from '../../hooks/useInput';
 import {
   validateCheckDuplicate,
@@ -79,9 +79,7 @@ function RegisterForm() {
       return;
     }
 
-    await handleAuthSignUp(email, password);
-    const user = await handleUserAuthorizationData(email, password);
-    console.log(user);
+    const user = await handleAuthSignUp(email, password);
 
     try {
       const date = dayjs().format('YYYY-MM-DD hh:mm:ss');
