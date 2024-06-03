@@ -1,13 +1,16 @@
 import { Provider } from 'react-redux';
-import RegisterPage from './pages/RegisterPage/RegisterPage';
 import { store } from './redux/store';
 import Router from './shared/Router';
+import { AppContainer } from './styles/GlobalStyle/AppStyle';
+
 
 const App = () => {
   return (
     <Provider store={store}>
-      <Router />
-      <RegisterPage />
+      <AppContainer>
+        <Router />
+      </AppContainer>
+
     </Provider>
   );
 };

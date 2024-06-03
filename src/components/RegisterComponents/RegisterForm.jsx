@@ -1,15 +1,16 @@
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { handleAuthSignUp, handleUserAuthorizationData, handleUserRegisterInsert } from '../../api/authApi';
+import { handleAuthSignUp, handleUserRegisterInsert } from '../../api/authApi';
 import useFormInputs from '../../hooks/useInput';
 import {
   validateCheckDuplicate,
   validateEmailFormat,
   validateNameLength,
-  validatePasswordFormat
+  validatePasswordFormat,
+  validatePasswordMatch
 } from '../../utils/validators';
-import Button from '../Button';
-import Input from '../Input';
+import Button from '../Common/Button';
+import Input from '../Common/Input';
 
 function RegisterForm() {
   const initialState = {
@@ -58,7 +59,7 @@ function RegisterForm() {
       newErrors.password = '비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.';
     }
 
-    if (password !== confirm) {
+    if (!validatePasswordMatch(password, confirm)) {
       newErrors.confirm = '비밀번호가 일치하지 않습니다.';
     }
 
@@ -79,9 +80,7 @@ function RegisterForm() {
       return;
     }
 
-    await handleAuthSignUp(email, password);
-    const user = await handleUserAuthorizationData(email, password);
-    console.log(user);
+    const user = await handleAuthSignUp(email, password);
 
     try {
       const date = dayjs().format('YYYY-MM-DD hh:mm:ss');
