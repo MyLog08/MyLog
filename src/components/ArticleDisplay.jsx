@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 
 const ArticleDisplay = () => {
   // 테스트용 게시글 아이디
-  const articleId = '6e629508-8e0e-4ea7-b4b8-d9a44f4a8f96';
+  const articleId = 'f1a37c3a-0fdf-46f0-92e1-08739684bf88';
 
   const [article, setArticle] = useState(null);
   const [userNickname, setUserNickname] = useState(null);
