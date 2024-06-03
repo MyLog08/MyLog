@@ -1,3 +1,5 @@
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { NavLink } from 'react-router-dom';
 import {
   ArticleAuthor,
   ArticleContent,
@@ -12,77 +14,74 @@ import {
   ImageGrid,
   MainSort,
   SortButton
-} from '../styles/GlobalStyle';
+} from '../styles/MainStyle';
 import Header from './Header';
-import { useEffect, useState, useRef, useCallback } from 'react';
 import supabase from '../supabase/supabase';
 import dayjs from 'dayjs';
+import LoadingBar from './LoadingBar';
 
-const MainPageComp = () => {
+const Articles = ({ mode }) => {
   const [articles, setArticles] = useState([]);
-  const [sortBy, setSortBy] = useState('latest');
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const observer = useRef();
 
   const ARTICLES_PER_PAGE = 12;
 
-  const fetchArticles = async (page, sortBy) => {
-    setLoading(true);
-    try {
-      let query = supabase
-        .from('Articles')
-        .select('*')
-        .range((page - 1) * ARTICLES_PER_PAGE, page * ARTICLES_PER_PAGE - 1);
+  const fetchArticles = useCallback(
+    async (page) => {
+      setLoading(true);
+      try {
+        let query = supabase
+          .from('Articles')
+          .select('*')
+          .order(mode === 'popular' ? 'like' : 'updatedAt', { ascending: false })
+          .range((page - 1) * ARTICLES_PER_PAGE, page * ARTICLES_PER_PAGE - 1);
 
-      if (sortBy === 'popular') {
-        query = query.order('like', { ascending: false });
-      } else {
-        query = query.order('updatedAt', { ascending: false });
+        const { data, error } = await query;
+        if (error) {
+          throw error;
+        }
+
+        const updatedArticles = await Promise.all(
+          data.map(async (article) => {
+            const { data: userNicknameData, error: userNicknameError } = await supabase
+              .from('Users')
+              .select('nickname')
+              .eq('userId', article.userId)
+              .single();
+            if (userNicknameError) {
+              console.log(userNicknameError);
+              return null;
+            }
+            const fetchedNickname = userNicknameData.nickname;
+
+            return {
+              ...article,
+              updatedAt: dayjs(article.updatedAt).format('YYYY년 MM월 DD일'),
+              imageUrlArray: JSON.parse(article.imageUrl),
+              userNickname: fetchedNickname
+            };
+          })
+        );
+
+        const filteredArticles = updatedArticles.filter((article) => article !== null);
+
+        setArticles((prevArticles) => [...prevArticles, ...filteredArticles]);
+      } catch (error) {
+        console.error('Error Fetching Articles:', error.message);
+      } finally {
+        setLoading(false);
       }
-
-      const { data, error } = await query;
-      if (error) {
-        throw error;
-      }
-
-      const updatedArticles = await Promise.all(
-        data.map(async (article) => {
-          const { data: userNicknameData, error: userNicknameError } = await supabase
-            .from('Users')
-            .select('nickname')
-            .eq('userId', article.userId)
-            .single();
-          if (userNicknameError) {
-            console.log(userNicknameError);
-            return null;
-          }
-          const fetchedNickname = userNicknameData.nickname;
-
-          return {
-            ...article,
-            updatedAt: dayjs(article.updatedAt).format('YYYY년 MM월 DD일'),
-            imageUrlArray: JSON.parse(article.imageUrl),
-            userNickname: fetchedNickname
-          };
-        })
-      );
-
-      const filteredArticles = updatedArticles.filter((article) => article !== null);
-
-      setArticles((prevArticles) => [...prevArticles, ...filteredArticles]);
-    } catch (error) {
-      console.error('Error Fetching Articles:', error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+    [mode]
+  );
 
   useEffect(() => {
     setArticles([]);
     setPage(1);
-    fetchArticles(1, sortBy);
-  }, [sortBy]);
+    fetchArticles(1);
+  }, [mode, fetchArticles]);
 
   const lastArticleElementRef = useCallback(
     (node) => {
@@ -99,33 +98,22 @@ const MainPageComp = () => {
   );
 
   useEffect(() => {
-    if (page === 1) {
-      setArticles([]);
-    }
     if (page > 1) {
-      fetchArticles(page, sortBy);
+      fetchArticles(page);
     }
-  }, [page, sortBy]);
-
-  const handleSortToggle = (sortCriteria) => {
-    if (sortBy !== sortCriteria) {
-      setSortBy(sortCriteria);
-      setPage(1);
-    }
-    setSortBy(sortCriteria);
-  };
+  }, [page, fetchArticles]);
 
   return (
     <div>
       <Header />
       <Content>
         <MainSort>
-          <SortButton onClick={() => handleSortToggle('latest')} selected={sortBy === 'latest'}>
-            Newest
-          </SortButton>
-          <SortButton onClick={() => handleSortToggle('popular')} selected={sortBy === 'popular'}>
-            Popular
-          </SortButton>
+          <NavLink to="/newest" isActive={() => mode === 'newest'}>
+            <SortButton selected={mode === 'newest'}>Newest</SortButton>
+          </NavLink>
+          <NavLink to="/popular" isActive={() => mode === 'popular'}>
+            <SortButton selected={mode === 'popular'}>Popular</SortButton>
+          </NavLink>
         </MainSort>
         <ImageGrid>
           {articles.map((article, index) => {
@@ -180,10 +168,10 @@ const MainPageComp = () => {
             }
           })}
         </ImageGrid>
-        {loading && <p>Loading...</p>}
+        {loading && <LoadingBar />}
       </Content>
     </div>
   );
 };
 
-export default MainPageComp;
+export default Articles;

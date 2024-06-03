@@ -1,7 +1,7 @@
-import MainPageComp from '../components/MainPageComp';
+import Articles from '../components/Articles';
 
 const MainPage = () => {
-  return <MainPageComp />;
+  return <Articles />;
 };
 
 export default MainPage;

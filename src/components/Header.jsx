@@ -8,7 +8,7 @@ import {
   SearchBar,
   SearchContainer,
   WriteButton
-} from '../styles/GlobalStyle';
+} from '../styles/HeaderStyle';
 import { useState } from 'react';
 import myLogoImage from '../assets/MyLogLogo_blue_bold.png';
 
