@@ -12,8 +12,8 @@ const Router = () => {
         <Route path="/" element={<MainPage />} /> {/*로그인 페이지로 바꿔야됨 */}
         <Route path="/newest" element={<Articles mode="newest" />} />
         <Route path="/popular" element={<Articles mode="popular" />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/auth/login" element={<LoginPage />} />
+        <Route path="/auth/register" element={<RegisterPage />} />
         <Route path="/auth/checkSignIn" element={<AuthStatus />} />
       </Routes>
     </BrowserRouter>
