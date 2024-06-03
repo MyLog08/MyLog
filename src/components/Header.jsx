@@ -6,6 +6,7 @@ import {
   LogoutButton,
   ProfileButton,
   SearchBar,
+  SearchContainer,
   WriteButton
 } from '../styles/GlobalStyle';
 import { useState } from 'react';
@@ -21,7 +22,9 @@ const Header = () => {
   return (
     <HeaderContainer>
       <Logo src={myLogoImage} alt="로고" />
-      <SearchBar type="text" placeholder="Search..." />
+      <SearchContainer>
+        <SearchBar type="text" placeholder="Search..." />
+      </SearchContainer>
       {isLoggedIn ? (
         <LoggedInButtons>
           <WriteButton>Write</WriteButton>
