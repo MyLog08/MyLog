@@ -11,6 +11,9 @@ const Router = () => {
         <Route path="/auth/register" element={<RegisterPage />} />
         <Route path="/newest" element={<Articles mode="newest" />} />
         <Route path="/popular" element={<Articles mode="popular" />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/auth/checkSignIn" element={<AuthStatus />} />
       </Routes>
     </BrowserRouter>
   );
