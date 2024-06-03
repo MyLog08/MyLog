@@ -4,8 +4,8 @@ import useFormInputs from '../../hooks/useInput';
 import { login } from '../../redux/slices/authSlice';
 import supabase from '../../supabase/supabase';
 import { validateEmailFormat, validatePasswordFormat, validatePasswordMatch } from '../../utils/validators';
-import Button from '../Button';
-import Input from '../Input';
+import Button from '../Common/Button';
+import Input from '../Common/Input';
 
 function LoginForm() {
   const dispatch = useDispatch();
