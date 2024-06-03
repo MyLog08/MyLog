@@ -10,12 +10,14 @@ export const handleAuthSignUp = async (email, password) => {
     if (error) {
       throw error;
     }
+
+    return data;
   } catch (err) {
     console.error(err);
   }
 };
 
-export const handleUserAuthorizationData = async (email, password) => {
+export const handleAuthLogin = async (email, password) => {
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
