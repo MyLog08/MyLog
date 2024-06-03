@@ -1,12 +1,22 @@
 import styled from 'styled-components';
 
 export const HeaderContainer = styled.header`
-  position: relative;
-  display: flex;
-  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 70px;
   padding: 10px 20px;
-  background: #fafafa;
+  z-index: 1000;
+  background-color: #fafafa;
+  > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    width: 100%;
+    margin: auto;
+  }
 `;
 
 export const Logo = styled.img`
@@ -120,5 +130,23 @@ export const LogoutButton = styled.button`
   &:hover {
     //background-color: #e45f5f;
     color: #e45f5f;
+  }
+`;
+
+export const SigninButton = styled.button`
+  padding: 8px 16px;
+  font-size: 20px;
+  //background-color: #8aa9e4;
+  font-weight: bold;
+  background-color: #fafafa;
+  color: #8aa9e4;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+
+  &:hover {
+    //background-color: #ffbfbf;
+    color: #ffbfbf;
   }
 `;
