@@ -1,4 +1,4 @@
-import Articles from '../components/Articles';
+import Articles from '../../components/MainPage/Articles';
 
 const MainPage = () => {
   return <Articles />;

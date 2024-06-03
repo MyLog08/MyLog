@@ -1,3 +1,6 @@
+import { createGlobalStyle } from 'styled-components';
+
+export const GlobalStyle = createGlobalStyle`
 *,
 *::before,
 *::after {
@@ -37,10 +40,6 @@ h6 {
 #__next {
   isolation: isolate;
 }
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
 
 html,
 body,
@@ -130,7 +129,6 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
-/* HTML5 display-role reset for older browsers */
 article,
 aside,
 details,
@@ -146,6 +144,7 @@ section {
 }
 body {
   line-height: 1;
+  background-color: #fafafa;
 }
 ol,
 ul {
@@ -166,3 +165,4 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+`;
