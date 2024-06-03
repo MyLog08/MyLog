@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import { handleAuthSignUp, handleUserAuthorizationData, handleUserRegisterInsert } from '../../api/authApi';
 import useFormInputs from '../../hooks/useInput';
-import supabase from '../../supabase/supabase';
 import {
   validateCheckDuplicate,
   validateEmailFormat,
@@ -79,9 +79,14 @@ function RegisterForm() {
       return;
     }
 
+    await handleAuthSignUp(email, password);
+    const user = await handleUserAuthorizationData(email, password);
+    console.log(user);
+
     try {
       const date = dayjs().format('YYYY-MM-DD hh:mm:ss');
-      const { data, error } = await supabase.from('Users').insert({
+      await handleUserRegisterInsert({
+        userId: user.user.id,
         name,
         email,
         nickname,
@@ -90,13 +95,6 @@ function RegisterForm() {
         createdAt: date,
         updatedAt: date
       });
-
-      console.log(data);
-
-      if (error) {
-        alert(error.message);
-        return;
-      }
 
       alert('회원가입 완료');
       handleResetInputs();
