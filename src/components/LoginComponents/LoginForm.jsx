@@ -1,11 +1,15 @@
+import { useDispatch } from 'react-redux';
 import { handleAuthLogin } from '../../api/authApi';
 import useFormInputs from '../../hooks/useInput';
+import { login } from '../../redux/slices/authSlice';
 import supabase from '../../supabase/supabase';
 import { validateEmailFormat, validatePasswordFormat, validatePasswordMatch } from '../../utils/validators';
 import Button from '../Button';
 import Input from '../Input';
 
 function LoginForm() {
+  const dispatch = useDispatch();
+
   const initialState = {
     email: '',
     password: ''
@@ -40,10 +44,9 @@ function LoginForm() {
       return;
     }
 
-    console.log(data);
-
     const user = await handleAuthLogin(email, password);
-    console.log(user);
+
+    dispatch(login(user));
 
     alert('로그인 완료');
     handleResetInputs();
