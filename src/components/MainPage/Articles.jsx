@@ -14,11 +14,11 @@ import {
   ImageGrid,
   MainSort,
   SortButton
-} from '../styles/MainStyle';
+} from '../../styles/MainPage/MainStyle';
 import Header from './Header';
-import supabase from '../supabase/supabase';
+import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
-import LoadingBar from './LoadingBar';
+import LoadingBar from '../../components/Common/LoadingBar';
 
 const Articles = ({ mode }) => {
   const [articles, setArticles] = useState([]);
@@ -118,7 +118,7 @@ const Articles = ({ mode }) => {
         <ImageGrid>
           {articles.map((article, index) => {
             const truncatedContent =
-              article.content.length > 30 ? `${article.content.slice(0, 30)}...` : article.content;
+              article.content.length > 100 ? `${article.content.slice(0, 100)}...` : article.content;
             if (index === articles.length - 1) {
               return (
                 <ImageCard key={article.articleId} ref={lastArticleElementRef}>

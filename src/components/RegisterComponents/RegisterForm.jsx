@@ -8,8 +8,8 @@ import {
   validateNameLength,
   validatePasswordFormat
 } from '../../utils/validators';
-import Button from '../Button';
-import Input from '../Input';
+import Button from '../Common/Button';
+import Input from '../Common/Input';
 
 function RegisterForm() {
   const initialState = {

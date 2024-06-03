@@ -31,15 +31,16 @@ export const SortButton = styled.button`
 `;
 
 export const ImageGrid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-auto-rows: auto;
+  grid-gap: 20px;
   justify-content: center;
 `;
 
 export const ImageCard = styled.div`
   position: relative;
-  width: 300px;
+  width: 100%;
   height: 400px;
   background-color: #d9d9d9;
   padding-left: 10px;
@@ -59,7 +60,7 @@ export const Image = styled.img`
   background-color: #ccc;
   margin-top: 10px;
   margin-bottom: 10px;
-  width: 280px;
+  width: 100%;
   height: 200px;
   border-radius: 10px;
   object-fit: cover;
@@ -70,7 +71,7 @@ export const Details = styled.div`
 `;
 
 export const ArticleTitle = styled.div`
-  width: 280px;
+  width: 100%;
   height: 30px;
   font-size: 20px;
   font-weight: bold;
@@ -79,7 +80,7 @@ export const ArticleTitle = styled.div`
 `;
 
 export const ArticleContent = styled.div`
-  width: 280px;
+  width: 100%;
   height: 90px;
   font-size: 15px;
   color: #555;
@@ -87,7 +88,7 @@ export const ArticleContent = styled.div`
 `;
 
 export const ArticleDate = styled.div`
-  width: 280px;
+  width: 100%;
   height: 20px;
   margin-bottom: 5px;
   font-size: 15px;
@@ -96,7 +97,7 @@ export const ArticleDate = styled.div`
 `;
 
 export const AuthorBox = styled.div`
-  width: 290px;
+  width: 100%;
   height: 20px;
   position: absolute;
   display: flex;
