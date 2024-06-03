@@ -1,5 +1,5 @@
 import { Provider } from 'react-redux';
-import RegisterPage from './pages/RegisterPage/RegisterPage';
+import LoginPage from './pages/LoginPage/LoginPage';
 import { store } from './redux/store';
 import Router from './shared/Router';
 
@@ -7,7 +7,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router />
-      <RegisterPage />
+      <LoginPage />
     </Provider>
   );
 };
