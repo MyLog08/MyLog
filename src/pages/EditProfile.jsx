@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import supabase from '../supabase/supabase';
+import { useNavigate } from 'react-router-dom';
 
 function EditProfile({ user, onUpdateProfile }) {
   const [inputs, setInputs] = useState({
@@ -8,7 +9,7 @@ function EditProfile({ user, onUpdateProfile }) {
     nickname: '',
     profilePicture: user.profilePicture || '',
     newPassword: '',
-    confirmPassword: '',
+    confirmPassword: ''
   });
   const [errors, setErrors] = useState({});
   const [nicknames, setNicknames] = useState(['sampleUser', 'testUser']); // 예시 중복 닉네임 리스트
@@ -18,7 +19,7 @@ function EditProfile({ user, onUpdateProfile }) {
     const { name, value } = e.target;
     setInputs({
       ...inputs,
-      [name]: value,
+      [name]: value
     });
   };
 
@@ -48,8 +49,8 @@ function EditProfile({ user, onUpdateProfile }) {
       newErrors.confirmPassword = '새 비밀번호가 일치하지 않습니다.';
     }
 
-    // 모든 입력값이 채워져 있는지 검사 (새 비밀번호와 확인 비밀번호는 선택적이므로 제외)
-    Object.keys(inputs).forEach(key => {
+    // 모든 입력값이 채워져 있는지 검사
+    Object.keys(inputs).forEach((key) => {
       if (!inputs[key] && key !== 'newPassword' && key !== 'confirmPassword') {
         newErrors[key] = `${key}은(는) 필수 입력값입니다.`;
       }
@@ -68,8 +69,7 @@ function EditProfile({ user, onUpdateProfile }) {
 
       let profilePictureUrl = inputs.profilePicture;
       if (profilePictureFile) {
-        const { data, error: uploadError } = await supabase
-          .storage
+        const { data, error: uploadError } = await supabase.storage
           .from('profile-pictures')
           .upload(`public/${profilePictureFile.name}`, profilePictureFile);
 
@@ -81,13 +81,11 @@ function EditProfile({ user, onUpdateProfile }) {
         profilePictureUrl = data.Key; // 업로드된 이미지의 URL
       }
 
-      const { error } = await supabase
-        .from('users') // 실제 테이블 이름으로 바꾸세요.
-        .update({
-          profilePicture: profilePictureUrl,
-          userName: inputs.name,
-          newPassword: inputs.newPassword,
-        });
+      const { error } = await supabase.from('Users').update({
+        profilePicture: profilePictureUrl,
+        userName: inputs.name,
+        newPassword: inputs.newPassword
+      });
 
       if (error) {
         console.error('프로필 업데이트 실패', error);
@@ -96,7 +94,7 @@ function EditProfile({ user, onUpdateProfile }) {
         const updatedUser = {
           ...user,
           userName: inputs.name,
-          profilePicture: profilePictureUrl,
+          profilePicture: profilePictureUrl
         };
         onUpdateProfile(updatedUser);
       }
@@ -104,21 +102,45 @@ function EditProfile({ user, onUpdateProfile }) {
       console.log('유효성 검사 실패');
     }
   };
+  const handleDeactivateProfile = async () => {
+    const { error } = await supabase
+    .from('Users')
+    .delete()
+    .match({ id: user.id });
 
+    if (error) {
+      console.error('계정 삭제 실패', error);
+    } else {
+      alert('계정이 성공적으로 삭제되었습니다.');
+      navigate('/login'); 
+    }
+  };
+  // 뒤로 가기 버튼
+  const navigate = useNavigate();
   const goBack = () => {
-    window.location.href = '/profile';
+    navigate('/profile');
   };
 
   return (
     <div>
-      <button onClick={goBack} style={{ marginBottom: '20px' }}>뒤로 가기</button>
+      <button onClick={goBack} style={{ marginBottom: '20px' }}>
+        뒤로 가기
+      </button>
       <form onSubmit={handleSubmit}>
         <div>
           <label>프로필 사진: </label>
           {inputs.profilePicture ? (
-            <img src={inputs.profilePicture} alt="프로필 사진" style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
+            <img
+              src={inputs.profilePicture}
+              alt="프로필 사진"
+              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+            />
           ) : (
-            <img src="/default-profile.png" alt="기본 프로필 사진" style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
+            <img
+              src="/default-profile.png"
+              alt="기본 프로필 사진"
+              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+            />
           )}
           <input name="profilePicture" type="file" onChange={handleFileChange} />
           {errors.profilePicture && <span style={{ color: 'red' }}>{errors.profilePicture}</span>}
@@ -148,10 +170,13 @@ function EditProfile({ user, onUpdateProfile }) {
           {errors.confirmPassword && <span style={{ color: 'red' }}>{errors.confirmPassword}</span>}
         </div>
         <div>
-            <label>Mylog 운영 이유</label>
-            <input type="text" />
+          <label>Mylog 운영 이유</label>
+          <input type="text" />
         </div>
         <button type="submit">완료</button>
+        <button onClick={handleDeactivateProfile} style={{ marginTop: '20px', backgroundColor: 'red', color: 'white' }}>
+          탈퇴하기
+        </button>
       </form>
     </div>
   );
