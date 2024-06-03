@@ -1,8 +1,8 @@
 import { Provider } from 'react-redux';
-import RegisterPage from './pages/RegisterPage/RegisterPage';
-import { AppContainer, PageWrapper } from './styles/GlobalStyle';
+
 import { store } from './redux/store';
 import Router from './shared/Router';
+import { AppContainer, PageWrapper } from './styles/GlobalStyle';
 
 const App = () => {
   return (
@@ -10,7 +10,6 @@ const App = () => {
       <PageWrapper>
         <AppContainer>
           <Router />
-          <RegisterPage />
         </AppContainer>
       </PageWrapper>
     </Provider>
