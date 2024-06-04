@@ -39,7 +39,8 @@ export const updateUserProfile = createAsyncThunk(
   name: 'userProfile',
   initialState: {
     user: {},
-    status: 'idle', // 'idle', 'loading', 'succeeded', 'failed'
+     // 'idle', 'loading', 'succeeded', 'failed'
+    status: 'idle',
     error: null
   },
   reducers: {},
