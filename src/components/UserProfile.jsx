@@ -1,25 +1,47 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const UserProfile = ({ user }) => {
-  const posts = [
-    '작성한 글 ',
-    '작성한 글 ',
-    '작성한 글 ',
-    '작성한 글 ',
-    '작성한 글 ',
-    '작성한 글 ',
-    '작성한 글 ',
-    '작성한 글 ',
-    '작성한 글 ',
-    '작성한 글 ',
-    '작성한 글 ',
-  ];
+   const posts = [
+    '내가 작성한 글',
+    '내가 작성한 글',
+    '내가 작성한 글',
+    '내가 작성한 글',
+    '내가 작성한 글',
+    '내가 작성한 글',
+    '내가 작성한 글',
+    '내가 작성한 글',
+    '내가 작성한 글',
+    '내가 작성한 글',
+    
+   ] 
+   
+  //     useEffect(() => {
+  //   const fetchData = async () => {
+  //     const { data, error } = await supabase
+  //     .from('Users')
+  //     .select('*');
+
+  //     if (error) {
+  //       console.log(error);
+  //     } else {
+  //       console.log(data);
+  //       setUser(data);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+  
+
+  
 
   const navigate = useNavigate();
 
+  const  {mylogReason} = useSelector((state) => state.userProfile)
+
   const goToEditProfile = () => {
-    navigate('/edit-profile');
+    navigate('/editprofile');
   };
 
   return (
@@ -29,7 +51,7 @@ const UserProfile = ({ user }) => {
         <h2>{user.username}</h2>
         <span style={{ display: 'flex' }}>Followers : {user.follower}</span>
         <span>Following : {user.following}</span>
-        <p>'Mylog 운영 이유'</p>
+        <h5>`'Mylog 운영 이유: '${mylogReason || '아직 계획이 없습니다'}` </h5>
         <button onClick={goToEditProfile}>프로필 편집</button>
       </section>
       <section style={{ overflowY: 'scroll', height: '500px', width: '70%', padding: '20px' }}>

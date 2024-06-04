@@ -6,19 +6,19 @@ const App = () => {
   const [user, setUser] = useState([]);
   const [page, setPage] = useState('mypage'); // 페이지 상태 관리 추가
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data, error } = await supabase
-      .from('Users').select('*');
-      if (error) {
-        console.log(error);
-      } else {
-        console.log(data);
-        setUser(data);
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const { data, error } = await supabase
+  //     .from('Users').select('*');
+  //     if (error) {
+  //       console.log(error);
+  //     } else {
+  //       console.log(data);
+  //       setUser(data);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
   const handleUpdateProfile = (updateUser) => {
     setUser(updateUser);
