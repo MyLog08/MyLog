@@ -16,8 +16,7 @@ const UserProfile = ({ user }) => {
    console.log(userId)
     const {data, error} = await supabase
    .from('Articles')
-  //  .select(`articleId, title,content,imageUrl,userId,Users(userId)`)
-  .select('*')
+   .select(`articleId, title,content,imageUrl,userId,Users(userId)`)
    .eq('userId', userId)
    console.log(data)
 
@@ -49,7 +48,7 @@ const UserProfile = ({ user }) => {
       <section style={{ overflowY: 'scroll', height: '500px', width: '70%', padding: '20px' }}>
         {posts.map((post, index) => (
           <div key={index} style={{ margin: '10px 0', padding: '10px', border: '1px solid #ddd' }}>
-            <span>{post}</span>
+            <span>{post.title.content}</span>
           </div>
         ))}
       </section>

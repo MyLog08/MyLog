@@ -62,14 +62,6 @@ function EditProfile() {
     return publicURL
   };
 
-const handleTesstProfile = async () => {
-  const { data } = await supabase.storage
-      .from('images')
-      .getPublicUrl('pikachu.jpg')
-console.log(data)
- 
-}
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -181,7 +173,6 @@ console.log(data)
             value={inputs.mylogReason}
             onChange={handleChange} />
         </div>
-        <button onClick={handleTesstProfile}>딸깍</button>
         {status === 'failed' && <p>{error}</p>}
         <button
           type="submit"
