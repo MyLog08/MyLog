@@ -42,28 +42,29 @@ const CommentInput = () => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
 
+    // 비로그인 시 로그인 페이지로 리다이렉션
+    if (!isLoggedIn) {
+      alert('로그인 후 댓글을 작성할 수 있습니다.');
+      window.location.href = '/login';
+      return;
+    }
+
+    // 유효성 검사 : 댓글 5자 이상
+    if (content.trim().length < 5) {
+      alert('댓글을 5자 이상 입력해 주세요.');
+      return;
+    }
+
     try {
-      // 비로그인 시 로그인 페이지로 리다이렉션
-      if (!isLoggedIn) {
-        alert('로그인 후 댓글을 작성할 수 있습니다.');
-        window.location.href = '/login';
-        return;
-      }
-
-      // 유효성 검사 : 댓글 5자 이상
-      if (content.trim().length < 5) {
-        alert('댓글을 5자 이상 입력해 주세요.');
-        return;
-      }
-
       // 로그인 시 댓글 등록
+      const timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss');
       const { commentError } = await supabase.from('Comments').insert({
         commentId: crypto.randomUUID(),
         userId: user.id,
         articleId,
         content,
-        createdAt: dayjs().format('YYYY-MM-DD hh:mm:ss'),
-        updatedAt: dayjs().format('YYYY-MM-DD hh:mm:ss')
+        createdAt: timestamp,
+        updatedAt: timestamp
       });
 
       if (commentError) {
