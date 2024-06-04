@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { updateUserProfile } from '../redux/slices/userProfileSlice';
 import supabase from '../supabase/supabase';
+
 import { v4 as uuidv4 } from 'uuid';
 
 const getInitialInputs = (user) => ({
@@ -20,6 +21,7 @@ function EditProfile() {
   const navigate = useNavigate();
   const { user, status, error } = useSelector((state) => state.userProfile);
   const [inputs, setInputs] = useState(() => getInitialInputs(user));
+
   // 프로필 페이지 이동
   useEffect(() => {
     if (status === 'succeeded') {
@@ -34,8 +36,6 @@ function EditProfile() {
       [name]: value
     });
   };
-
-  // const profilePicture = e.target.files[0];
 
   const handleChangeProfile = async (file) => {
     if (!file) return
@@ -77,7 +77,7 @@ function EditProfile() {
       inputs.profilePicture = profilePictureUrl;
     }
 
-    dispatch(updateUserProfile({ userId: user.id, updates: inputs }));
+      //supabase 로직을 사용(update 또는 edit)하여 변경사항 가능하게 적용
   };
 
   // 뒤로가기
