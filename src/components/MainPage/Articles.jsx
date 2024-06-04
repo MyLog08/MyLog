@@ -24,12 +24,14 @@ const Articles = ({ mode }) => {
   const [articles, setArticles] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
   const observer = useRef();
 
   const ARTICLES_PER_PAGE = 12;
 
   const fetchArticles = useCallback(
-    async (page) => {
+    async (page, searchQuery = '') => {
       setLoading(true);
       try {
         let query = supabase
@@ -38,6 +40,10 @@ const Articles = ({ mode }) => {
           .order(mode === 'popular' ? 'like' : 'updatedAt', { ascending: false })
           .range((page - 1) * ARTICLES_PER_PAGE, page * ARTICLES_PER_PAGE - 1);
 
+        if (searchQuery) {
+          query = query.ilike('title', `%${searchQuery}%`);
+        }
+
         const { data, error } = await query;
         if (error) {
           throw error;
@@ -45,16 +51,16 @@ const Articles = ({ mode }) => {
 
         const updatedArticles = await Promise.all(
           data.map(async (article) => {
-            const { data: userNicknameData, error: userNicknameError } = await supabase
+            const { data: userData, error: userError } = await supabase
               .from('Users')
               .select('nickname')
               .eq('userId', article.userId)
               .single();
-            if (userNicknameError) {
-              console.log(userNicknameError);
+            if (userError) {
+              console.log(userError);
               return null;
             }
-            const fetchedNickname = userNicknameData.nickname;
+            const fetchedNickname = userData.nickname;
 
             return {
               ...article,
@@ -67,7 +73,7 @@ const Articles = ({ mode }) => {
 
         const filteredArticles = updatedArticles.filter((article) => article !== null);
 
-        setArticles((prevArticles) => [...prevArticles, ...filteredArticles]);
+        setArticles((prevArticles) => (page === 1 ? filteredArticles : [...prevArticles, ...filteredArticles]));
       } catch (error) {
         console.error('Error Fetching Articles:', error.message);
       } finally {
@@ -83,9 +89,25 @@ const Articles = ({ mode }) => {
     fetchArticles(1);
   }, [mode, fetchArticles]);
 
+  useEffect(() => {
+    if (page > 1 && !isSearching) {
+      fetchArticles(page);
+    }
+  }, [page, fetchArticles, isSearching]);
+
+  useEffect(() => {
+    if (isSearching) {
+      fetchArticles(1, searchQuery);
+    } else {
+      setArticles([]);
+      setPage(1);
+      fetchArticles(1);
+    }
+  }, [searchQuery, isSearching, fetchArticles]);
+
   const lastArticleElementRef = useCallback(
     (node) => {
-      if (loading) return;
+      if (loading || isSearching) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
@@ -94,18 +116,22 @@ const Articles = ({ mode }) => {
       });
       if (node) observer.current.observe(node);
     },
-    [loading]
+    [loading, isSearching]
   );
 
-  useEffect(() => {
-    if (page > 1) {
-      fetchArticles(page);
+  const handleSearch = (e) => {
+    if (e.key === 'Enter') {
+      const query = e.target.value;
+      setSearchQuery(query);
+      setIsSearching(!!query);
+      setPage(1);
+      fetchArticles(1, query);
     }
-  }, [page, fetchArticles]);
+  };
 
   return (
     <div>
-      <Header />
+      <Header onSearch={handleSearch} />
       <Content>
         <MainSort>
           <NavLink to="/newest" isActive={() => mode === 'newest'}>
@@ -119,7 +145,7 @@ const Articles = ({ mode }) => {
           {articles.map((article, index) => {
             const truncatedContent =
               article.content.length > 100 ? `${article.content.slice(0, 100)}...` : article.content;
-            if (index === articles.length - 1) {
+            if (index === articles.length - 1 && !isSearching) {
               return (
                 <ImageCard key={article.articleId} ref={lastArticleElementRef}>
                   <Image
