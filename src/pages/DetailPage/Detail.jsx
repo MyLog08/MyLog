@@ -1,6 +1,6 @@
-import ArticleDisplay from '../../components/DetailPage/ArticleDisplay';
-import CommentInput from '../../components/DetailPage/CommentInput';
-import CommentDisplay from '../../components/DetailPage/CommentDisplay';
+import ArticleDisplay from '../components/ArticleDisplay';
+import CommentInput from '../components/CommentInput';
+import CommentDisplay from '../components/CommentDisplay';
 
 const Detail = () => {
   return (
