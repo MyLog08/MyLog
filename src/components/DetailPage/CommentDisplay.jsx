@@ -96,16 +96,20 @@ const CommentDisplay = () => {
 
   // 댓글 삭제하기
   const handleDeleteComment = async (targetId) => {
-    try {
-      const { commentDeleteError } = await supabase.from('Comments').delete().eq('commentId', targetId);
+    if (!confirm('댓글을 삭제하시겠습니까?')) {
+      return;
+    } else {
+      try {
+        const { commentDeleteError } = await supabase.from('Comments').delete().eq('commentId', targetId);
 
-      if (commentDeleteError) {
-        throw commentDeleteError;
-      } else {
-        setComments(comments.filter((comment) => comment.commentId !== targetId));
+        if (commentDeleteError) {
+          throw commentDeleteError;
+        } else {
+          setComments(comments.filter((comment) => comment.commentId !== targetId));
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -133,7 +137,7 @@ const CommentDisplay = () => {
                     </span>
                   </div>
                   {/* 로그인한 유저의 아이디와 댓글 작성자 아이디가 일치할 경우 수정 삭제 버튼 보여주기 */}
-                  {comment.userId === user.id ? (
+                  {user && comment.userId === user.id ? (
                     <div>
                       {!isEditing ? (
                         <button onClick={() => toggleEditMode(comment.commentId, comment.content)}>수정</button>
