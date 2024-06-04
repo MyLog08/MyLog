@@ -55,3 +55,16 @@ export const handleUserFindByEmailIsExist = async (email, social) => {
 
   return data;
 };
+
+export const handleSignInOAuth = async (provider) => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider,
+    options: {
+      redirectTo: `http://localhost:5173/auth/loading/${provider}`
+    }
+  });
+
+  if (error) {
+    console.error(error);
+  }
+};

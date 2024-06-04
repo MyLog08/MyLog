@@ -14,14 +14,10 @@ function LoadingPage() {
 
   const navigate = useNavigate();
 
-  console.log(params);
-  console.log(user);
-
   useEffect(() => {
     dispatch(checkSignIn());
   }, [dispatch]);
 
-  console.log(user);
   useEffect(() => {
     if (user) {
       const dataInsert = async () => {
