@@ -15,24 +15,7 @@ const UserProfile = ({ user }) => {
     '내가 작성한 글',
     '내가 작성한 글',
     
-   ] 
-   
-  //     useEffect(() => {
-  //   const fetchData = async () => {
-  //     const { data, error } = await supabase
-  //     .from('Users')
-  //     .select('*');
-
-  //     if (error) {
-  //       console.log(error);
-  //     } else {
-  //       console.log(data);
-  //       setUser(data);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
-  
+   ]  
 
   
 

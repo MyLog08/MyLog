@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { updateUserProfile } from '../redux/slices/userProfileSlice';
 import supabase from '../supabase/supabase';
 
 import { v4 as uuidv4 } from 'uuid';
+import { name } from 'tar/types';
 
 const getInitialInputs = (user) => ({
   name: user.userName || '',
@@ -37,7 +37,7 @@ function EditProfile() {
     });
   };
 
-  const handleChangeProfile = async (file) => {
+  const handleUploadProfile = async (file) => {
     if (!file) return
 
     const { data: uploadData, error: uploadError } = await supabase
@@ -77,8 +77,19 @@ function EditProfile() {
       inputs.profilePicture = profilePictureUrl;
     }
 
-      //supabase 로직을 사용(update 또는 edit)하여 변경사항 가능하게 적용
   };
+  //supabase 로직을 사용(update 또는 edit)하여 변경사항 가능하게 적용
+  const handleChangeProfile = async () => {
+    const {data, error} = await supabase
+    .from('Users')
+    .upsert({id:uuidv4(), name})
+
+    if (error) {
+      console.error('업데이트에 문제가 발생했습니다.', error)
+    } else {
+      console.log('업데이트가 완료 됐습니다!', data)
+    }
+  }
 
   // 뒤로가기
   const handleBack = () => {
@@ -111,7 +122,7 @@ function EditProfile() {
             id="profilePicture"
             name="profilePicture"
             // value={inputs.profilePicture}
-            onChange={(e) => handleChangeProfile(e.target.files[0])}
+            onChange={(e) => handleUploadProfile(e.target.files[0])}
           />
         </div>
         <div>
@@ -128,7 +139,7 @@ function EditProfile() {
             type="password"
             id="currentPassword"
             name="currentPassword"
-            value={inputs.currentPssword}
+            value={inputs.currentPassword}
             onChange={handleChange}
           />
         </div>
