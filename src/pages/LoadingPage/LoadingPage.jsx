@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { handleUserRegisterInsert } from '../../api/authApi';
+import { handleUserFindByEmailIsExist, handleUserRegisterInsert } from '../../api/authApi';
 import { checkSignIn } from '../../redux/slices/authSlice';
 import { validateCheckDuplicate } from '../../utils/validators';
 
@@ -24,12 +24,13 @@ function LoadingPage() {
   console.log(user);
   useEffect(() => {
     if (user) {
-      // TODO db 테이블 조회 해서 해야함
-
       const dataInsert = async () => {
         if (await validateCheckDuplicate('email', user.email)) {
+          await handleUserFindByEmailIsExist(user.email, params.provider);
+
           return;
         }
+
         await handleUserRegisterInsert({
           userId: user.id,
           name: user.user_metadata.name,
