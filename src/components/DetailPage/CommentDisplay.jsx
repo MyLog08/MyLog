@@ -56,11 +56,23 @@ const CommentDisplay = () => {
     fetchData();
   }, [dispatch, articleId]);
 
-  // 댓글 수정
+  // 댓글 수정하기
   const handleUpdateComment = async (e) => {};
 
-  // 댓글 삭제
-  const handleDeleteComment = async (e) => {};
+  // 댓글 삭제하기
+  const handleDeleteComment = async (targetId) => {
+    try {
+      const { commentDeleteError } = await supabase.from('Comments').delete().eq('commentId', targetId);
+
+      if (commentDeleteError) {
+        throw commentDeleteError;
+      } else {
+        setComments(comments.filter((comment) => comment.commentId !== targetId));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <section>
@@ -72,7 +84,7 @@ const CommentDisplay = () => {
             // imageUrl가 null인 경우 기본 프로필 이미지 나오도록 나중에 교체할 것
             const userInfo = users[comment.userId] || { nickname: 'Unknown', imageUrl: '#' };
             return (
-              <li key={comment.id}>
+              <li key={comment.commentId}>
                 <div>
                   <div>
                     <img src={userInfo.imageUrl} alt="프로필 이미지" />
@@ -89,7 +101,7 @@ const CommentDisplay = () => {
                   {comment.userId === user.id ? (
                     <div>
                       <button onClick={handleUpdateComment}>수정</button>
-                      <button onClick={handleDeleteComment}>삭제</button>
+                      <button onClick={() => handleDeleteComment(comment.commentId)}>삭제</button>
                     </div>
                   ) : (
                     ''
