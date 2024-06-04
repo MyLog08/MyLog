@@ -41,4 +41,6 @@ export const handleUserRegisterInsert = async (object) => {
     alert(error.message);
     return;
   }
+
+  return data;
 };

@@ -1,9 +1,14 @@
 import supabase from '../../supabase/supabase';
 
+const provider = 'github';
+
 function SocialSection() {
-  const signInWithGithub = async () => {
+  const handleOnClickSignInWithGithub = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'github'
+      provider,
+      options: {
+        redirectTo: `http://localhost:5173/auth/loading/${provider}`
+      }
     });
 
     if (error) {
@@ -11,6 +16,8 @@ function SocialSection() {
     }
 
     console.log(data);
+
+    // await handleUserRegisterInsert({});
   };
 
   return (
@@ -18,7 +25,7 @@ function SocialSection() {
       <div>SNS계정으로 간편 로그인/회원가입</div>
       <div>카카오</div>
       <div>구글</div>
-      <div onClick={signInWithGithub}>깃허브</div>
+      <div onClick={handleOnClickSignInWithGithub}>깃허브</div>
     </section>
   );
 }
