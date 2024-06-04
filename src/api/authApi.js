@@ -41,4 +41,30 @@ export const handleUserRegisterInsert = async (object) => {
     alert(error.message);
     return;
   }
+
+  return data;
+};
+
+export const handleUserFindByEmailIsExist = async (email, social) => {
+  const { data, error } = await supabase.from('Users').update({ social }).eq('email', email);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  return data;
+};
+
+export const handleSignInOAuth = async (provider) => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider,
+    options: {
+      redirectTo: `http://localhost:5173/auth/loading/${provider}`
+    }
+  });
+
+  if (error) {
+    console.error(error);
+  }
 };

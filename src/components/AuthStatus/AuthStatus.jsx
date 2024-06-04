@@ -14,6 +14,7 @@ function AuthStatus() {
 
   // 이를 활용해 userId 와 article 의 userId 가 일치하는지 확인 필요
   const user = useSelector((state) => state.auth.user);
+  console.log(user);
 
   // 인가
   useEffect(() => {

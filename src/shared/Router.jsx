@@ -1,9 +1,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import MainPage from '../pages/MainPage/MainPage';
-import Articles from '../components/MainPage/Articles';
-import RegisterPage from '../pages/RegisterPage/RegisterPage';
-import LoginPage from '../pages/LoginPage/LoginPage';
 import AuthStatus from '../components/AuthStatus/AuthStatus';
+import Articles from '../components/MainPage/Articles';
+import LoadingPage from '../pages/LoadingPage/LoadingPage';
+import LoginPage from '../pages/LoginPage/LoginPage';
+import MainPage from '../pages/MainPage/MainPage';
+import RegisterPage from '../pages/RegisterPage/RegisterPage';
 
 const Router = () => {
   return (
@@ -13,9 +14,10 @@ const Router = () => {
         <Route path="/auth/register" element={<RegisterPage />} />
         <Route path="/newest" element={<Articles mode="newest" />} />
         <Route path="/popular" element={<Articles mode="popular" />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/auth/login" element={<LoginPage />} />
+        <Route path="/auth/register" element={<RegisterPage />} />
         <Route path="/auth/checkSignIn" element={<AuthStatus />} />
+        <Route path="/auth/loading/:provider" element={<LoadingPage />} />
       </Routes>
     </BrowserRouter>
   );
