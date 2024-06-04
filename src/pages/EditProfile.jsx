@@ -50,6 +50,7 @@ function EditProfile() {
       return
     }
 
+
     const {publicURL, error: urlError} = supabase.storage
     .from('Users')
     .getPublicUrl(uploadData.Key)
@@ -60,6 +61,14 @@ function EditProfile() {
     }
     return publicURL
   };
+
+const handleTesstProfile = async () => {
+  const { data } = await supabase.storage
+      .from('images')
+      .getPublicUrl('pikachu.jpg')
+console.log(data)
+ 
+}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -172,6 +181,7 @@ function EditProfile() {
             value={inputs.mylogReason}
             onChange={handleChange} />
         </div>
+        <button onClick={handleTesstProfile}>딸깍</button>
         {status === 'failed' && <p>{error}</p>}
         <button
           type="submit"

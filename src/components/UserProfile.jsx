@@ -1,27 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import supabase from '../supabase/supabase';
 
 const UserProfile = ({ user }) => {
-   const posts = [
-    '내가 작성한 글',
-    '내가 작성한 글',
-    '내가 작성한 글',
-    '내가 작성한 글',
-    '내가 작성한 글',
-    '내가 작성한 글',
-    '내가 작성한 글',
-    '내가 작성한 글',
-    '내가 작성한 글',
-    '내가 작성한 글',
-    
-   ]  
+  const [posts, setPosts] = useState([])
+  //마이페이지에 접근한 유저의 ID 를 가져온다.
+  //ID 를 이용해 Article 테이블에 있는 userId 와 일치하는 데이터들을 찾아서 담는다.
+  //이를 보여준다.
+  useEffect(() => {
+    fetchPosts(user.id)
+  }, [user.id])
 
-  
+  const fetchPosts = async (userId) => {
+   const {data, error} = await supabase
+   .from('Articles')
+   .select(`articleId, title,content,imageUrl,userId,Users(userId)`)
+   .eq('userId', userId)
+
+   if (error) {
+    console.log('연결할 수 없습니다', error)
+   } else {
+    setPosts(data)    
+   }
+  };
 
   const navigate = useNavigate();
 
-  const  {mylogReason} = useSelector((state) => state.userProfile)
+  const { mylogReason } = useSelector((state) => state.userProfile);
 
   const goToEditProfile = () => {
     navigate('/editprofile');
