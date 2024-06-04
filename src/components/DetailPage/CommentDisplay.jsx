@@ -14,7 +14,7 @@ const CommentDisplay = () => {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
-  const [isEditing, setIsEditing] = useState(null);
+  const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedContent, setEditedContent] = useState('');
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const CommentDisplay = () => {
 
   // 댓글 수정 모드 토글
   const toggleEditMode = (commentId, initialContent) => {
-    setIsEditing(commentId);
+    setEditingCommentId(commentId);
     setEditedContent(initialContent);
   };
 
@@ -88,7 +88,7 @@ const CommentDisplay = () => {
         )
       );
 
-      setIsEditing(null);
+      setEditingCommentId(null);
     } catch (error) {
       console.error(error);
     }
@@ -139,10 +139,10 @@ const CommentDisplay = () => {
                   {/* 로그인한 유저의 아이디와 댓글 작성자 아이디가 일치할 경우 수정 삭제 버튼 보여주기 */}
                   {user && comment.userId === user.id ? (
                     <div>
-                      {!isEditing ? (
-                        <button onClick={() => toggleEditMode(comment.commentId, comment.content)}>수정</button>
-                      ) : (
+                      {editingCommentId === comment.commentId ? (
                         <button onClick={() => handleUpdateComment(comment.commentId)}>저장</button>
+                      ) : (
+                        <button onClick={() => toggleEditMode(comment.commentId, comment.content)}>수정</button>
                       )}
                       <button onClick={() => handleDeleteComment(comment.commentId)}>삭제</button>
                     </div>
@@ -151,7 +151,7 @@ const CommentDisplay = () => {
                   )}
                 </div>
                 {/* 스타일 작업 시 아래 스타일 적용 부탁드립니다! */}
-                {isEditing === comment.commentId ? (
+                {editingCommentId === comment.commentId ? (
                   <input type="text" value={editedContent} onChange={(e) => setEditedContent(e.target.value)} />
                 ) : (
                   <div style={{ whiteSpace: 'pre-wrap' }}>{comment.content}</div>
