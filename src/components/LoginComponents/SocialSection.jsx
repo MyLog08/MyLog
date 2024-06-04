@@ -16,12 +16,18 @@ function SocialSection() {
     await handleSignInOAuth(provider);
   };
 
+  const handleOnClickSignInWithSlack = async () => {
+    const provider = 'slack';
+    await handleSignInOAuth(provider);
+  };
+
   return (
     <section>
       <div>SNS계정으로 간편 로그인/회원가입</div>
-      <div onClick={handleOnClickSignInWithKakao}>카카오</div>
       <div onClick={handleOnClickSignInWithGoogle}>구글</div>
+      <div onClick={handleOnClickSignInWithKakao}>카카오</div>
       <div onClick={handleOnClickSignInWithGithub}>깃허브</div>
+      <div onClick={handleOnClickSignInWithSlack}>슬랙</div>
     </section>
   );
 }
