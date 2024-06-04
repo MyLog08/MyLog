@@ -14,6 +14,9 @@ const CommentDisplay = () => {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
 
+  const [isEditing, setIsEditing] = useState(null);
+  const [editedContent, setEditedContent] = useState('');
+
   useEffect(() => {
     dispatch(checkSignIn());
 
@@ -56,8 +59,40 @@ const CommentDisplay = () => {
     fetchData();
   }, [dispatch, articleId]);
 
+  // 댓글 수정 모드 토글
+  const toggleEditMode = (commentId, initialContent) => {
+    setIsEditing(commentId);
+    setEditedContent(initialContent);
+  };
+
   // 댓글 수정하기
-  const handleUpdateComment = async (e) => {};
+  const handleUpdateComment = async (targetId) => {
+    // 유효성 검사 : 댓글 5자 이상
+    if (editedContent.trim().length < 5) {
+      alert('댓글을 5자 이상 입력해 주세요.');
+      return;
+    }
+
+    try {
+      const { commentUpdateError } = await supabase
+        .from('Comments')
+        .update({ content: editedContent })
+        .eq('commentId', targetId);
+      if (commentUpdateError) {
+        throw commentUpdateError;
+      }
+
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment.commentId === targetId ? { ...comment, content: editedContent } : comment
+        )
+      );
+
+      setIsEditing(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   // 댓글 삭제하기
   const handleDeleteComment = async (targetId) => {
@@ -100,7 +135,11 @@ const CommentDisplay = () => {
                   {/* 로그인한 유저의 아이디와 댓글 작성자 아이디가 일치할 경우 수정 삭제 버튼 보여주기 */}
                   {comment.userId === user.id ? (
                     <div>
-                      <button onClick={handleUpdateComment}>수정</button>
+                      {!isEditing ? (
+                        <button onClick={() => toggleEditMode(comment.commentId, comment.content)}>수정</button>
+                      ) : (
+                        <button onClick={() => handleUpdateComment(comment.commentId)}>저장</button>
+                      )}
                       <button onClick={() => handleDeleteComment(comment.commentId)}>삭제</button>
                     </div>
                   ) : (
@@ -108,7 +147,11 @@ const CommentDisplay = () => {
                   )}
                 </div>
                 {/* 스타일 작업 시 아래 스타일 적용 부탁드립니다! */}
-                <div style={{ whiteSpace: 'pre-wrap' }}>{comment.content}</div>
+                {isEditing === comment.commentId ? (
+                  <input type="text" value={editedContent} onChange={(e) => setEditedContent(e.target.value)} />
+                ) : (
+                  <div style={{ whiteSpace: 'pre-wrap' }}>{comment.content}</div>
+                )}
               </li>
             );
           })
