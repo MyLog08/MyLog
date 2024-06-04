@@ -21,20 +21,22 @@ function LoadingPage() {
     dispatch(checkSignIn());
   }, [dispatch]);
 
+  console.log(user);
   useEffect(() => {
     if (user) {
+      // TODO db 테이블 조회 해서 해야함
+
       const dataInsert = async () => {
         if (await validateCheckDuplicate('email', user.email)) {
           return;
         }
-
         await handleUserRegisterInsert({
           userId: user.id,
           name: user.user_metadata.name,
           email: user.email,
           nickname: user.user_metadata.full_name,
           imageUrl: user.user_metadata.avatar_url,
-          birth: user.user_metadata.birth,
+          birth: user.user_metadata.birth || '1999-09-09',
           social: params.provider,
           createdAt: dayjs(user.created_at).format('YYYY-MM-DD hh:mm:ss'),
           updatedAt: dayjs(user.updated_at).format('YYYY-MM-DD hh:mm:ss')
