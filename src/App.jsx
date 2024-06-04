@@ -1,6 +1,8 @@
 import Router from './shared/Router';
 import { useEffect, useState } from 'react';
-import supabase from './supabase/supabase';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
+import { AppContainer } from './styles/GlobalStyle/AppStyle';
 
 const App = () => {
   const [user, setUser] = useState([]);
@@ -16,9 +18,14 @@ const App = () => {
   };
 
   return (
-    <>
-      <Router user={user} onEditProfile={handleEditProfile} onUpdateProfile={handleUpdateProfile} />
-    </>
+    
+
+    <Provider store={store}>
+      <AppContainer>
+        <Router />
+        <Router user={user} onEditProfile={handleEditProfile} onUpdateProfile={handleUpdateProfile} />
+      </AppContainer>
+    </Provider>
   );
 };
 
