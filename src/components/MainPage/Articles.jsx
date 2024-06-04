@@ -21,12 +21,12 @@ import {
 import Header from './Header';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
-import LoadingBar from '../../components/Common/LoadingBar';
 
 const Articles = ({ mode }) => {
   const [articles, setArticles] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [noResults, setNoResults] = useState(false);
   const observer = useRef();
@@ -35,7 +35,13 @@ const Articles = ({ mode }) => {
 
   const fetchArticles = useCallback(
     async (page, searchQuery = '') => {
-      setLoading(true);
+      if (page === 1) {
+        setLoading(true);
+        setLoadingMore(false);
+      } else {
+        setLoadingMore(true);
+      }
+
       try {
         let query = supabase
           .from('Articles')
@@ -56,7 +62,6 @@ const Articles = ({ mode }) => {
           setNoResults(true);
           setArticles([]);
         } else {
-          setNoResults(false);
           const updatedArticles = await Promise.all(
             data.map(async (article) => {
               const { data: userData, error: userError } = await supabase
@@ -83,6 +88,8 @@ const Articles = ({ mode }) => {
 
           if (filteredArticles.length === 0 && page === 1) {
             setNoResults(true);
+          } else {
+            setNoResults(false);
           }
 
           setArticles((prevArticles) => (page === 1 ? filteredArticles : [...prevArticles, ...filteredArticles]));
@@ -90,7 +97,11 @@ const Articles = ({ mode }) => {
       } catch (error) {
         console.error('Error Fetching Articles:', error.message);
       } finally {
-        setLoading(false);
+        if (page === 1) {
+          setLoading(false);
+        } else {
+          setLoadingMore(false);
+        }
       }
     },
     [mode]
@@ -98,7 +109,7 @@ const Articles = ({ mode }) => {
 
   useEffect(() => {
     fetchArticles(1, searchQuery);
-    setPage(1); // 페이지 초기화는 데이터 fetch 이후에 실행
+    setPage(1);
   }, [mode, searchQuery, fetchArticles]);
 
   useEffect(() => {
@@ -109,23 +120,30 @@ const Articles = ({ mode }) => {
 
   const lastArticleElementRef = useCallback(
     (node) => {
-      if (loading) return;
+      if (!node) return;
+
       if (observer.current) observer.current.disconnect();
+
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
+        if (entries[0].isIntersecting && !loading && !loadingMore) {
+          // Update here to include !loadingMore
           setPage((prevPage) => prevPage + 1);
         }
       });
-      if (node) observer.current.observe(node);
+
+      observer.current.observe(node);
     },
-    [loading]
+    [loading, loadingMore] // Update dependencies
   );
 
   const handleSearch = (e) => {
     if (e.key === 'Enter') {
       const query = e.target.value;
       setSearchQuery(query);
-      setNoResults(false); // 검색 시작 시 noResults 상태 초기화
+      setNoResults(false);
+      setArticles([]);
+      setLoadingMore(false);
+      setPage(1);
     }
   };
 
@@ -159,7 +177,7 @@ const Articles = ({ mode }) => {
   const renderLoadingCards = () => {
     return Array.from({ length: ARTICLES_PER_PAGE }, (_, index) => (
       <ImageLoadingCard key={index}>
-        <LoadingImage />
+        <LoadingImage>Loading...</LoadingImage>
       </ImageLoadingCard>
     ));
   };
@@ -177,18 +195,18 @@ const Articles = ({ mode }) => {
           </NavLink>
         </MainSort>
         {noResults && <NoResult>Article not found.</NoResult>}
-        <ImageGrid>
-          {loading
-            ? renderLoadingCards()
-            : articles.map((article, index) => {
-                if (index === articles.length - 1) {
-                  return renderArticle(article, lastArticleElementRef);
-                } else {
-                  return renderArticle(article);
-                }
-              })}
-        </ImageGrid>
-        {loading && <LoadingBar />}
+        {!noResults && (
+          <ImageGrid>
+            {articles.map((article, index) => {
+              if (index === articles.length - 1) {
+                return renderArticle(article, lastArticleElementRef);
+              } else {
+                return renderArticle(article);
+              }
+            })}
+            {loadingMore && page === 1 && renderLoadingCards()}
+          </ImageGrid>
+        )}
       </Content>
     </div>
   );

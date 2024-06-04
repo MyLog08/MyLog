@@ -141,12 +141,6 @@ export const ImageLoadingCard = styled.div`
   box-sizing: border-box;
   border: 1px solid #ddd;
   border-radius: 10px;
-  transition: transform 0.3s;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
 `;
 
 export const LoadingImage = styled.div`
