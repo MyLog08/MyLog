@@ -117,5 +117,5 @@ export const ArticleLikes = styled.div`
   width: 30px;
   font-size: 15px;
   color: #555;
-  margin-right: 30px;
+  margin-right: 50px;
 `;
