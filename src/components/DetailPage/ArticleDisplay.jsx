@@ -106,9 +106,7 @@ const ArticleDisplay = () => {
         )}
       </div>
       <DetailPageImg>
-        {JSON.parse(article.imageUrl).map((url, index) => (
-          <img key={index} src={url} alt="이미지" />
-        ))}
+        <img src={article.imageUrl} alt="이미지" />
       </DetailPageImg>
       <DetailContent>{article.content}</DetailContent>
     </DetailSection>
