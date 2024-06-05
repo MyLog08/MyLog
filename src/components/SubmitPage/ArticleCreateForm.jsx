@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { checkSignIn } from '../../redux/slices/authSlice';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
+import { validateLength } from '../../utils/validators';
 
 const ArticleCreateForm = () => {
   const [title, setTitle] = useState('');
@@ -33,7 +34,7 @@ const ArticleCreateForm = () => {
     e.preventDefault();
 
     // 유효성 검사: 제목 5자 이상
-    if (title.trim().length < 5) {
+    if (!validateLength(title, 5)) {
       alert('제목을 5자 이상 입력해 주세요.');
       return;
     }
@@ -45,7 +46,7 @@ const ArticleCreateForm = () => {
     }
 
     // 유효성 검사: 내용 10자 이상
-    if (content.trim().length < 10) {
+    if (!validateLength(content, 10)) {
       alert('내용을 10자 이상 입력해 주세요.');
       return;
     }

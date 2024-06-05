@@ -4,6 +4,7 @@ import { checkSignIn } from '../../redux/slices/authSlice';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
 import { useParams } from 'react-router-dom';
+import { validateLength } from '../../utils/validators';
 
 const CommentDisplay = () => {
   const { articleId } = useParams();
@@ -67,7 +68,7 @@ const CommentDisplay = () => {
   // 댓글 수정하기
   const handleUpdateComment = async (targetId) => {
     // 유효성 검사 : 댓글 5자 이상
-    if (editedContent.trim().length < 5) {
+    if (!validateLength(editedContent, 5)) {
       alert('댓글을 5자 이상 입력해 주세요.');
       return;
     }
