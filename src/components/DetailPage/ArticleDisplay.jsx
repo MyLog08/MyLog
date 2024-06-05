@@ -57,7 +57,9 @@ const ArticleDisplay = () => {
   }, [articleId]);
 
   // 게시글 수정하기
-  const handleUpdateArticle = async (articleId) => {};
+  const handleUpdateArticle = async () => {
+    navigate(`/articles/${articleId}/edit`);
+  };
 
   // 게시글 삭제하기
   const handleDeleteArticle = async () => {
@@ -98,7 +100,7 @@ const ArticleDisplay = () => {
       <div>
         {user && article.userId === user.id ? (
           <>
-            <button onClick={() => handleUpdateArticle(articleId)}>수정</button>
+            <button onClick={handleUpdateArticle}>수정</button>
             <button onClick={() => handleDeleteArticle(articleId)}>삭제</button>
           </>
         ) : (
