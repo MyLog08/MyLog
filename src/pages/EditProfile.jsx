@@ -17,13 +17,12 @@ const initialState = {
 function EditProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const { user, status, error } = useSelector((state) => state.userProfile);
   const user = useSelector((state) => state.auth.user);
   const { inputs, setInputs, handleOnChange, handleResetInputs } = useFormInputs(initialState);
   const { name, nickname, currentPassword, mylogReason, profilePicture } = inputs;
   const [picture, setPicture] = useState('');
 
-   useEffect(() => {
+  useEffect(() => {
     dispatch(checkSignIn());
   }, [dispatch]);
 
@@ -38,6 +37,7 @@ function EditProfile() {
     }
     console.log(data);
     const { data: publicURL, error: urlError } = await supabase.storage.from('images').getPublicUrl(data.path);
+
     if (urlError) {
       console.log(urlError);
       return;
@@ -52,10 +52,10 @@ function EditProfile() {
 
     const fileElement = document.getElementById('profilePicture');
     const file = fileElement.files[0];
-    const profilePictureUrl = await handleChangeProfile(file);
+    const profilePictureUrl = await handleUploadProfile(file);
 
     if (profilePictureUrl) {
-      inputs.profilePicture = profilePictureUrl;
+      inputs.profilePicture = profilePictureUrl.publicUrl;
     }
   };
   //supabase 로직을 사용(update 또는 edit)하여 변경사항 가능하게 적용
@@ -94,13 +94,18 @@ function EditProfile() {
     .eq('userId', user.id);
 
     if (error) {
-      alert('계정 삭제 중 오류가 발생했습니다: ' + error.message);
+      alert('계정 삭제 중 오류가 발생했습니다' + error.message);
     } else {
-      alert('계정이 성공적으로 삭제되었습니다.');
-      navigate('/'); // 탈퇴하기 성공 시, 홈으로 이동
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+        alert('로그아웃 중 오류가 발생했습니다' );
+      } else {
+        alert('계정이 성공적으로 삭제되었습니다.');
+        navigate('/');
+      }
     }
   };
-
   return (
     <>
       <button onClick={handleBack}>뒤로가기</button>
@@ -111,7 +116,6 @@ function EditProfile() {
             type="file"
             id="profilePicture"
             name="profilePicture"
-            // value={inputs.profilePicture}
             onChange={(e) => handleUploadProfile(e.target.files[0])}
           />
         </div>
@@ -138,7 +142,6 @@ function EditProfile() {
           <label htmlFor="reasonToUseBlog">Mylog 운영 이유:</label>
           <input type="text" id="mylogReason" name="mylogReason" value={mylogReason} onChange={handleOnChange} />
         </div>
-        {status === 'failed' && <p>{error}</p>}
         <button type="submit" style={{ color: 'blue' }} onClick={handleChangeProfile}>
           변경 완료
         </button>
