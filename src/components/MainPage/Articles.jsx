@@ -134,10 +134,10 @@ const Articles = ({ mode }) => {
       <Header onSearch={handleSearch} />
       <Content>
         <MainSort>
-          <NavLink to="/newest" isActive={() => mode === 'newest'}>
+          <NavLink to="/newest" isactive={() => mode === 'newest'}>
             <SortButton selected={mode === 'newest'}>Newest</SortButton>
           </NavLink>
-          <NavLink to="/popular" isActive={() => mode === 'popular'}>
+          <NavLink to="/popular" isactive={() => mode === 'popular'}>
             <SortButton selected={mode === 'popular'}>Popular</SortButton>
           </NavLink>
         </MainSort>
