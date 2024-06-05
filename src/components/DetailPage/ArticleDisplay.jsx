@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 const ArticleDisplay = () => {
@@ -10,9 +11,7 @@ const ArticleDisplay = () => {
   const [userNickname, setUserNickname] = useState(null);
 
   const user = useSelector((state) => state.auth.user);
-  // const dispatch = useDispatch();
-
-  console.log(user.id);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +46,30 @@ const ArticleDisplay = () => {
     fetchData();
   }, [articleId]);
 
+  // 게시글 수정하기
+  const handleUpdateArticle = async (articleId) => {};
+
+  // 게시글 삭제하기
+  const handleDeleteArticle = async () => {
+    if (!confirm('게시글을 삭제하시겠습니까?')) {
+      return;
+    } else {
+      // 스토리지에 저장된 이미지 삭제하기 나중에 구현할 것
+
+      try {
+        const { articleDeleteError } = await supabase.from('Articles').delete().eq('articleId', articleId);
+
+        if (articleDeleteError) {
+          throw articleDeleteError;
+        } else {
+          navigate('/');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   if (!article || !userNickname) {
     // 나중에 로딩 화면 스피너 넣으면 좋을 것 같습니다!
     return <div>로딩 중...</div>;
@@ -68,8 +91,8 @@ const ArticleDisplay = () => {
         <div>
           {user && article.userId === user.id ? (
             <>
-              <button>수정</button>
-              <button>삭제</button>
+              <button onClick={() => handleUpdateArticle(articleId)}>수정</button>
+              <button onClick={() => handleDeleteArticle(articleId)}>삭제</button>
             </>
           ) : (
             ''
