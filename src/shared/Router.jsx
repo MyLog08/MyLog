@@ -8,7 +8,7 @@ import EditProfile from '../pages/EditProfile';
 import MainPage from '../pages/MainPage/MainPage';
 import RegisterPage from '../pages/RegisterPage/RegisterPage';
 
-const Router = ({ user, onEditProfile, onUpdateProfile }) => {
+const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -20,8 +20,8 @@ const Router = ({ user, onEditProfile, onUpdateProfile }) => {
         <Route path="/auth/register" element={<RegisterPage />} />
         <Route path="/auth/checkSignIn" element={<AuthStatus />} />
         <Route path="/auth/loading/:provider" element={<LoadingPage />} />
-        <Route path="/profile" element={<Mypage user={user} onEditProfile={onEditProfile} />} />
-        <Route path="/editprofile" element={<EditProfile user={user} onUpdateProfile={onUpdateProfile} />} />
+        <Route path="/profile" element={<Mypage />} />
+        <Route path="/editprofile" element={<EditProfile  />} />
       </Routes>
     </BrowserRouter>
   );

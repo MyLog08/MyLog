@@ -100,12 +100,16 @@ const CommentDisplay = () => {
       return;
     } else {
       try {
-        const { commentDeleteError } = await supabase.from('Comments').delete().eq('commentId', targetId);
+        const { commentDeleteError } = await supabase
+        .from('Comments')
+        .delete()
+        .eq('commentId', targetId);
 
         if (commentDeleteError) {
           throw commentDeleteError;
         } else {
-          setComments(comments.filter((comment) => comment.commentId !== targetId));
+          setComments(comments.filter((comment) =>
+             comment.commentId !== targetId));
         }
       } catch (error) {
         console.error(error);

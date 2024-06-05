@@ -1,10 +1,10 @@
 import React from 'react';
 import UserProfile from '../components/UserProfile';
 
-const Mypage = ({ user }) => {
+const Mypage = () => {
   return (
     <>
-      <UserProfile user={user} />
+      <UserProfile/>
     </>
   );
 };

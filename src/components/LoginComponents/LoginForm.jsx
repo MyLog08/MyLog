@@ -32,7 +32,11 @@ function LoginForm() {
       newErrors.password = '비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.';
     }
 
-    const { data, error } = await supabase.from('Users').select('*').eq('email', email).single();
+    const { data, error } = await supabase
+    .from('Users')
+    .select('*')
+    .eq('email', email)
+    .single();
 
     if (error) {
       alert(error.message);
