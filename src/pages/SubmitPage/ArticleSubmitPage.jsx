@@ -1,9 +1,9 @@
-import ArticleForm from '../../components/SubmitPage/ArticleForm';
+import ArticleCreateForm from '../../components/SubmitPage/ArticleCreateForm';
 
 const ArticleSubmitPage = () => {
   return (
     <>
-      <ArticleForm />
+      <ArticleCreateForm />
     </>
   );
 };
