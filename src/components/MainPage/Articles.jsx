@@ -79,7 +79,7 @@ const Articles = ({ mode }) => {
               return {
                 ...article,
                 updatedAt: dayjs(article.updatedAt).format('YYYY년 MM월 DD일'),
-                imageUrlArray: JSON.parse(article.imageUrl),
+                imageUrl: article.imageUrl,
                 userNickname: fetchedNickname
               };
             })
