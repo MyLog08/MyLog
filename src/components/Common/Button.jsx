@@ -1,5 +1,11 @@
+import { StyledButton } from '../../styles/Common/ButtonStyle';
+
 function Button({ value }) {
-  return <button type="submit">{value}</button>;
+  return (
+    <div>
+      <StyledButton type="submit">{value}</StyledButton>
+    </div>
+  );
 }
 
 export default Button;

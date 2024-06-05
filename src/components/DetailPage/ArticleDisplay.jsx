@@ -2,10 +2,18 @@ import { useState, useEffect } from 'react';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
 import { useParams } from 'react-router-dom';
+import LoadingBar from '../Common/LoadingBar';
+import {
+  DetailContent,
+  DetailPageDate,
+  DetailPageImg,
+  DetailPageInfo,
+  DetailPageNickname,
+  DetailPageTitle,
+  DetailSection
+} from '../../styles/Detail/DetailStyle';
 
 const ArticleDisplay = () => {
-  // 테스트용 게시글 아이디
-
   const { articleId } = useParams();
   const [article, setArticle] = useState(null);
   const [userNickname, setUserNickname] = useState(null);
@@ -45,36 +53,28 @@ const ArticleDisplay = () => {
 
   if (!article || !userNickname) {
     // 나중에 로딩 화면 스피너 넣으면 좋을 것 같습니다!
-    return <div>로딩 중...</div>;
+    return <LoadingBar />;
   }
 
   return (
-    <section>
-      <h1>{article.title}</h1>
-      <div>
-        <div>
-          <span>{userNickname.nickname}</span>
-          <span>
-            {article.createdAt === article.updatedAt
-              ? dayjs(article.createdAt).format('YYYY년 MM월 DD일')
-              : dayjs(article.updatedAt).format('YYYY년 MM월 DD일')}
-          </span>
-          <span>♥ {article.like}</span>
-        </div>
-        <div>
-          <button>팔로우</button>
-        </div>
-        <div>
-          <div>
-            {JSON.parse(article.imageUrl).map((url, index) => (
-              <img key={index} src={url} alt="이미지" />
-            ))}
-          </div>
-          {/* 스타일 작업 시 아래 스타일 적용 부탁드립니다! */}
-          <div style={{ whiteSpace: 'pre-wrap' }}>{article.content}</div>
-        </div>
-      </div>
-    </section>
+    <DetailSection>
+      <DetailPageTitle>{article.title}</DetailPageTitle>
+      <DetailPageInfo>
+        <DetailPageNickname>{userNickname.nickname}</DetailPageNickname>
+        <DetailPageDate>
+          {article.createdAt === article.updatedAt
+            ? dayjs(article.createdAt).format('YYYY년 MM월 DD일')
+            : dayjs(article.updatedAt).format('YYYY년 MM월 DD일')}
+        </DetailPageDate>
+      </DetailPageInfo>
+      <DetailPageImg>
+        {JSON.parse(article.imageUrl).map((url, index) => (
+          <img key={index} src={url} alt="이미지" />
+        ))}
+      </DetailPageImg>
+
+      <DetailContent>{article.content}</DetailContent>
+    </DetailSection>
   );
 };
 

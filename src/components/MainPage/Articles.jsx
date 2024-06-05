@@ -181,7 +181,7 @@ const Articles = ({ mode }) => {
   const renderLoadingCards = () => {
     return Array.from({ length: ARTICLES_PER_PAGE }, (_, index) => (
       <ImageLoadingCard key={index}>
-        <LoadingImage>Loading...</LoadingImage>
+        <LoadingImage></LoadingImage>
       </ImageLoadingCard>
     ));
   };

@@ -15,6 +15,7 @@ import Input from '../Common/Input';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
+import { RegisterInputWrapper, RegisterPageTitle } from '../../styles/Register/RegisterStyle';
 
 function RegisterForm() {
   const initialState = {
@@ -117,34 +118,51 @@ function RegisterForm() {
 
   return (
     <div>
-      <h1>회원가입</h1>
+      <RegisterPageTitle>회원가입</RegisterPageTitle>
       <form onSubmit={handleOnSubmit}>
-        <Input placeholder="이름" value={name} name="name" id="name" onChange={handleOnChange} />
-        {errors.name && <div style={{ color: 'red' }}>{errors.name}</div>}
-        <Input placeholder="이메일" value={email} name="email" id="email" onChange={handleOnChange} />
-        {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
-        <Input placeholder="닉네임" value={nickname} name="nickname" id="nickname" onChange={handleOnChange} />
-        {errors.nickname && <div style={{ color: 'red' }}>{errors.nickname}</div>}
-        <Input placeholder="생년월일" value={birth} name="birth" id="birth" onChange={handleOnChange} />
-        <Input
-          placeholder="비밀번호"
-          type="password"
-          value={password}
-          name="password"
-          id="password"
-          onChange={handleOnChange}
-        />
-        {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
-        <Input
-          placeholder="비밀번호확인"
-          type="password"
-          value={confirm}
-          name="confirm"
-          id="confirm"
-          onChange={handleOnChange}
-        />
-        {errors.confirm && <div style={{ color: 'red' }}>{errors.confirm}</div>}
-        {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>}
+        <RegisterInputWrapper>
+          <Input placeholder="이름" value={name} name="name" id="name" onChange={handleOnChange} />
+          {errors.name && <div style={{ color: 'red' }}>{errors.name}</div>}
+        </RegisterInputWrapper>
+
+        <RegisterInputWrapper>
+          <Input placeholder="이메일" value={email} name="email" id="email" onChange={handleOnChange} />
+          {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
+        </RegisterInputWrapper>
+
+        <RegisterInputWrapper>
+          <Input placeholder="닉네임" value={nickname} name="nickname" id="nickname" onChange={handleOnChange} />
+          {errors.nickname && <div style={{ color: 'red' }}>{errors.nickname}</div>}
+        </RegisterInputWrapper>
+
+        <RegisterInputWrapper>
+          <Input placeholder="생년월일" value={birth} name="birth" id="birth" onChange={handleOnChange} />
+        </RegisterInputWrapper>
+
+        <RegisterInputWrapper>
+          <Input
+            placeholder="비밀번호"
+            type="password"
+            value={password}
+            name="password"
+            id="password"
+            onChange={handleOnChange}
+          />
+          {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
+        </RegisterInputWrapper>
+
+        <RegisterInputWrapper>
+          <Input
+            placeholder="비밀번호확인"
+            type="password"
+            value={confirm}
+            name="confirm"
+            id="confirm"
+            onChange={handleOnChange}
+          />
+          {errors.confirm && <div style={{ color: 'red' }}>{errors.confirm}</div>}
+          {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>}
+        </RegisterInputWrapper>
 
         <Button value="가입하기" />
       </form>

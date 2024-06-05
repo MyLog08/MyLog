@@ -1,10 +1,15 @@
-import styled from 'styled-components';
 import { handleSignInOAuth } from '../../api/authApi';
 import DiscordIcon from '../../icons/DiscordIcon';
 import GithubIcon from '../../icons/GithubIcon';
 import GoogleIcon from '../../icons/GoogleIcon';
 import KaKaoIcon from '../../icons/KaKaoIcon';
 import SlackIcon from '../../icons/SlackIcon';
+import {
+  IconWrapper,
+  SocialIcon,
+  SocialSectionTitle,
+  SocialSectionWrapper
+} from '../../styles/LoginComponents/SocialLoginStyle';
 
 function SocialSection() {
   const handleOnClickSignInWithGithub = async () => {
@@ -33,31 +38,27 @@ function SocialSection() {
   };
 
   return (
-    <div>
-      <div>SNS계정으로 간편 로그인/회원가입</div>
-      <StSocialSection>
-        <div onClick={handleOnClickSignInWithGoogle}>
+    <SocialSectionWrapper>
+      <SocialSectionTitle>Sign/Log In with SNS</SocialSectionTitle>
+      <IconWrapper>
+        <SocialIcon onClick={handleOnClickSignInWithGoogle}>
           <GoogleIcon />
-        </div>
-        <div onClick={handleOnClickSignInWithGithub}>
+        </SocialIcon>
+        <SocialIcon onClick={handleOnClickSignInWithGithub}>
           <GithubIcon />
-        </div>
-        <div onClick={handleOnClickSignInWithKakao}>
+        </SocialIcon>
+        <SocialIcon onClick={handleOnClickSignInWithKakao}>
           <KaKaoIcon />
-        </div>
-        <div onClick={handleOnClickSignInWithSlack}>
+        </SocialIcon>
+        <SocialIcon onClick={handleOnClickSignInWithSlack}>
           <SlackIcon />
-        </div>
-        <div onClick={handleOnClickSignInWithDiscord}>
+        </SocialIcon>
+        <SocialIcon onClick={handleOnClickSignInWithDiscord}>
           <DiscordIcon />
-        </div>
-      </StSocialSection>
-    </div>
+        </SocialIcon>
+      </IconWrapper>
+    </SocialSectionWrapper>
   );
 }
 
 export default SocialSection;
-
-const StSocialSection = styled.section`
-  display: flex;
-`;
