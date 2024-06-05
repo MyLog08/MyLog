@@ -84,7 +84,7 @@ const ArticleCreateForm = () => {
         articleId: crypto.randomUUID(),
         title,
         content,
-        imageUrl: [publicUrl],
+        imageUrl: publicUrl,
         createdAt: timestamp,
         updatedAt: timestamp,
         userId: user.id
