@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { checkSignIn } from '../../redux/slices/authSlice';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
@@ -10,6 +11,8 @@ const ArticleCreateForm = () => {
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');
+
+  const navigate = useNavigate();
 
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
@@ -95,8 +98,8 @@ const ArticleCreateForm = () => {
         setImage(null);
         setPreviewUrl('');
 
-        // 나중에 가능하면 등록한 게시글로 이동시기
-        window.location.href = '/';
+        // 메인 페이지로 이동
+        navigate('/');
       }
     } catch (error) {
       console.error(error);
