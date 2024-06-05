@@ -8,6 +8,12 @@ const initialState = {
   user: null
 };
 
+const storedUser = localStorage.getItem('user');
+if (storedUser) {
+  initialState.isLoggedIn = true;
+  initialState.user = JSON.parse(storedUser);
+}
+
 export const checkSignIn = createAsyncThunk('auth/checkSignIn', async () => {
   const session = await supabase.auth.getSession();
   const user = session.data.session?.user || null;
@@ -21,10 +27,12 @@ const authSlice = createSlice({
     login: (state, action) => {
       state.isLoggedIn = true;
       state.user = action.payload;
+      localStorage.setItem('user', JSON.stringify(action.payload));
     },
     logout: (state) => {
       state.isLoggedIn = false;
       state.user = null;
+      localStorage.removeItem('user');
     }
   },
 

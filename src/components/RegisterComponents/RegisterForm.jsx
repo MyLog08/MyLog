@@ -12,6 +12,10 @@ import {
 import Button from '../Common/Button';
 import Input from '../Common/Input';
 
+import { useDispatch } from 'react-redux';
+import { login } from '../../redux/slices/authSlice';
+import { useNavigate } from 'react-router-dom';
+
 function RegisterForm() {
   const initialState = {
     name: '',
@@ -27,6 +31,10 @@ function RegisterForm() {
   const [errors, setErrors] = useState({});
 
   const { name, email, nickname, birth, password, confirm } = inputs;
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const validateForm = async () => {
     const newErrors = {};
@@ -95,9 +103,12 @@ function RegisterForm() {
         updatedAt: date
       });
 
+      dispatch(login({ user: user.user }));
+
       alert('회원가입 완료');
       handleResetInputs();
       setErrors({});
+      navigate('/');
     } catch (err) {
       console.error(err);
       alert('회원가입 중 오류 발생');
@@ -134,6 +145,7 @@ function RegisterForm() {
         />
         {errors.confirm && <div style={{ color: 'red' }}>{errors.confirm}</div>}
         {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>}
+
         <Button value="가입하기" />
       </form>
     </div>

@@ -3,16 +3,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { checkSignIn } from '../../redux/slices/authSlice';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 
-const CommentInput = () => {
-  // 테스트용 게시글 아이디
-  const articleId = 'f1a37c3a-0fdf-46f0-92e1-08739684bf88';
-
+const CommentInput = ({ articleId }) => {
   const [commentsCount, setCommentsCount] = useState(0);
   const [content, setContent] = useState('');
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,7 +44,7 @@ const CommentInput = () => {
     // 비로그인 시 로그인 페이지로 리다이렉션
     if (!isLoggedIn) {
       alert('로그인 후 댓글을 작성할 수 있습니다.');
-      window.location.href = '/login';
+      navigate('/auth/login');
       return;
     }
 
