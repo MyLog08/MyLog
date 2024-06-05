@@ -47,3 +47,5 @@ export const DetailContent = styled.div`
   white-space: pre-wrap;
   font-size: 18px;
 `;
+
+export const DetailButtons = styled.div``;
