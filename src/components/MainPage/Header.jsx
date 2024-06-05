@@ -25,9 +25,7 @@ const Header = ({ onSearch }) => {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      onSearch(e);
-    }
+    onSearch(e);
   };
 
   const handleLogout = async () => {
@@ -40,6 +38,7 @@ const Header = ({ onSearch }) => {
     <HeaderContainer>
       <div>
         <Logo src={myLogoImage} alt="로고" onClick={handleLogoClick} />
+        {/* <Button value="Home" /> */}
         <SearchContainer>
           <SearchBar type="text" placeholder="Search..." onKeyDown={handleKeyDown} />
         </SearchContainer>

@@ -1,10 +1,9 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   ArticleAuthor,
   ArticleContent,
   ArticleDate,
-  ArticleLikes,
   ArticleTitle,
   AuthorBox,
   Content,
@@ -14,15 +13,13 @@ import {
   ImageGrid,
   ImageLoadingCard,
   LoadingImage,
-  MainSort,
-  NoResult,
-  SortButton
+  NoResult
 } from '../../styles/MainPage/MainStyle';
 import Header from './Header';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
 
-const Articles = ({ mode }) => {
+const Articles = () => {
   const [articles, setArticles] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -34,84 +31,81 @@ const Articles = ({ mode }) => {
 
   const ARTICLES_PER_PAGE = 12;
 
-  const fetchArticles = useCallback(
-    async (page, searchQuery = '') => {
-      if (page === 1) {
-        setLoading(true);
-        setLoadingMore(false);
+  const fetchArticles = useCallback(async (page, searchQuery = '') => {
+    if (page === 1) {
+      setLoading(true);
+      setLoadingMore(false);
+    } else {
+      setLoadingMore(true);
+    }
+
+    try {
+      let query = supabase
+        .from('Articles')
+        .select('*')
+        .order('updatedAt', { ascending: false })
+        .range((page - 1) * ARTICLES_PER_PAGE, page * ARTICLES_PER_PAGE - 1);
+
+      if (searchQuery) {
+        query = query.ilike('title', `%${searchQuery}%`);
+      }
+
+      const { data, error } = await query;
+      if (error) {
+        throw error;
+      }
+
+      if (page === 1 && data.length === 0) {
+        setNoResults(true);
+        setArticles([]);
       } else {
-        setLoadingMore(true);
-      }
+        const updatedArticles = await Promise.all(
+          data.map(async (article) => {
+            const { data: userData, error: userError } = await supabase
+              .from('Users')
+              .select('nickname')
+              .eq('userId', article.userId)
+              .single();
+            if (userError) {
+              console.log(userError);
+              return null;
+            }
+            const fetchedNickname = userData.nickname;
 
-      try {
-        let query = supabase
-          .from('Articles')
-          .select('*')
-          .order(mode === 'popular' ? 'like' : 'updatedAt', { ascending: false })
-          .range((page - 1) * ARTICLES_PER_PAGE, page * ARTICLES_PER_PAGE - 1);
+            return {
+              ...article,
+              updatedAt: dayjs(article.updatedAt).format('YYYY년 MM월 DD일'),
+              imageUrl: article.imageUrl,
+              userNickname: fetchedNickname
+            };
+          })
+        );
 
-        if (searchQuery) {
-          query = query.ilike('title', `%${searchQuery}%`);
-        }
+        const filteredArticles = updatedArticles.filter((article) => article !== null);
 
-        const { data, error } = await query;
-        if (error) {
-          throw error;
-        }
-
-        if (page === 1 && data.length === 0) {
+        if (filteredArticles.length === 0 && page === 1) {
           setNoResults(true);
-          setArticles([]);
         } else {
-          const updatedArticles = await Promise.all(
-            data.map(async (article) => {
-              const { data: userData, error: userError } = await supabase
-                .from('Users')
-                .select('nickname')
-                .eq('userId', article.userId)
-                .single();
-              if (userError) {
-                console.log(userError);
-                return null;
-              }
-              const fetchedNickname = userData.nickname;
-
-              return {
-                ...article,
-                updatedAt: dayjs(article.updatedAt).format('YYYY년 MM월 DD일'),
-                imageUrl: article.imageUrl,
-                userNickname: fetchedNickname
-              };
-            })
-          );
-
-          const filteredArticles = updatedArticles.filter((article) => article !== null);
-
-          if (filteredArticles.length === 0 && page === 1) {
-            setNoResults(true);
-          } else {
-            setNoResults(false);
-          }
-
-          setArticles((prevArticles) => (page === 1 ? filteredArticles : [...prevArticles, ...filteredArticles]));
+          setNoResults(false);
         }
-      } catch (error) {
-        console.error('Error Fetching Articles:', error.message);
-      } finally {
-        if (page === 1) {
-          setLoading(false);
-        } else {
-          setLoadingMore(false);
-        }
+
+        setArticles((prevArticles) => (page === 1 ? filteredArticles : [...prevArticles, ...filteredArticles]));
       }
-    },
-    [mode]
-  );
+    } catch (error) {
+      console.error('Error Fetching Articles:', error.message);
+    } finally {
+      if (page === 1) {
+        setLoading(false);
+      } else {
+        setLoadingMore(false);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     fetchArticles(1, searchQuery);
     setPage(1);
-  }, [mode, searchQuery, fetchArticles]);
+  }, [searchQuery, fetchArticles]);
 
   useEffect(() => {
     if (page > 1) {
@@ -137,14 +131,8 @@ const Articles = ({ mode }) => {
   );
 
   const handleSearch = (e) => {
-    if (e.key === 'Enter') {
-      const query = e.target.value;
-      setSearchQuery(query);
-      setNoResults(false);
-      setArticles([]);
-      setLoadingMore(false);
-      setPage(1);
-    }
+    const query = e.target.value;
+    setSearchQuery(query);
   };
 
   const handleArticleClick = (articleId) => {
@@ -164,9 +152,6 @@ const Articles = ({ mode }) => {
         </Details>
         <AuthorBox>
           <ArticleAuthor>by {article.userNickname}</ArticleAuthor>
-          <ArticleLikes>
-            <img src="src/assets/HeartIconBlue.png" alt="Heart Icon" /> {article.like}
-          </ArticleLikes>
         </AuthorBox>
       </ImageCard>
     );
@@ -184,14 +169,6 @@ const Articles = ({ mode }) => {
     <div>
       <Header onSearch={handleSearch} />
       <Content>
-        <MainSort>
-          <NavLink to="/newest">
-            <SortButton selected={mode === 'newest'}>Newest</SortButton>
-          </NavLink>
-          <NavLink to="/popular">
-            <SortButton selected={mode === 'popular'}>Popular</SortButton>
-          </NavLink>
-        </MainSort>
         {noResults && <NoResult>Article not found.</NoResult>}
         {!noResults && (
           <ImageGrid>

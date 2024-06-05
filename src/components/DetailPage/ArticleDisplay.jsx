@@ -6,14 +6,19 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import LoadingBar from '../Common/LoadingBar';
 import {
+  DetailButtons,
   DetailContent,
   DetailPageDate,
   DetailPageImg,
   DetailPageInfo,
+  DetailPageLogo,
   DetailPageNickname,
   DetailPageTitle,
-  DetailSection
+  DetailSection,
+  HomeLogo
 } from '../../styles/Detail/DetailStyle';
+import Button from '../Common/Button';
+import myLogoImage from '../../assets/MyLogLogo_blue_bold.png';
 
 const ArticleDisplay = () => {
   const { articleId } = useParams();
@@ -57,9 +62,7 @@ const ArticleDisplay = () => {
   }, [articleId]);
 
   // 게시글 수정하기
-  const handleUpdateArticle = async () => {
-    navigate(`/articles/${articleId}/edit`);
-  };
+  const handleUpdateArticle = async (articleId) => {};
 
   // 게시글 삭제하기
   const handleDeleteArticle = async () => {
@@ -86,10 +89,25 @@ const ArticleDisplay = () => {
     return <LoadingBar />;
   }
 
+  const handleLogoClick = () => {
+    navigate(`/`);
+  };
+
   return (
     <DetailSection>
+      <DetailPageLogo>
+        <HomeLogo src={myLogoImage} alt="로고" onClick={handleLogoClick} />
+      </DetailPageLogo>
       <DetailPageTitle>{article.title}</DetailPageTitle>
       <DetailPageInfo>
+        {user && article.userId === user.id ? (
+          <DetailButtons>
+            <Button onClick={() => handleUpdateArticle(articleId)} value="수정" />
+            <Button onClick={() => handleDeleteArticle(articleId)} value="삭제" />
+          </DetailButtons>
+        ) : (
+          ''
+        )}
         <DetailPageNickname>{userNickname.nickname}</DetailPageNickname>
         <DetailPageDate>
           {article.createdAt === article.updatedAt
@@ -97,16 +115,6 @@ const ArticleDisplay = () => {
             : dayjs(article.updatedAt).format('YYYY년 MM월 DD일')}
         </DetailPageDate>
       </DetailPageInfo>
-      <div>
-        {user && article.userId === user.id ? (
-          <>
-            <button onClick={handleUpdateArticle}>수정</button>
-            <button onClick={() => handleDeleteArticle(articleId)}>삭제</button>
-          </>
-        ) : (
-          ''
-        )}
-      </div>
       <DetailPageImg>
         <img src={article.imageUrl} alt="이미지" />
       </DetailPageImg>

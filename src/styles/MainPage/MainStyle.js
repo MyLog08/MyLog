@@ -77,6 +77,9 @@ export const ArticleTitle = styled.div`
   font-weight: bold;
   color: #333;
   text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export const ArticleContent = styled.div`
