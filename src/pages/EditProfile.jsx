@@ -23,14 +23,7 @@ function EditProfile() {
   const { name, nickname, currentPassword, mylogReason, profilePicture } = inputs;
   const [picture, setPicture] = useState('');
 
-  // 프로필 페이지 이동
-  // useEffect(() => {
-  //   if (status === 'succeeded') {
-  //     navigate('/profile');
-  //   }
-  // }, [status, navigate]);
-
-  useEffect(() => {
+   useEffect(() => {
     dispatch(checkSignIn());
   }, [dispatch]);
 
@@ -95,7 +88,10 @@ function EditProfile() {
 
   // 탈퇴하기
   const handleDeleteAccount = async () => {
-    const { error } = await supabase.from('Users').delete().eq('id', user.id);
+    const { error } = await supabase
+    .from('Users')
+    .delete()
+    .eq('userId', user.id);
 
     if (error) {
       alert('계정 삭제 중 오류가 발생했습니다: ' + error.message);
