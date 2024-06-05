@@ -4,8 +4,6 @@ import dayjs from 'dayjs';
 import { useParams } from 'react-router-dom';
 
 const ArticleDisplay = () => {
-  // 테스트용 게시글 아이디
-
   const { articleId } = useParams();
   const [article, setArticle] = useState(null);
   const [userNickname, setUserNickname] = useState(null);
