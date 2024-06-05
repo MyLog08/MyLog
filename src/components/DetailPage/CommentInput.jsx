@@ -4,8 +4,10 @@ import { checkSignIn } from '../../redux/slices/authSlice';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-const CommentInput = ({ articleId }) => {
+const CommentInput = () => {
+  const { articleId } = useParams();
   const [commentsCount, setCommentsCount] = useState(0);
   const [content, setContent] = useState('');
 

@@ -3,8 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { checkSignIn } from '../../redux/slices/authSlice';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
+import { useParams } from 'react-router-dom';
 
-const CommentDisplay = ({ articleId }) => {
+const CommentDisplay = () => {
+  const { articleId } = useParams();
   const [comments, setComments] = useState([]);
   const [users, setUsers] = useState([]);
 
