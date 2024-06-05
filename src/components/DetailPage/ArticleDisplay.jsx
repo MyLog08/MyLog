@@ -81,12 +81,14 @@ const ArticleDisplay = () => {
   };
 
   if (!article || !userNickname) {
-    // 나중에 로딩 화면 스피너 넣으면 좋을 것 같습니다!
     return <LoadingBar />;
   }
 
   return (
+<<<<<<< HEAD
+=======
 
+>>>>>>> bb384dea7c198cdcf7562fd968c1bfb53aedc283
     <DetailSection>
       <DetailPageTitle>{article.title}</DetailPageTitle>
       <DetailPageInfo>
@@ -97,12 +99,22 @@ const ArticleDisplay = () => {
             : dayjs(article.updatedAt).format('YYYY년 MM월 DD일')}
         </DetailPageDate>
       </DetailPageInfo>
+
+      <div>
+        {user && article.userId === user.id ? (
+          <>
+            <button onClick={() => handleUpdateArticle(articleId)}>수정</button>
+            <button onClick={() => handleDeleteArticle(articleId)}>삭제</button>
+          </>
+        ) : (
+          ''
+        )}
+      </div>
       <DetailPageImg>
         {JSON.parse(article.imageUrl).map((url, index) => (
           <img key={index} src={url} alt="이미지" />
         ))}
       </DetailPageImg>
-
       <DetailContent>{article.content}</DetailContent>
     </DetailSection>
   );

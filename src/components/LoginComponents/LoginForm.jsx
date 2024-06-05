@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { handleAuthLogin } from '../../api/authApi';
 import useFormInputs from '../../hooks/useInput';
 import { login } from '../../redux/slices/authSlice';
@@ -80,7 +79,10 @@ function LoginForm() {
   };
 
   return (
+<<<<<<< HEAD
+=======
 
+>>>>>>> bb384dea7c198cdcf7562fd968c1bfb53aedc283
     <LogInContainer>
       <LogInTitle>Log In</LogInTitle>
       <LogInForm onSubmit={handleOnSubmit}>
