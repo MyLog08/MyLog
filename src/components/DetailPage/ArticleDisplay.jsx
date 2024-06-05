@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import LoadingBar from '../Common/LoadingBar';
 import {
+  DetailButtons,
   DetailContent,
   DetailPageDate,
   DetailPageImg,
@@ -95,7 +96,7 @@ const ArticleDisplay = () => {
             : dayjs(article.updatedAt).format('YYYY년 MM월 DD일')}
         </DetailPageDate>
       </DetailPageInfo>
-      <div>
+      <DetailButtons>
         {user && article.userId === user.id ? (
           <>
             <button onClick={() => handleUpdateArticle(articleId)}>수정</button>
@@ -104,11 +105,9 @@ const ArticleDisplay = () => {
         ) : (
           ''
         )}
-      </div>
+      </DetailButtons>
       <DetailPageImg>
-        {JSON.parse(article.imageUrl).map((url, index) => (
-          <img key={index} src={url} alt="이미지" />
-        ))}
+        <img src={article.imageUrl} alt="이미지" />
       </DetailPageImg>
       <DetailContent>{article.content}</DetailContent>
     </DetailSection>
