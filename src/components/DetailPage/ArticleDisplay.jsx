@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
 import { useParams } from 'react-router-dom';
@@ -7,6 +8,11 @@ const ArticleDisplay = () => {
   const { articleId } = useParams();
   const [article, setArticle] = useState(null);
   const [userNickname, setUserNickname] = useState(null);
+
+  const user = useSelector((state) => state.auth.user);
+  // const dispatch = useDispatch();
+
+  console.log(user.id);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,7 +66,14 @@ const ArticleDisplay = () => {
           <span>♥ {article.like}</span>
         </div>
         <div>
-          <button>팔로우</button>
+          {user && article.userId === user.id ? (
+            <>
+              <button>수정</button>
+              <button>삭제</button>
+            </>
+          ) : (
+            ''
+          )}
         </div>
         <div>
           <div>
