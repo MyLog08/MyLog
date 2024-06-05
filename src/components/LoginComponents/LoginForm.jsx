@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { handleAuthLogin } from '../../api/authApi';
 import useFormInputs from '../../hooks/useInput';
@@ -26,6 +27,8 @@ function LoginForm() {
 
   const { inputs, handleOnChange, handleResetInputs } = useFormInputs(initialState);
 
+  const [errors, setErrors] = useState({});
+
   const { email, password } = inputs;
 
   const handleOnSubmit = async (e) => {
@@ -33,33 +36,46 @@ function LoginForm() {
 
     const newErrors = {};
 
-    if (!validateEmailFormat(email)) {
-      newErrors.email = '올바른 이메일 형식이 아닙니다.';
+    try {
+      if (!email || !password) {
+        newErrors.general = '모든 필드를 입력해주세요.';
+        throw new Error('모든 필드를 입력해주세요.');
+      }
+
+      if (!validateEmailFormat(email)) {
+        newErrors.email = '올바른 이메일 형식이 아닙니다.';
+        throw new Error('올바른 이메일 형식이 아닙니다.');
+      }
+
+      if (!validatePasswordFormat(password)) {
+        newErrors.password = '비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.';
+        throw new Error('비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.');
+      }
+
+      const { data, error } = await supabase.from('Users').select('*').eq('email', email).single();
+
+      if (error) {
+        newErrors.system = '회원 정보가 없습니다.';
+        throw new Error(error.message);
+      }
+
+      if (!validatePasswordMatch(password, data.password)) {
+        newErrors.password = '비밀번호가 일치하지 않습니다.';
+        throw new Error('비밀번호 불일치');
+      }
+
+      const user = await handleAuthLogin(email, password);
+
+      dispatch(login(user));
+
+      alert('로그인 완료');
+      handleResetInputs();
+      setErrors({});
+      navigate('/');
+    } catch (err) {
+      setErrors(newErrors);
+      console.error(err);
     }
-
-    if (!validatePasswordFormat(password)) {
-      newErrors.password = '비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.';
-    }
-
-    const { data, error } = await supabase.from('Users').select('*').eq('email', email).single();
-
-    if (error) {
-      alert(error.message);
-      return;
-    }
-
-    if (!validatePasswordMatch(password, data.password)) {
-      alert('비밀번호가 일치하지 않습니다.');
-      return;
-    }
-
-    const user = await handleAuthLogin(email, password);
-
-    dispatch(login(user));
-
-    alert('로그인 완료');
-    handleResetInputs();
-    navigate('/');
   };
 
   return (
