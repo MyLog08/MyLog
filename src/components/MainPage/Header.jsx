@@ -15,7 +15,6 @@ import myLogoImage from '../../assets/MyLogLogo_blue_bold.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/slices/authSlice';
 import supabase from '../../supabase/supabase';
-import Button from '../Common/Button';
 
 const Header = ({ onSearch }) => {
   const dispatch = useDispatch();
