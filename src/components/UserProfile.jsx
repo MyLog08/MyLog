@@ -21,11 +21,9 @@ const UserProfile = () => {
 
   // auth/login
    */
-  
-
 
   const user = useSelector((state) => state.auth.user);
-  const [articles, setArticles] = useState([])
+  const [articles, setArticles] = useState([]);
 
   console.log(user);
   const dispatch = useDispatch(); // 우리는 쓰기/삭제/업데이트 를 할때 사용해요. 저희는 함수동작을 위해 사용하고있어요.
@@ -37,38 +35,29 @@ const UserProfile = () => {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const { data, error } = await supabase
-        .from('Articles')
-        .select('*')
-        .eq('userId', user.id);
-  
+        const { data, error } = await supabase.from('Articles').select('*').eq('userId', user.id);
+
         if (error) {
           console.log(error);
         } else {
           console.log(data);
           setArticles(() => data);
         }
-
-      } catch(err) {
-        console.error(err.message)
+      } catch (err) {
+        console.error(err.message);
       }
-    } 
-    
+    };
+
     fetchArticles();
   }, [user]);
 
   useEffect(() => {
-    if(user){
-
+    if (user) {
       console.log(`아티클즈임 : ${JSON.stringify(articles)}`);
-        console.log(`아티클즈임: ${articles[0].articleId}`)
+      console.log(`아티클즈임: ${articles[0].articleId}`);
     }
-     
-  }, [articles])
-// 
-  
-  
-
+  }, [articles]);
+  //
 
   return (
     <div style={{ display: 'flex', padding: '20px' }}>
@@ -82,10 +71,17 @@ const UserProfile = () => {
             <h5>`'Mylog 운영 이유: '아직 계획이 없습니다' </h5>
             <button>프로필 편집</button>
           </section>
+          <section style={{ overflowY: 'scroll', height: '500px', width: '70%', padding: '20px' }}>
+            {articles.map((article) => (
+              <div key={article.articleId}  style={{ margin: '10px 0', padding: '10px', border: '1px solid #ddd' }}>
+                <h3>{article.title}</h3>
+                <p>{article.content}</p>
+              </div>
+            ))}
+          </section>
         </>
       ) : (
-        <p></p>
-        // 사용자 정보를 불러오는 중입니다...
+        <p>사용자 정보를 불러오는 중입니다...</p>
       )}
     </div>
   );
@@ -101,32 +97,31 @@ export default UserProfile;
 //   ))}
 // </section>
 
+// const [posts, setPosts] = useState([]);
+//   useEffect(() => {
+//   if (user && user.id)
+//      fetchPosts(user.id);
+// }, [user]);
 
- // const [posts, setPosts] = useState([]);
-  //   useEffect(() => {
-  //   if (user && user.id)
-  //      fetchPosts(user.id);
-  // }, [user]);
+// const fetchPosts = async (userId) => {
+//   console.log(userId);
+//   const { data, error } = await supabase
+//     .from('Articles')
+//     .select(`articleId, title,content,imageUrl,userId,Users(userId)`)
+//     .eq('userId', userId);
+//   console.log(data);
 
-  // const fetchPosts = async (userId) => {
-  //   console.log(userId);
-  //   const { data, error } = await supabase
-  //     .from('Articles')
-  //     .select(`articleId, title,content,imageUrl,userId,Users(userId)`)
-  //     .eq('userId', userId);
-  //   console.log(data);
+//   if (error) {
+//     console.log('연결할 수 없습니다', error);
+//   } else {
+//     setPosts(data);
+//   }
+// };
 
-  //   if (error) {
-  //     console.log('연결할 수 없습니다', error);
-  //   } else {
-  //     setPosts(data);
-  //   }
-  // };
+// const navigate = useNavigate();
 
-  // const navigate = useNavigate();
+// const { mylogReason } = useSelector((state) => state.userProfile);
 
-  // const { mylogReason } = useSelector((state) => state.userProfile);
-
-  // const goToEditProfile = () => {
-  //   navigate('/editprofile');
-  // };
+// const goToEditProfile = () => {
+//   navigate('/editprofile');
+// };

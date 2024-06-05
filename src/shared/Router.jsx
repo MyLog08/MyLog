@@ -21,7 +21,7 @@ const Router = () => {
         <Route path="/auth/checkSignIn" element={<AuthStatus />} />
         <Route path="/auth/loading/:provider" element={<LoadingPage />} />
         <Route path="/profile" element={<Mypage />} />
-        <Route path="/editprofile" element={<EditProfile  />} />
+        <Route path="/editprofile" element={<EditProfile />} />
       </Routes>
     </BrowserRouter>
   );
