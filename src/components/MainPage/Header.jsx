@@ -45,7 +45,9 @@ const Header = ({ onSearch }) => {
         </SearchContainer>
         {isLoggedIn ? (
           <LoggedInButtons>
-            <WriteButton>Write</WriteButton>
+            <NavLink to="/articles/write">
+              <WriteButton>Write</WriteButton>
+            </NavLink>
             <ProfileButton>My Profile</ProfileButton>
             <LogoutButton onClick={handleLogout}>Log Out</LogoutButton>
           </LoggedInButtons>
