@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
+import { useParams } from 'react-router-dom';
 
 const ArticleDisplay = () => {
   // 테스트용 게시글 아이디
-  const articleId = 'f1a37c3a-0fdf-46f0-92e1-08739684bf88';
 
+  const { articleId } = useParams();
   const [article, setArticle] = useState(null);
   const [userNickname, setUserNickname] = useState(null);
 

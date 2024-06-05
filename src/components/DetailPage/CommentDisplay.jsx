@@ -4,10 +4,7 @@ import { checkSignIn } from '../../redux/slices/authSlice';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
 
-const CommentDisplay = () => {
-  // 테스트용 게시글 아이디
-  const articleId = 'f1a37c3a-0fdf-46f0-92e1-08739684bf88';
-
+const CommentDisplay = ({ articleId }) => {
   const [comments, setComments] = useState([]);
   const [users, setUsers] = useState([]);
 

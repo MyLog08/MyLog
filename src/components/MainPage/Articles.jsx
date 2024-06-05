@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   ArticleAuthor,
   ArticleContent,
@@ -30,6 +30,7 @@ const Articles = ({ mode }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [noResults, setNoResults] = useState(false);
   const observer = useRef();
+  const navigate = useNavigate();
 
   const ARTICLES_PER_PAGE = 12;
 
@@ -126,14 +127,13 @@ const Articles = ({ mode }) => {
 
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && !loading && !loadingMore) {
-          // Update here to include !loadingMore
           setPage((prevPage) => prevPage + 1);
         }
       });
 
       observer.current.observe(node);
     },
-    [loading, loadingMore] // Update dependencies
+    [loading, loadingMore]
   );
 
   const handleSearch = (e) => {
@@ -147,11 +147,15 @@ const Articles = ({ mode }) => {
     }
   };
 
+  const handleArticleClick = (articleId) => {
+    navigate(`/articles/${articleId}`);
+  };
+
   const renderArticle = (article, ref = null) => {
     const truncatedContent = article.content.length > 100 ? `${article.content.slice(0, 100)}...` : article.content;
 
     return (
-      <ImageCard key={article.articleId} ref={ref}>
+      <ImageCard key={article.articleId} ref={ref} onClick={() => handleArticleClick(article.articleId)}>
         <Image
           src={
             Array.isArray(article.imageUrlArray) && article.imageUrlArray.length > 0
