@@ -1,6 +1,6 @@
 import ArticleCreateForm from '../../components/SubmitPage/ArticleCreateForm';
 
-const ArticleSubmitPage = () => {
+const ArticleCreatePage = () => {
   return (
     <>
       <ArticleCreateForm />
@@ -8,4 +8,4 @@ const ArticleSubmitPage = () => {
   );
 };
 
-export default ArticleSubmitPage;
+export default ArticleCreatePage;
