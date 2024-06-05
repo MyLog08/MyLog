@@ -150,3 +150,31 @@ export const SigninButton = styled.button`
     color: #ffbfbf;
   }
 `;
+
+export const HomeButton = styled.div`
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #fafafa;
+  color: ${({ selected }) => (selected ? '#ffbfbf' : '#8aa9e4')};
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: color 0.3s;
+
+  button {
+    // 버튼에 스타일을 적용합니다.
+    padding: 5px 10px;
+    border: 1px solid #fafafa;
+    border-radius: 5px;
+    background-color: transparent;
+    color: #8aa9e4;
+    font-size: inherit;
+    font-weight: inherit;
+    cursor: pointer;
+
+    &:hover {
+      color: #ffbfbf;
+    }
+  }
+`;

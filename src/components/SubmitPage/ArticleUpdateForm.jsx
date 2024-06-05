@@ -37,7 +37,6 @@ const ArticleUpdateForm = () => {
       if (articleError) {
         throw articleError;
       }
-
       setArticle(articleData);
       setEditedTitle(articleData.title);
       setEditedContent(articleData.content);

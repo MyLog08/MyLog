@@ -62,7 +62,9 @@ const ArticleDisplay = () => {
   }, [articleId]);
 
   // 게시글 수정하기
-  const handleUpdateArticle = async (articleId) => {};
+  const handleUpdateArticle = () => {
+    navigate(`/articles/${articleId}/edit`);
+  };
 
   // 게시글 삭제하기
   const handleDeleteArticle = async () => {
@@ -100,14 +102,25 @@ const ArticleDisplay = () => {
       </DetailPageLogo>
       <DetailPageTitle>{article.title}</DetailPageTitle>
       <DetailPageInfo>
-        {user && article.userId === user.id ? (
+        {/* {user && article.userId === user.id ? (
           <DetailButtons>
-            <Button onClick={() => handleUpdateArticle(articleId)} value="수정" />
+            <Button onClick={handleUpdateArticle} value="수정" />
             <Button onClick={() => handleDeleteArticle(articleId)} value="삭제" />
           </DetailButtons>
+
         ) : (
           ''
-        )}
+        )} */}
+        <div>
+          {user && article.userId === user.id ? (
+            <>
+              <button onClick={handleUpdateArticle}>수정</button>
+              <button onClick={() => handleDeleteArticle(articleId)}>삭제</button>
+            </>
+          ) : (
+            ''
+          )}
+        </div>
         <DetailPageNickname>{userNickname.nickname}</DetailPageNickname>
         <DetailPageDate>
           {article.createdAt === article.updatedAt
