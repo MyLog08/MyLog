@@ -8,6 +8,14 @@ import supabase from '../../supabase/supabase';
 import { validateEmailFormat, validatePasswordFormat, validatePasswordMatch } from '../../utils/validators';
 import Button from '../Common/Button';
 import Input from '../Common/Input';
+import { NavLink, useNavigate } from 'react-router-dom';
+import {
+  LogInButton,
+  LogInContainer,
+  LogInForm,
+  LogInTitle,
+  RegisterButton
+} from '../../styles/LoginComponents/LoginStyle';
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -72,25 +80,29 @@ function LoginForm() {
   };
 
   return (
-    <div>
-      <h1>로그인</h1>
-      <form onSubmit={handleOnSubmit}>
-        <Input placeholder="이메일" value={email} name="email" id="email" onChange={handleOnChange} />
-        {errors.system && <div style={{ color: 'red' }}>{errors.system}</div>}
-        {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
+
+    <LogInContainer>
+      <LogInTitle>Log In</LogInTitle>
+      <LogInForm onSubmit={handleOnSubmit}>
+        <Input placeholder="Email" value={email} name="email" id="email" onChange={handleOnChange} />
         <Input
-          placeholder="비밀번호"
+          placeholder="Password"
           type="password"
           value={password}
           name="password"
           id="password"
           onChange={handleOnChange}
         />
-        {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
-        {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>}
-        <Button value="로그인하기" />
-      </form>
-    </div>
+        <LogInButton>
+          <Button value="Log In" />
+        </LogInButton>
+        <RegisterButton>
+          <NavLink to="/auth/register">
+            <Button value="Sign In" />
+          </NavLink>
+        </RegisterButton>
+      </LogInForm>
+    </LogInContainer>
   );
 }
 

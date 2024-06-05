@@ -128,7 +128,7 @@ export const NoResult = styled.div`
   font-weight: bold;
   background-color: #fafafa;
   color: #8aa9e4;
-  height: 100px; /* 원하는 높이로 조절하세요 */
+  height: 100px;
 `;
 
 export const ImageLoadingCard = styled.div`
