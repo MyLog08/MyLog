@@ -6,9 +6,11 @@ import supabase from '../../supabase/supabase';
 import { validateEmailFormat, validatePasswordFormat, validatePasswordMatch } from '../../utils/validators';
 import Button from '../Common/Button';
 import Input from '../Common/Input';
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const initialState = {
     email: '',
@@ -50,6 +52,7 @@ function LoginForm() {
 
     alert('로그인 완료');
     handleResetInputs();
+    navigate('/');
   };
 
   return (

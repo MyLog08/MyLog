@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   ArticleAuthor,
   ArticleContent,
@@ -12,27 +12,37 @@ import {
   Image,
   ImageCard,
   ImageGrid,
+  ImageLoadingCard,
+  LoadingImage,
   MainSort,
+  NoResult,
   SortButton
 } from '../../styles/MainPage/MainStyle';
 import Header from './Header';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
-import LoadingBar from '../../components/Common/LoadingBar';
 
 const Articles = ({ mode }) => {
   const [articles, setArticles] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isSearching, setIsSearching] = useState(false);
+  const [noResults, setNoResults] = useState(false);
   const observer = useRef();
+  const navigate = useNavigate();
 
   const ARTICLES_PER_PAGE = 12;
 
   const fetchArticles = useCallback(
     async (page, searchQuery = '') => {
-      setLoading(true);
+      if (page === 1) {
+        setLoading(true);
+        setLoadingMore(false);
+      } else {
+        setLoadingMore(true);
+      }
+
       try {
         let query = supabase
           .from('Articles')
@@ -49,84 +59,131 @@ const Articles = ({ mode }) => {
           throw error;
         }
 
-        const updatedArticles = await Promise.all(
-          data.map(async (article) => {
-            const { data: userData, error: userError } = await supabase
-              .from('Users')
-              .select('nickname')
-              .eq('userId', article.userId)
-              .single();
-            if (userError) {
-              console.log(userError);
-              return null;
-            }
-            const fetchedNickname = userData.nickname;
+        if (page === 1 && data.length === 0) {
+          setNoResults(true);
+          setArticles([]);
+        } else {
+          const updatedArticles = await Promise.all(
+            data.map(async (article) => {
+              const { data: userData, error: userError } = await supabase
+                .from('Users')
+                .select('nickname')
+                .eq('userId', article.userId)
+                .single();
+              if (userError) {
+                console.log(userError);
+                return null;
+              }
+              const fetchedNickname = userData.nickname;
 
-            return {
-              ...article,
-              updatedAt: dayjs(article.updatedAt).format('YYYY년 MM월 DD일'),
-              imageUrlArray: JSON.parse(article.imageUrl),
-              userNickname: fetchedNickname
-            };
-          })
-        );
+              return {
+                ...article,
+                updatedAt: dayjs(article.updatedAt).format('YYYY년 MM월 DD일'),
+                imageUrlArray: JSON.parse(article.imageUrl),
+                userNickname: fetchedNickname
+              };
+            })
+          );
 
-        const filteredArticles = updatedArticles.filter((article) => article !== null);
+          const filteredArticles = updatedArticles.filter((article) => article !== null);
 
-        setArticles((prevArticles) => (page === 1 ? filteredArticles : [...prevArticles, ...filteredArticles]));
+          if (filteredArticles.length === 0 && page === 1) {
+            setNoResults(true);
+          } else {
+            setNoResults(false);
+          }
+
+          setArticles((prevArticles) => (page === 1 ? filteredArticles : [...prevArticles, ...filteredArticles]));
+        }
       } catch (error) {
         console.error('Error Fetching Articles:', error.message);
       } finally {
-        setLoading(false);
+        if (page === 1) {
+          setLoading(false);
+        } else {
+          setLoadingMore(false);
+        }
       }
     },
     [mode]
   );
 
   useEffect(() => {
-    setArticles([]);
+    fetchArticles(1, searchQuery);
     setPage(1);
-    fetchArticles(1);
-  }, [mode, fetchArticles]);
+  }, [mode, searchQuery, fetchArticles]);
 
   useEffect(() => {
-    if (page > 1 && !isSearching) {
-      fetchArticles(page);
+    if (page > 1) {
+      fetchArticles(page, searchQuery);
     }
-  }, [page, fetchArticles, isSearching]);
-
-  useEffect(() => {
-    if (isSearching) {
-      fetchArticles(1, searchQuery);
-    } else {
-      setArticles([]);
-      setPage(1);
-      fetchArticles(1);
-    }
-  }, [searchQuery, isSearching, fetchArticles]);
+  }, [page, fetchArticles, searchQuery]);
 
   const lastArticleElementRef = useCallback(
     (node) => {
-      if (loading || isSearching) return;
+      if (!node) return;
+
       if (observer.current) observer.current.disconnect();
+
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
+        if (entries[0].isIntersecting && !loading && !loadingMore) {
           setPage((prevPage) => prevPage + 1);
         }
       });
-      if (node) observer.current.observe(node);
+
+      observer.current.observe(node);
     },
-    [loading, isSearching]
+    [loading, loadingMore]
   );
 
   const handleSearch = (e) => {
     if (e.key === 'Enter') {
       const query = e.target.value;
       setSearchQuery(query);
-      setIsSearching(!!query);
+      setNoResults(false);
+      setArticles([]);
+      setLoadingMore(false);
       setPage(1);
-      fetchArticles(1, query);
     }
+  };
+
+  const handleArticleClick = (articleId) => {
+    navigate(`/articles/${articleId}`);
+  };
+
+  const renderArticle = (article, ref = null) => {
+    const truncatedContent = article.content.length > 100 ? `${article.content.slice(0, 100)}...` : article.content;
+
+    return (
+      <ImageCard key={article.articleId} ref={ref} onClick={() => handleArticleClick(article.articleId)}>
+        <Image
+          src={
+            Array.isArray(article.imageUrlArray) && article.imageUrlArray.length > 0
+              ? article.imageUrlArray[0]
+              : 'src/assets/PlaceholderImage.png'
+          }
+        />
+        <Details>
+          <ArticleTitle>{article.title}</ArticleTitle>
+          <ArticleContent>{truncatedContent}</ArticleContent>
+          <ArticleDate>{article.updatedAt}</ArticleDate>
+        </Details>
+        <AuthorBox>
+          <ArticleAuthor>by {article.userNickname}</ArticleAuthor>
+          <ArticleLikes>
+            <img src="src/assets/HeartIconBlue.png" alt="Heart Icon" /> {article.like}
+          </ArticleLikes>
+        </AuthorBox>
+      </ImageCard>
+    );
+  };
+
+  const renderLoadingCards = () => {
+    return Array.from({ length: ARTICLES_PER_PAGE }, (_, index) => (
+      <ImageLoadingCard key={index}>
+        <LoadingImage>Loading...</LoadingImage>
+      </ImageLoadingCard>
+    ));
   };
 
   return (
@@ -134,67 +191,26 @@ const Articles = ({ mode }) => {
       <Header onSearch={handleSearch} />
       <Content>
         <MainSort>
-          <NavLink to="/newest" isActive={() => mode === 'newest'}>
+          <NavLink to="/newest">
             <SortButton selected={mode === 'newest'}>Newest</SortButton>
           </NavLink>
-          <NavLink to="/popular" isActive={() => mode === 'popular'}>
+          <NavLink to="/popular">
             <SortButton selected={mode === 'popular'}>Popular</SortButton>
           </NavLink>
         </MainSort>
-        <ImageGrid>
-          {articles.map((article, index) => {
-            const truncatedContent =
-              article.content.length > 100 ? `${article.content.slice(0, 100)}...` : article.content;
-            if (index === articles.length - 1 && !isSearching) {
-              return (
-                <ImageCard key={article.articleId} ref={lastArticleElementRef}>
-                  <Image
-                    src={
-                      Array.isArray(article.imageUrlArray) && article.imageUrlArray.length > 0
-                        ? article.imageUrlArray[0]
-                        : null
-                    }
-                  />
-                  <Details>
-                    <ArticleTitle>{article.title}</ArticleTitle>
-                    <ArticleContent>{truncatedContent}</ArticleContent>
-                    <ArticleDate>{article.updatedAt}</ArticleDate>
-                  </Details>
-                  <AuthorBox>
-                    <ArticleAuthor>by {article.userNickname}</ArticleAuthor>
-                    <ArticleLikes>
-                      <img src="src/assets/HeartIconBlue.png" alt="Heart Icon" /> {article.like}
-                    </ArticleLikes>
-                  </AuthorBox>
-                </ImageCard>
-              );
-            } else {
-              return (
-                <ImageCard key={article.articleId}>
-                  <Image
-                    src={
-                      Array.isArray(article.imageUrlArray) && article.imageUrlArray.length > 0
-                        ? article.imageUrlArray[0]
-                        : null
-                    }
-                  />
-                  <Details>
-                    <ArticleTitle>{article.title}</ArticleTitle>
-                    <ArticleContent>{truncatedContent}</ArticleContent>
-                    <ArticleDate>{article.updatedAt}</ArticleDate>
-                  </Details>
-                  <AuthorBox>
-                    <ArticleAuthor>by {article.userNickname}</ArticleAuthor>
-                    <ArticleLikes>
-                      <img src="src/assets/HeartIconBlue.png" alt="Heart Icon" /> {article.like}
-                    </ArticleLikes>
-                  </AuthorBox>
-                </ImageCard>
-              );
-            }
-          })}
-        </ImageGrid>
-        {loading && <LoadingBar />}
+        {noResults && <NoResult>Article not found.</NoResult>}
+        {!noResults && (
+          <ImageGrid>
+            {articles.map((article, index) => {
+              if (index === articles.length - 1) {
+                return renderArticle(article, lastArticleElementRef);
+              } else {
+                return renderArticle(article);
+              }
+            })}
+            {loadingMore && page === 1 && renderLoadingCards()}
+          </ImageGrid>
+        )}
       </Content>
     </div>
   );

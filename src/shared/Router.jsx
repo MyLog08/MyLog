@@ -5,6 +5,7 @@ import LoadingPage from '../pages/LoadingPage/LoadingPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import MainPage from '../pages/MainPage/MainPage';
 import RegisterPage from '../pages/RegisterPage/RegisterPage';
+import Detail from '../pages/DetailPage/Detail';
 
 const Router = () => {
   return (
@@ -18,6 +19,7 @@ const Router = () => {
         <Route path="/auth/register" element={<RegisterPage />} />
         <Route path="/auth/checkSignIn" element={<AuthStatus />} />
         <Route path="/auth/loading/:provider" element={<LoadingPage />} />
+        <Route path="/articles/:articleId" element={<Detail />} />
       </Routes>
     </BrowserRouter>
   );

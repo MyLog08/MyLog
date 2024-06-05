@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   HeaderContainer,
@@ -13,13 +12,13 @@ import {
   WriteButton
 } from '../../styles/MainPage/HeaderStyle';
 import myLogoImage from '../../assets/MyLogLogo_blue_bold.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../redux/slices/authSlice';
+import supabase from '../../supabase/supabase';
 
 const Header = ({ onSearch }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogin = () => {
-    setIsLoggedIn(!isLoggedIn);
-  };
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const handleLogoClick = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -29,6 +28,12 @@ const Header = ({ onSearch }) => {
     if (e.key === 'Enter') {
       onSearch(e);
     }
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+
+    dispatch(logout());
   };
 
   return (
@@ -42,14 +47,16 @@ const Header = ({ onSearch }) => {
           <LoggedInButtons>
             <WriteButton>Write</WriteButton>
             <ProfileButton>My Profile</ProfileButton>
-            <LogoutButton onClick={handleLogin}>Log Out</LogoutButton>
+            <LogoutButton onClick={handleLogout}>Log Out</LogoutButton>
           </LoggedInButtons>
         ) : (
           <LoggedInButtons>
             <NavLink to="/auth/register">
               <SigninButton>Sign In</SigninButton>
             </NavLink>
-            <LoginButton onClick={handleLogin}>Log In</LoginButton>
+            <NavLink to="/auth/login">
+              <LoginButton>Log In</LoginButton>
+            </NavLink>
           </LoggedInButtons>
         )}
       </div>
