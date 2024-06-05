@@ -11,7 +11,9 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LogInButton,
   LogInContainer,
+  LogInEmailInput,
   LogInForm,
+  LogInPasswordInput,
   LogInTitle,
   RegisterButton
 } from '../../styles/LoginComponents/LoginStyle';
@@ -79,22 +81,26 @@ function LoginForm() {
   };
 
   return (
-<<<<<<< HEAD
-=======
-
->>>>>>> bb384dea7c198cdcf7562fd968c1bfb53aedc283
     <LogInContainer>
       <LogInTitle>Log In</LogInTitle>
       <LogInForm onSubmit={handleOnSubmit}>
-        <Input placeholder="Email" value={email} name="email" id="email" onChange={handleOnChange} />
-        <Input
-          placeholder="Password"
-          type="password"
-          value={password}
-          name="password"
-          id="password"
-          onChange={handleOnChange}
-        />
+        <LogInEmailInput>
+          <Input placeholder="Email" value={email} name="email" id="email" onChange={handleOnChange} />
+          {errors.system && <div style={{ color: 'red' }}>{errors.system}</div>}
+          {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
+        </LogInEmailInput>
+        <LogInPasswordInput>
+          <Input
+            placeholder="Password"
+            type="password"
+            value={password}
+            name="password"
+            id="password"
+            onChange={handleOnChange}
+          />
+          {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
+          {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>}
+        </LogInPasswordInput>
         <LogInButton>
           <Button value="Log In" />
         </LogInButton>

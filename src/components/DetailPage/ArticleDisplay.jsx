@@ -85,10 +85,6 @@ const ArticleDisplay = () => {
   }
 
   return (
-<<<<<<< HEAD
-=======
-
->>>>>>> bb384dea7c198cdcf7562fd968c1bfb53aedc283
     <DetailSection>
       <DetailPageTitle>{article.title}</DetailPageTitle>
       <DetailPageInfo>
@@ -99,7 +95,6 @@ const ArticleDisplay = () => {
             : dayjs(article.updatedAt).format('YYYY년 MM월 DD일')}
         </DetailPageDate>
       </DetailPageInfo>
-
       <div>
         {user && article.userId === user.id ? (
           <>

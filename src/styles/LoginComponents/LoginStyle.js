@@ -18,6 +18,7 @@ export const LogInContainer = styled.div`
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  position: relative;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
@@ -49,4 +50,14 @@ export const LogInButton = styled.div`
 
 export const RegisterButton = styled.div`
   margin-top: 10px;
+`;
+
+export const LogInEmailInput = styled.div`
+  height: 55px;
+  position: relative;
+`;
+
+export const LogInPasswordInput = styled.div`
+  height: 55px;
+  position: relative;
 `;
