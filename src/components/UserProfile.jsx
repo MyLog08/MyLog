@@ -26,7 +26,6 @@ const UserProfile = () => {
   const dispatch = useDispatch(); // 우리는 쓰기/삭제/업데이트 를 할때 사용해요. 저희는 함수동작을 위해 사용하고있어요.
   const navigate = useNavigate();
   const [dataUser, setDataUser] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     dispatch(checkSignIn());
@@ -68,8 +67,6 @@ const UserProfile = () => {
         }
       } catch (err) {
         console.error('Error:', err.message);
-      } finally {
-        setLoading(false);
       }
     };
     textId();
@@ -81,34 +78,33 @@ const UserProfile = () => {
   console.log('data =', dataUser);
   console.log('user =', user);
 
-  if (loading) {
-    return <p>로딩중</p>;
-  }
 
   return (
-    <div style={{ display: 'flex', padding: '20px' }}>
-      {user ? (
-        <>
-          <section style={{ width: '30%', padding: '20px', borderRight: '1px solid #ddd' }}>
-            <img src={''} alt="Profile" style={{ width: '100%' }} />
-            <h2>{dataUser.name}</h2>
-            <h5>`'Mylog 운영 이유: '아직 계획이 없습니다' </h5>
-            <button onClick={moveToEdit}>프로필 편집</button>
-          </section>
-          <section style={{ overflowY: 'scroll', height: '500px', width: '70%', padding: '20px' }}>
-            {articles.map((article) => (
-              <div key={article.articleId} style={{ margin: '10px 0', padding: '10px', border: '1px solid #ddd' }}>
-                <h3>{article.title}</h3>
-                <p>{article.content}</p>
-              </div>
-            ))}
-          </section>
-        </>
-      ) : (
-        <p>사용자 정보를 불러오는 중입니다...</p>
-      )}
-    </div>
-  );
+      <div style={{ display: 'flex', padding: '20px' }}>
+        {user ? (
+          <>
+            <section style={{ width: '30%', padding: '20px', borderRight: '1px solid #ddd' }}>
+              <img src={''} alt="Profile" style={{ width: '100%' }} />
+              <h2>{user.user_metadata.name}</h2>
+              <span style={{ display: 'flex' }}>Followers : {'1'}</span>
+              <span>Following : {'1'}</span>
+              <h5>`'Mylog 운영 이유: '아직 계획이 없습니다' </h5>
+              <button onClick={moveToEdit}>프로필 편집</button>
+            </section>
+            <section style={{ overflowY: 'scroll', height: '500px', width: '70%', padding: '20px' }}>
+              {articles.map((article) => (
+                <div key={article.articleId}  style={{ margin: '10px 0', padding: '10px', border: '1px solid #ddd' }}>
+                  <h3>{article.title}</h3>
+                  <p>{article.content}</p>
+                </div>
+              ))}
+            </section>
+          </>
+        ) : (
+          <p>사용자 정보를 불러오는 중입니다...</p>
+        )}
+      </div>
+    );
 };
 
 export default UserProfile;

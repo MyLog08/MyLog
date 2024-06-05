@@ -4,8 +4,11 @@ import { checkSignIn } from '../../redux/slices/authSlice';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { validateLength } from '../../utils/validators';
 
-const CommentInput = ({ articleId }) => {
+const CommentInput = () => {
+  const { articleId } = useParams();
   const [commentsCount, setCommentsCount] = useState(0);
   const [content, setContent] = useState('');
 
@@ -49,7 +52,7 @@ const CommentInput = ({ articleId }) => {
     }
 
     // 유효성 검사 : 댓글 5자 이상
-    if (content.trim().length < 5) {
+    if (!validateLength(content, 5)) {
       alert('댓글을 5자 이상 입력해 주세요.');
       return;
     }

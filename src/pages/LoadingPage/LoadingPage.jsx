@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { handleUserFindByEmailIsExist, handleUserRegisterInsert } from '../../api/authApi';
-import { checkSignIn } from '../../redux/slices/authSlice';
+import { checkSignIn, login } from '../../redux/slices/authSlice';
 import { validateCheckDuplicate } from '../../utils/validators';
 
 function LoadingPage() {
@@ -40,6 +40,7 @@ function LoadingPage() {
         });
       };
       dataInsert();
+      dispatch(login(user));
       navigate('/');
     }
   }, [user, params.provider]);

@@ -79,7 +79,7 @@ const Articles = ({ mode }) => {
               return {
                 ...article,
                 updatedAt: dayjs(article.updatedAt).format('YYYY년 MM월 DD일'),
-                imageUrlArray: JSON.parse(article.imageUrl),
+                imageUrl: article.imageUrl,
                 userNickname: fetchedNickname
               };
             })
@@ -156,13 +156,7 @@ const Articles = ({ mode }) => {
 
     return (
       <ImageCard key={article.articleId} ref={ref} onClick={() => handleArticleClick(article.articleId)}>
-        <Image
-          src={
-            Array.isArray(article.imageUrlArray) && article.imageUrlArray.length > 0
-              ? article.imageUrlArray[0]
-              : 'src/assets/PlaceholderImage.png'
-          }
-        />
+        <Image src={article.imageUrl || 'src/assets/No_image_available.png'} />
         <Details>
           <ArticleTitle>{article.title}</ArticleTitle>
           <ArticleContent>{truncatedContent}</ArticleContent>
@@ -181,7 +175,7 @@ const Articles = ({ mode }) => {
   const renderLoadingCards = () => {
     return Array.from({ length: ARTICLES_PER_PAGE }, (_, index) => (
       <ImageLoadingCard key={index}>
-        <LoadingImage>Loading...</LoadingImage>
+        <LoadingImage></LoadingImage>
       </ImageLoadingCard>
     ));
   };
