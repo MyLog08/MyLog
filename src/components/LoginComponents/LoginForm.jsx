@@ -79,6 +79,10 @@ function LoginForm() {
   };
 
   return (
+<<<<<<< HEAD
+=======
+
+>>>>>>> bb384dea7c198cdcf7562fd968c1bfb53aedc283
     <LogInContainer>
       <LogInTitle>Log In</LogInTitle>
       <LogInForm onSubmit={handleOnSubmit}>

@@ -85,6 +85,10 @@ const ArticleDisplay = () => {
   }
 
   return (
+<<<<<<< HEAD
+=======
+
+>>>>>>> bb384dea7c198cdcf7562fd968c1bfb53aedc283
     <DetailSection>
       <DetailPageTitle>{article.title}</DetailPageTitle>
       <DetailPageInfo>
