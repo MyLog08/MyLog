@@ -136,14 +136,14 @@ const ArticleCreateForm = () => {
           </div>
         </div>
         <div>
-          <input
+          <textarea
             type="text"
             value={content}
             onChange={(e) => {
               setContent(e.target.value);
             }}
             placeholder="당신의 이야기를 적어보세요..."
-          ></input>
+          ></textarea>
         </div>
         <div>
           <button onClick={handleOnSubmit}>출간하기</button>
