@@ -119,3 +119,40 @@ export const ArticleLikes = styled.div`
   color: #555;
   margin-right: 50px;
 `;
+
+export const NoResult = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #fafafa;
+  color: #8aa9e4;
+  height: 100px; /* 원하는 높이로 조절하세요 */
+`;
+
+export const ImageLoadingCard = styled.div`
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background-color: #d9d9d9;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+`;
+
+export const LoadingImage = styled.div`
+  background-color: #ccc;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  height: 200px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  color: #999;
+`;
