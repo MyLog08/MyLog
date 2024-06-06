@@ -45,7 +45,7 @@ export const ErrorText = styled.div`
 `;
 
 export const LogInButton = styled.div`
-  margin-top: ${({ theme }) => theme.spacing.small};
+  margin-top: ${({ theme }) => theme.spacing.medium};
 `;
 
 export const RegisterButton = styled.div`

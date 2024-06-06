@@ -87,8 +87,8 @@ function LoginForm() {
       <LogInForm onSubmit={handleOnSubmit}>
         <LogInEmailInput>
           <Input placeholder="Email" value={email} name="email" id="email" onChange={handleOnChange} />
-          {errors.system && <div style={{ color: 'red' }}>{errors.system}</div>}
-          {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
+          {/* {errors.system && <div style={{ color: 'red' }}>{errors.system}</div>}
+          {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>} */}
         </LogInEmailInput>
         <LogInPasswordInput>
           <Input
@@ -100,6 +100,8 @@ function LoginForm() {
             onChange={handleOnChange}
           />
           <ErrorText>
+            {errors.system && <div style={{ color: 'red' }}>{errors.system}</div>}
+            {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
             {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
             {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>}
           </ErrorText>

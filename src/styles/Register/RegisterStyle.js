@@ -50,4 +50,9 @@ export const ErrorText = styled.div`
   color: ${({ theme }) => theme.colors.error};
   font-size: 16px;
   font-family: ${({ theme }) => theme.fonts.regular};
+  margin-bottom: ${({ theme }) => theme.spacing.small};
+`;
+
+export const RegisterButton = styled.div`
+  padding-top: ${({ theme }) => theme.spacing.medium};
 `;

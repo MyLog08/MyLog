@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 
 export const CommentsSection = styled.section`
-  width: 100%;
+  width: 95%;
   padding: ${({ theme }) => theme.spacing.large};
   background-color: ${({ theme }) => theme.colors.background};
   border-radius: ${({ theme }) => theme.borderRadius};
   border: 2px solid ${({ theme }) => theme.colors.primary};
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  margin-top: ${({ theme }) => theme.spacing.large};
+  margin-bottom: ${({ theme }) => theme.spacing.xlarge};
 `;
 
 export const CommentsList = styled.ul`
