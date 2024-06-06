@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   ArticleAuthor,
   ArticleContent,
@@ -17,15 +17,15 @@ import {
   NoResult
 } from '../../styles/MainPage/MainStyle';
 import supabase from '../../supabase/supabase';
-import LoadingBar from '../Common/LoadingBar';
 import Header from './Header';
 
-const Articles = () => {
+const Search = () => {
+  const { searchParam } = useParams();
+
   const [articles, setArticles] = useState([]);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(searchParam);
   const [noResults, setNoResults] = useState(false);
 
   const observer = useRef();
@@ -33,14 +33,8 @@ const Articles = () => {
 
   const ARTICLES_PER_PAGE = 12;
 
-  const fetchArticles = useCallback(async (page, searchQuery = '') => {
-    if (searchQuery !== '') {
-      navigate(`/${searchQuery}`);
-    }
+  const fetchArticles = useCallback(async (page, searchQuery) => {
     if (page === 1) {
-      setLoading(true);
-      setLoadingMore(false);
-    } else {
       setLoadingMore(true);
     }
 
@@ -60,9 +54,12 @@ const Articles = () => {
         throw error;
       }
 
-      if (page === 1 && data.length === 0) {
-        setNoResults(true);
+      if (page === 1) {
         setArticles([]);
+      }
+
+      if (data.length === 0 && page === 1) {
+        setNoResults(true);
       } else {
         const updatedArticles = await Promise.all(
           data.map(async (article) => {
@@ -88,22 +85,13 @@ const Articles = () => {
 
         const filteredArticles = updatedArticles.filter((article) => article !== null);
 
-        if (filteredArticles.length === 0 && page === 1) {
-          setNoResults(true);
-        } else {
-          setNoResults(false);
-        }
-
+        setNoResults(false);
         setArticles((prevArticles) => (page === 1 ? filteredArticles : [...prevArticles, ...filteredArticles]));
       }
     } catch (error) {
       console.error('Error Fetching Articles:', error.message);
     } finally {
-      if (page === 1) {
-        setLoading(false);
-      } else {
-        setLoadingMore(false);
-      }
+      setLoadingMore(false);
     }
   }, []);
 
@@ -125,19 +113,20 @@ const Articles = () => {
       if (observer.current) observer.current.disconnect();
 
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && !loading && !loadingMore) {
+        if (entries[0].isIntersecting && !loadingMore) {
           setPage((prevPage) => prevPage + 1);
         }
       });
 
       observer.current.observe(node);
     },
-    [loading, loadingMore]
+    [loadingMore]
   );
 
   const handleSearch = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
+    navigate(`/${query}`);
   };
 
   const handleArticleClick = (articleId) => {
@@ -188,9 +177,8 @@ const Articles = () => {
           </ImageGrid>
         )}
       </Content>
-      {!loading && <LoadingBar />}
     </div>
   );
 };
 
-export default Articles;
+export default Search;
