@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const StyledButton = styled.button`
   font-size: 20px;
-  font-weight: bold;
+
   background-color: ${({ theme }) => theme.colors.background};
   color: ${({ selected, theme }) => (selected ? theme.colors.secondary : theme.colors.primary)};
   border: none;

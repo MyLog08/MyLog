@@ -5,6 +5,7 @@ import { logout } from '../../redux/slices/authSlice';
 import {
   HeaderButton,
   HeaderContainer,
+  HeaderLogOutButton,
   HomeButton,
   LoggedInButtons,
   Logo,
@@ -12,6 +13,7 @@ import {
   SearchContainer
 } from '../../styles/MainPage/HeaderStyle';
 import supabase from '../../supabase/supabase';
+import { StyledButton } from '../../styles/Common/ButtonStyle';
 
 const Header = ({ onSearch }) => {
   const dispatch = useDispatch();
@@ -43,7 +45,7 @@ const Header = ({ onSearch }) => {
       <div>
         <Logo src={myLogoImage} alt="로고" onClick={handleLogoClick} />
         <HomeButton>
-          <button onClick={handleRefreshPage}>Home</button>
+          <StyledButton onClick={handleRefreshPage}>Home</StyledButton>
         </HomeButton>
         <SearchContainer>
           <SearchBar type="text" placeholder="Search..." onKeyDown={handleKeyDown} />
@@ -56,7 +58,7 @@ const Header = ({ onSearch }) => {
             <NavLink to="/profile">
               <HeaderButton>My Profile</HeaderButton>
             </NavLink>
-            <HeaderButton onClick={handleLogout}>Log Out</HeaderButton>
+            <HeaderLogOutButton onClick={handleLogout}>Log Out</HeaderLogOutButton>
           </LoggedInButtons>
         ) : (
           <LoggedInButtons>

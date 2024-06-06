@@ -63,6 +63,23 @@ export const LoggedInButtons = styled.div`
   gap: ${({ theme }) => theme.spacing.small};
 `;
 
+export const HeaderLogOutButton = styled.button`
+  padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.small};
+  font-size: 20px;
+  font-family: ${({ theme }) => theme.fonts.bold};
+  background-color: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.shade};
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.background};
+    color: ${({ theme }) => theme.colors.error};
+  }
+`;
+
 export const HeaderButton = styled.button`
   padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.small};
   font-size: 20px;
@@ -81,20 +98,6 @@ export const HeaderButton = styled.button`
   }
 `;
 
-export const HomeButton = styled(HeaderButton)`
-  color: ${({ selected, theme }) => (selected ? theme.colors.secondary : theme.colors.primary)};
-
-  button {
-    border: 1px solid ${({ theme }) => theme.colors.background};
-    border-radius: 5px;
-    background-color: transparent;
-    color: ${({ theme }) => theme.colors.primary};
-    font-size: inherit;
-    font-weight: inherit;
-    cursor: pointer;
-
-    &:hover {
-      color: ${({ theme }) => theme.colors.secondary};
-    }
-  }
+export const HomeButton = styled.div`
+  margin-left: ${({ theme }) => theme.spacing.small};
 `;
