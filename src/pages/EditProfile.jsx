@@ -181,16 +181,6 @@ function EditProfile() {
       <form onSubmit={handleSubmit}>
         <EditFormSection>
           <div>{previewUrl ? <img src={previewUrl} alt="미리보기 이미지" /> : <span>Please Select a Image</span>}</div>
-<<<<<<< HEAD
-        </section>
-        <div>
-          <label htmlFor="profilePicture">프로필 사진:</label>
-          <input
-            type="file"
-            id="profilePicture"
-            name="profilePicture"
-            onChange={(e) => handleImageChange(e.target.files[0])}
-=======
         </EditFormSection>
         <EditFormGroup>
           <EditPhotoLabel htmlFor="profilePicture">

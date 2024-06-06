@@ -31,7 +31,10 @@ const UserProfile = () => {
       if (!user?.id) return;
 
       try {
-        const { data, error } = await supabase.from('Articles').select('*').eq('userId', user.id);
+        const { data, error } = await supabase
+        .from('Articles')
+        .select('*')
+        .eq('userId', user.id);
 
         if (error) {
           console.log('Error:', error);
