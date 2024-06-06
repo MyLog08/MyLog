@@ -35,8 +35,8 @@ export const DetailEditSection = styled.section`
 
 export const PostImageGrid = styled.div`
   display: flex;
-  justify-content: center; /* 수평 가운데 정렬 */
-  margin-top: 20px; /* 필요한 경우에 따라 조정하세요 */
+  justify-content: center;
+  margin-top: 20px;
 `;
 
 export const DetailTitle = styled.div`
