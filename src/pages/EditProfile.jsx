@@ -73,10 +73,10 @@ function EditProfile() {
         throw new Error('비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.');
       }
 
-      if (!validatePasswordMatch(currentPassword, data.password)) {
-        newErrors.unPassword = '비밀번호가 일치하지 않습니다.';
-        throw new Error('비밀번호 불일치');
-      }
+      // if (!validatePasswordMatch(currentPassword, data.password)) {
+      //   newErrors.unPassword = '비밀번호가 일치하지 않습니다.';
+      //   throw new Error('비밀번호 불일치');
+      // }
 
       const { data, error } = await supabase
         .from('Users')
