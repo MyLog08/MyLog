@@ -5,12 +5,32 @@ import { checkSignIn } from '../../redux/slices/authSlice';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
 import { validateLength } from '../../utils/validators';
+import {
+  InputContainer,
+  PreviewContainer,
+  PreviewImageContainer,
+  PreviewLabel,
+  StyledSection,
+  StyledTextArea,
+  SubmitButton,
+  WriteHomeLogo,
+  WritePageLogo
+} from '../../styles/WriteStyle/WriteStyle';
+import { StyledInput } from '../../styles/Common/InputStyle';
+import {
+  FileInputContainer,
+  FileNameDisplay,
+  FileUploadContainer,
+  PostImageGrid
+} from '../../styles/Detail/DetailEditStyle';
+import myLogoImage from '../../assets/MyLogLogo_blue_bold.png';
 
 const ArticleCreateForm = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');
+  const [selectedFileName, setSelectedFileName] = useState('');
 
   const navigate = useNavigate();
 
@@ -30,6 +50,7 @@ const ArticleCreateForm = () => {
   const handleImageChange = async (imageFile) => {
     const file = imageFile;
     setImage(file);
+    setSelectedFileName(imageFile.name);
     setPreviewUrl(URL.createObjectURL(file));
   };
 
@@ -80,8 +101,9 @@ const ArticleCreateForm = () => {
 
       // 게시글 등록
       const timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss');
+      const articleId = crypto.randomUUID();
       const { articleError } = await supabase.from('Articles').insert({
-        articleId: crypto.randomUUID(),
+        articleId,
         title,
         content,
         imageUrl: publicUrl,
@@ -98,58 +120,70 @@ const ArticleCreateForm = () => {
         setImage(null);
         setPreviewUrl('');
 
-        // 메인 페이지로 이동
-        navigate('/');
+        // 작성한 게시글로 이동
+        navigate(`/articles/${articleId}`, { replace: true });
       }
     } catch (error) {
       console.error(error);
     }
   };
 
+  const handleLogoClick = () => {
+    navigate(`/`);
+  };
+
   return (
-    <>
-      <section>
-        <div>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
-            placeholder="제목을 입력하세요."
-          ></input>
-        </div>
-        <div>
-          이미지
+    <StyledSection>
+      <WritePageLogo>
+        <WriteHomeLogo src={myLogoImage} alt="로고" onClick={handleLogoClick} />
+      </WritePageLogo>
+      <div>Title</div>
+      <InputContainer>
+        <StyledInput
+          type="text"
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
+          placeholder="Title"
+        ></StyledInput>
+      </InputContainer>
+      <div>New Image</div>
+      <FileUploadContainer>
+        <FileInputContainer>
+          Image
           <input
             type="file"
             accept="image/jpeg, image/png"
             onChange={(e) => {
               handleImageChange(e.target.files[0]);
             }}
-          ></input>
-        </div>
-        <div>
-          <div>첨부된 이미지 미리보기</div>
-          <div>
-            {previewUrl ? <img src={previewUrl} alt="미리보기 이미지" /> : <span>이미지를 첨부해 주세요.</span>}
-          </div>
-        </div>
-        <div>
-          <textarea
-            type="text"
-            value={content}
-            onChange={(e) => {
-              setContent(e.target.value);
-            }}
-            placeholder="당신의 이야기를 적어보세요..."
-          ></textarea>
-        </div>
-        <div>
-          <button onClick={handleOnSubmit}>출간하기</button>
-        </div>
-      </section>
-    </>
+          />
+        </FileInputContainer>
+        <FileNameDisplay>{selectedFileName || 'Select a New Photo'}</FileNameDisplay>
+      </FileUploadContainer>
+      <PreviewLabel>Posted Image</PreviewLabel>
+      <PostImageGrid>
+        <PreviewContainer>
+          <PreviewImageContainer>
+            {previewUrl ? <img src={previewUrl} alt="미리보기 이미지" /> : <span>Upload a Image</span>}
+          </PreviewImageContainer>
+        </PreviewContainer>
+      </PostImageGrid>
+      <InputContainer>
+        <StyledTextArea
+          type="text"
+          value={content}
+          onChange={(e) => {
+            setContent(e.target.value);
+          }}
+          placeholder="What is Happening? "
+        ></StyledTextArea>
+      </InputContainer>
+      <SubmitButton>
+        <SubmitButton onClick={handleOnSubmit}>Post</SubmitButton>
+      </SubmitButton>
+    </StyledSection>
   );
 };
 

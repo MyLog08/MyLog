@@ -1,29 +1,20 @@
 import Router from './shared/Router';
-import { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import { AppContainer } from './styles/GlobalStyle/AppStyle';
+import { ThemeProvider } from 'styled-components';
+import { GlobalStyle } from './styles/GlobalStyle/GlobalStyle';
+import { theme } from './styles/GlobalStyle/Theme';
 
 const App = () => {
-  // const [user, setUser] = useState([]);
-  // const [page, setPage] = useState('mypage'); // 페이지 상태 관리 추가
-  
-  // const handleUpdateProfile = (updateUser) => {
-  //   setUser(updateUser);
-  //   setPage('mypage');
-  // };
-
-  // const handleEditProfile = () => {
-  //   setPage('editprofile');
-  // };
-
   return (
-    
-
     <Provider store={store}>
-      <AppContainer>
-        <Router />
-      </AppContainer>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <AppContainer>
+          <Router />
+        </AppContainer>
+      </ThemeProvider>
     </Provider>
   );
 };

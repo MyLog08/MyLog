@@ -9,6 +9,7 @@ import Button from '../Common/Button';
 import Input from '../Common/Input';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {
+  ErrorText,
   LogInButton,
   LogInContainer,
   LogInEmailInput,
@@ -98,8 +99,10 @@ function LoginForm() {
             id="password"
             onChange={handleOnChange}
           />
-          {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
-          {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>}
+          <ErrorText>
+            {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
+            {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>}
+          </ErrorText>
         </LogInPasswordInput>
         <LogInButton>
           <Button value="Log In" />

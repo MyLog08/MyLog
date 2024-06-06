@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import LoadingBar from '../Common/LoadingBar';
 import {
+  DetailButton,
   DetailButtons,
   DetailContent,
   DetailPageDate,
@@ -17,7 +18,7 @@ import {
   DetailSection,
   HomeLogo
 } from '../../styles/Detail/DetailStyle';
-import Button from '../Common/Button';
+
 import myLogoImage from '../../assets/MyLogLogo_blue_bold.png';
 
 const ArticleDisplay = () => {
@@ -100,23 +101,14 @@ const ArticleDisplay = () => {
       <DetailPageLogo>
         <HomeLogo src={myLogoImage} alt="로고" onClick={handleLogoClick} />
       </DetailPageLogo>
-      <DetailPageTitle>{article.title}</DetailPageTitle>
       <DetailPageInfo>
-        {/* {user && article.userId === user.id ? (
-          <DetailButtons>
-            <Button onClick={handleUpdateArticle} value="수정" />
-            <Button onClick={() => handleDeleteArticle(articleId)} value="삭제" />
-          </DetailButtons>
-
-        ) : (
-          ''
-        )} */}
+        <DetailPageTitle>{article.title}</DetailPageTitle>
         <div>
           {user && article.userId === user.id ? (
-            <>
-              <button onClick={handleUpdateArticle}>수정</button>
-              <button onClick={() => handleDeleteArticle(articleId)}>삭제</button>
-            </>
+            <DetailButtons>
+              <DetailButton onClick={handleUpdateArticle}>수정</DetailButton>
+              <DetailButton onClick={() => handleDeleteArticle(articleId)}>삭제</DetailButton>
+            </DetailButtons>
           ) : (
             ''
           )}
@@ -127,11 +119,12 @@ const ArticleDisplay = () => {
             ? dayjs(article.createdAt).format('YYYY년 MM월 DD일')
             : dayjs(article.updatedAt).format('YYYY년 MM월 DD일')}
         </DetailPageDate>
+        <DetailPageImg>
+          <img src={article.imageUrl} alt="이미지" />
+        </DetailPageImg>
+
+        <DetailContent>{article.content}</DetailContent>
       </DetailPageInfo>
-      <DetailPageImg>
-        <img src={article.imageUrl} alt="이미지" />
-      </DetailPageImg>
-      <DetailContent>{article.content}</DetailContent>
     </DetailSection>
   );
 };

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { validateLength } from '../../utils/validators';
 
-const CommentInput = () => {
+const CommentInput = ({ fetchData }) => {
   const { articleId } = useParams();
   const [commentsCount, setCommentsCount] = useState(0);
   const [content, setContent] = useState('');
@@ -74,6 +74,7 @@ const CommentInput = () => {
       } else {
         setContent('');
         setCommentsCount((prevCount) => prevCount + 1);
+        fetchData();
       }
     } catch (error) {
       console.error(error);

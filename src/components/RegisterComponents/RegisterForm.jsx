@@ -15,7 +15,7 @@ import Input from '../Common/Input';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
-import { RegisterInputWrapper, RegisterPageTitle } from '../../styles/Register/RegisterStyle';
+import { ErrorText, RegisterInputWrapper, RegisterPageTitle } from '../../styles/Register/RegisterStyle';
 
 function RegisterForm() {
   const initialState = {
@@ -122,17 +122,17 @@ function RegisterForm() {
       <form onSubmit={handleOnSubmit}>
         <RegisterInputWrapper>
           <Input placeholder="이름" value={name} name="name" id="name" onChange={handleOnChange} />
-          {errors.name && <div style={{ color: 'red' }}>{errors.name}</div>}
+          <ErrorText>{errors.name && <div style={{ color: 'red' }}>{errors.name}</div>}</ErrorText>
         </RegisterInputWrapper>
 
         <RegisterInputWrapper>
           <Input placeholder="이메일" value={email} name="email" id="email" onChange={handleOnChange} />
-          {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
+          <ErrorText>{errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}</ErrorText>
         </RegisterInputWrapper>
 
         <RegisterInputWrapper>
           <Input placeholder="닉네임" value={nickname} name="nickname" id="nickname" onChange={handleOnChange} />
-          {errors.nickname && <div style={{ color: 'red' }}>{errors.nickname}</div>}
+          <ErrorText>{errors.nickname && <div style={{ color: 'red' }}>{errors.nickname}</div>}</ErrorText>
         </RegisterInputWrapper>
 
         <RegisterInputWrapper>
@@ -148,7 +148,7 @@ function RegisterForm() {
             id="password"
             onChange={handleOnChange}
           />
-          {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
+          <ErrorText>{errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}</ErrorText>
         </RegisterInputWrapper>
 
         <RegisterInputWrapper>
@@ -160,8 +160,10 @@ function RegisterForm() {
             id="confirm"
             onChange={handleOnChange}
           />
-          {errors.confirm && <div style={{ color: 'red' }}>{errors.confirm}</div>}
-          {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>}
+          <ErrorText>
+            {errors.confirm && <div style={{ color: 'red' }}>{errors.confirm}</div>}
+            {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>}
+          </ErrorText>
         </RegisterInputWrapper>
 
         <Button value="가입하기" />

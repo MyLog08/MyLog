@@ -6,6 +6,16 @@ import { checkSignIn } from '../../redux/slices/authSlice';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
 import { validateLength } from '../../utils/validators';
+import {
+  ButtonArea,
+  DetailEditSection,
+  FileInputContainer,
+  FileNameDisplay,
+  FileUploadContainer,
+  PostImageGrid,
+  PreviewContainer
+} from '../../styles/Detail/DetailEditStyle';
+import { StyledButton } from '../../styles/Common/ButtonStyle';
 
 const ArticleUpdateForm = () => {
   const { articleId } = useParams();
@@ -14,6 +24,7 @@ const ArticleUpdateForm = () => {
   const [editedContent, setEditedContent] = useState('');
   const [editedImage, setEditedImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');
+  const [selectedFileName, setSelectedFileName] = useState('');
 
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
@@ -49,6 +60,7 @@ const ArticleUpdateForm = () => {
   // 사용자가 첨부한 이미지 미리보기
   const handleImageChange = async (imageFile) => {
     setEditedImage(imageFile);
+    setSelectedFileName(imageFile.name);
     setPreviewUrl(URL.createObjectURL(imageFile));
   };
 
@@ -107,55 +119,59 @@ const ArticleUpdateForm = () => {
         throw ArticleUpdateError;
       }
 
-      navigate(`/articles/${articleId}`);
+      // 수정한 게시글로 이동
+      navigate(`/articles/${articleId}`, { replace: true });
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <>
-      <section>
-        <div>
-          <input
-            type="text"
-            value={editedTitle}
-            onChange={(e) => {
-              setEditedTitle(e.target.value);
-            }}
-            placeholder="제목을 입력하세요."
-          ></input>
-        </div>
-        <div>
-          이미지
+    <DetailEditSection>
+      <div>Title</div>
+      <div>
+        <input
+          type="text"
+          value={editedTitle}
+          onChange={(e) => {
+            setEditedTitle(e.target.value);
+          }}
+          placeholder="Enter Title"
+        ></input>
+      </div>
+      <div>New Image</div>
+      <FileUploadContainer>
+        <FileInputContainer>
+          Select File
           <input
             type="file"
             accept="image/jpeg, image/png"
             onChange={(e) => {
               handleImageChange(e.target.files[0]);
             }}
-          ></input>
-        </div>
-        <div>
-          <div>첨부된 이미지 미리보기</div>
-          <div>
-            {previewUrl ? <img src={previewUrl} alt="미리보기 이미지" /> : <span>이미지를 첨부해 주세요.</span>}
-          </div>
-        </div>
-        <div>
-          <textarea
-            value={editedContent}
-            onChange={(e) => {
-              setEditedContent(e.target.value);
-            }}
-            placeholder="당신의 이야기를 적어보세요..."
-          ></textarea>
-        </div>
-        <div>
-          <button onClick={handleOnSubmit}>수정하기</button>
-        </div>
-      </section>
-    </>
+          />
+        </FileInputContainer>
+        <FileNameDisplay>{selectedFileName || 'Select a New Photo'}</FileNameDisplay>
+      </FileUploadContainer>
+      <div>Posted Image</div>
+      <PostImageGrid>
+        <PreviewContainer>
+          <div>{previewUrl ? <img src={previewUrl} alt="미리보기 이미지" /> : <span>Please Select a Image</span>}</div>
+        </PreviewContainer>
+      </PostImageGrid>
+      <div>Content</div>
+      <textarea
+        value={editedContent}
+        onChange={(e) => {
+          setEditedContent(e.target.value);
+        }}
+        placeholder="Input Some Text..."
+      ></textarea>
+
+      <ButtonArea>
+        <StyledButton onClick={handleOnSubmit}>Edit</StyledButton>
+      </ButtonArea>
+    </DetailEditSection>
   );
 };
 

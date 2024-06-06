@@ -1,31 +1,27 @@
-/* components/MainPageComp.jsx style components */
-
 import styled from 'styled-components';
 
 export const Content = styled.div`
-  padding: 20px;
+  padding: ${({ theme }) => theme.spacing.medium};
 `;
 
 export const MainSort = styled.div`
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: ${({ theme }) => theme.spacing.small};
+  margin-bottom: ${({ theme }) => theme.spacing.medium};
 `;
 
 export const SortButton = styled.button`
-  padding: 10px;
+  padding: ${({ theme }) => theme.spacing.small};
   font-size: 20px;
-  //background-color: #8aa9e4;
   font-weight: bold;
-  background-color: #fafafa;
-  color: ${({ selected }) => (selected ? '#ffbfbf' : '#8aa9e4')};
+  background-color: ${({ selected }) => (selected ? '#ffbfbf' : '#fafafa')};
+  color: ${({ selected }) => (selected ? '#fff' : '#8aa9e4')};
   border: none;
   border-radius: 7px;
   cursor: pointer;
-  transition: color 0.3s;
+  transition: background-color 0.3s;
 
   &:hover {
-    //background-color: #ffbfbf;
     color: #ffbfbf;
   }
 `;
@@ -34,7 +30,7 @@ export const ImageGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-auto-rows: auto;
-  grid-gap: 20px;
+  grid-gap: ${({ theme }) => theme.spacing.medium};
   justify-content: center;
 `;
 
@@ -43,12 +39,11 @@ export const ImageCard = styled.div`
   width: 100%;
   height: 400px;
   background-color: #d9d9d9;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 10px;
   box-sizing: border-box;
   border: 1px solid #ddd;
   border-radius: 10px;
-  transition: transform 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
 
   &:hover {
     transform: translateY(-5px);
@@ -58,8 +53,8 @@ export const ImageCard = styled.div`
 
 export const Image = styled.img`
   background-color: #ccc;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: ${({ theme }) => theme.spacing.small};
+  margin-bottom: ${({ theme }) => theme.spacing.small};
   width: 100%;
   height: 200px;
   border-radius: 10px;
@@ -74,7 +69,7 @@ export const ArticleTitle = styled.div`
   width: 100%;
   height: 30px;
   font-size: 20px;
-  font-weight: bold;
+  font-family: ${({ theme }) => theme.fonts.bold};
   color: #333;
   text-align: left;
   overflow: hidden;
@@ -84,8 +79,9 @@ export const ArticleTitle = styled.div`
 
 export const ArticleContent = styled.div`
   width: 100%;
-  height: 90px;
+  height: 80px;
   font-size: 15px;
+  font-family: ${({ theme }) => theme.fonts.regular};
   color: #555;
   text-align: left;
 `;
@@ -93,8 +89,9 @@ export const ArticleContent = styled.div`
 export const ArticleDate = styled.div`
   width: 100%;
   height: 20px;
-  margin-bottom: 5px;
+  margin-bottom: ${({ theme }) => theme.spacing.small};
   font-size: 15px;
+  font-family: ${({ theme }) => theme.fonts.regular};
   color: #555;
   text-align: left;
 `;
@@ -110,17 +107,8 @@ export const AuthorBox = styled.div`
 export const ArticleAuthor = styled.div`
   font-size: 15px;
   color: #555;
-  margin-right: 10px;
-`;
-
-export const ArticleLikes = styled.div`
-  display: flex;
-  align-items: center;
-  height: 30px;
-  width: 30px;
-  font-size: 15px;
-  color: #555;
-  margin-right: 50px;
+  margin-right: ${({ theme }) => theme.spacing.small};
+  font-family: ${({ theme }) => theme.fonts.regular};
 `;
 
 export const NoResult = styled.div`
@@ -128,7 +116,7 @@ export const NoResult = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 20px;
-  font-weight: bold;
+  font-family: ${({ theme }) => theme.fonts.bold};
   background-color: #fafafa;
   color: #8aa9e4;
   height: 100px;
@@ -139,8 +127,7 @@ export const ImageLoadingCard = styled.div`
   width: 100%;
   height: 400px;
   background-color: #d9d9d9;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 10px;
   box-sizing: border-box;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -148,8 +135,8 @@ export const ImageLoadingCard = styled.div`
 
 export const LoadingImage = styled.div`
   background-color: #ccc;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: ${({ theme }) => theme.spacing.small};
+  margin-bottom: ${({ theme }) => theme.spacing.small};
   width: 100%;
   height: 200px;
   border-radius: 10px;
