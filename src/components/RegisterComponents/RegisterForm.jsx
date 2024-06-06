@@ -15,7 +15,12 @@ import Input from '../Common/Input';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
-import { ErrorText, RegisterInputWrapper, RegisterPageTitle } from '../../styles/Register/RegisterStyle';
+import {
+  ErrorText,
+  RegisterButton,
+  RegisterInputWrapper,
+  RegisterPageTitle
+} from '../../styles/Register/RegisterStyle';
 
 function RegisterForm() {
   const initialState = {
@@ -161,12 +166,17 @@ function RegisterForm() {
             onChange={handleOnChange}
           />
           <ErrorText>
-            {errors.confirm && <div style={{ color: 'red' }}>{errors.confirm}</div>}
-            {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>}
+            {errors.confirm && (
+              <div style={{ color: 'red' }}>
+                {errors.confirm}
+                {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>}
+              </div>
+            )}
           </ErrorText>
         </RegisterInputWrapper>
-
-        <Button value="가입하기" />
+        <RegisterButton>
+          <Button value="가입하기" />
+        </RegisterButton>
       </form>
     </div>
   );
