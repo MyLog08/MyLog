@@ -46,10 +46,11 @@ export const SearchBar = styled.input`
   caret-color: ${({ theme }) => theme.colors.primary};
   border-radius: 20px;
   transition: box-shadow 0.3s ease-in-out;
+  font-family: ${({ theme }) => theme.fonts.bold};
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.primary};
-    font-family: ${({ theme }) => theme.fonts.regular};
+    font-family: ${({ theme }) => theme.fonts.bold};
   }
   &:hover,
   &:focus {

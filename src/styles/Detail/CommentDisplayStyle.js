@@ -92,12 +92,12 @@ export const EditInput = styled.input`
   padding: ${({ theme }) => theme.spacing.small};
   border: 1px solid ${({ theme }) => theme.colors.primary};
   border-radius: ${({ theme }) => theme.borderRadius};
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.bold};
   margin-top: ${({ theme }) => theme.spacing.small};
   caret-color: ${({ theme }) => theme.colors.primary};
   &::placeholder {
     color: ${({ theme }) => theme.colors.primary};
-    font-family: ${({ theme }) => theme.fonts.regular};
+    font-family: ${({ theme }) => theme.fonts.bold};
   }
 
   &:hover,

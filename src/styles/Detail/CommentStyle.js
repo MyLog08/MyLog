@@ -22,7 +22,7 @@ export const CommentPost = styled.input`
   padding: 10px;
   border: 2px solid ${({ theme }) => theme.colors.primary};
   border-radius: 10px;
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.bold};
   margin-top: 5px;
   margin-right: ${({ theme }) => theme.spacing.small}; /* Add margin-right to create a gap between input and button */
   transition: box-shadow 0.3s ease-in-out;
@@ -30,7 +30,7 @@ export const CommentPost = styled.input`
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.primary};
-    font-family: ${({ theme }) => theme.fonts.regular};
+    font-family: ${({ theme }) => theme.fonts.bold};
   }
 
   &:hover,

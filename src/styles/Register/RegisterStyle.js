@@ -35,9 +35,11 @@ export const RegisterInput = styled.input`
   border: 1px solid ${({ theme }) => theme.colors.primary};
   border-radius: 20px;
   transition: box-shadow 0.3s ease-in-out;
+  font-family: ${({ theme }) => theme.fonts.bold};
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.primary};
+    font-family: ${({ theme }) => theme.fonts.bold};
   }
   &:hover,
   &:focus {

@@ -8,10 +8,11 @@ export const StyledInput = styled.input`
   border-radius: ${({ theme }) => theme.borderRadius};
   transition: box-shadow 0.3s ease-in-out;
   margin-bottom: ${({ theme }) => theme.spacing.small};
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.bold};
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.primary};
+    font-family: ${({ theme }) => theme.fonts.bold};
   }
 
   &:hover,

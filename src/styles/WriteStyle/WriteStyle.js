@@ -16,14 +16,14 @@ export const StyledSection = styled.section`
     padding: 10px;
     border: 2px solid ${({ theme }) => theme.colors.primary};
     border-radius: 10px;
-    font-family: ${({ theme }) => theme.fonts.regular};
+    font-family: ${({ theme }) => theme.fonts.bold};
     margin-top: 5px;
 
     transition: box-shadow 0.3s ease-in-out;
     caret-color: ${({ theme }) => theme.colors.primary};
     &::placeholder {
       color: ${({ theme }) => theme.colors.primary};
-      font-family: ${({ theme }) => theme.fonts.regular};
+      font-family: ${({ theme }) => theme.fonts.bold};
     }
     &:hover,
     &:focus {
