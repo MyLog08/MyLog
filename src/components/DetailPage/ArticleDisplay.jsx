@@ -6,8 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import LoadingBar from '../Common/LoadingBar';
 import {
-  DetailButton,
-  DetailButtons,
   DetailContent,
   DetailPageDate,
   DetailPageImg,
@@ -16,10 +14,13 @@ import {
   DetailPageNickname,
   DetailPageTitle,
   DetailSection,
-  HomeLogo
+  HomeLogo,
+  Divider,
+  DetailButtons
 } from '../../styles/Detail/DetailStyle';
 
 import myLogoImage from '../../assets/MyLogLogo_blue_bold.png';
+import { StyledButton } from '../../styles/Common/ButtonStyle';
 
 const ArticleDisplay = () => {
   const { articleId } = useParams();
@@ -106,8 +107,8 @@ const ArticleDisplay = () => {
         <div>
           {user && article.userId === user.id ? (
             <DetailButtons>
-              <DetailButton onClick={handleUpdateArticle}>수정</DetailButton>
-              <DetailButton onClick={() => handleDeleteArticle(articleId)}>삭제</DetailButton>
+              <StyledButton onClick={handleUpdateArticle}>Edit</StyledButton>
+              <StyledButton onClick={() => handleDeleteArticle(articleId)}>Delete</StyledButton>
             </DetailButtons>
           ) : (
             ''
@@ -125,6 +126,7 @@ const ArticleDisplay = () => {
 
         <DetailContent>{article.content}</DetailContent>
       </DetailPageInfo>
+      <Divider />
     </DetailSection>
   );
 };

@@ -85,7 +85,6 @@ export const HomeButton = styled(HeaderButton)`
   color: ${({ selected, theme }) => (selected ? theme.colors.secondary : theme.colors.primary)};
 
   button {
-    padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.small};
     border: 1px solid ${({ theme }) => theme.colors.background};
     border-radius: 5px;
     background-color: transparent;

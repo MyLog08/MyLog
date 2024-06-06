@@ -65,23 +65,13 @@ export const DetailButtons = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing.small};
   margin-bottom: ${({ theme }) => theme.spacing.small};
+  padding-left: ${({ theme }) => theme.spacing.medium};
   justify-content: center;
 `;
 
-export const DetailButton = styled.button`
-  padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.medium};
-  font-size: 16px;
-  font-weight: bold;
-  font-family: ${({ theme }) => theme.fonts.bold};
-  background-color: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.background};
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.hoverBackground};
-    color: ${({ theme }) => theme.colors.hoverText};
-  }
+export const Divider = styled.div`
+  width: 100%;
+  height: 3px;
+  background-color: #d9d9d9;
+  margin-top: ${({ theme }) => theme.spacing.medium};
 `;
