@@ -3,6 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../supabase/supabase';
 import { checkSignIn } from '../redux/slices/authSlice';
+import {
+  ArticleContainer,
+  ArticlesSection,
+  ProfileButton,
+  ProfileImage,
+  ProfileSection,
+  ProfileWrapper
+} from '../styles/ProfilePage/ProfilePageStyle';
+import LoadingBar from './Common/LoadingBar';
 
 const UserProfile = () => {
   const user = useSelector((state) => state.auth.user);
@@ -56,31 +65,34 @@ const UserProfile = () => {
   const moveToEdit = () => {
     navigate('/editprofile');
   };
- 
+
+  const moveToPost = (articleId) => {
+    navigate(`/articles/${articleId}`);
+  };
 
   return (
-    <div style={{ display: 'flex', padding: '20px' }}>
+    <ProfileWrapper style={{ display: 'flex', padding: '20px' }}>
       {user ? (
         <>
-          <section style={{ width: '30%', padding: '20px', borderRight: '1px solid #ddd' }}>
-            <img src={dataUser.length > 0 ? dataUser[0].imageUrl || '' : ''} alt="Profile" style={{ width: '100%' }} />
-            <h2>{dataUser.length > 0 ? dataUser[0].name : '사용자 이름 없음'}</h2>
+          <ProfileSection>
+            <ProfileImage src={dataUser.length > 0 ? dataUser[0].imageUrl || '' : ''} alt="Profile" />
+            <h2>{dataUser.length > 0 ? dataUser[0].name : 'No Name'}</h2>
             <h5></h5>
-            <button onClick={moveToEdit}>프로필 편집</button>
-          </section>
-          <section style={{ overflowY: 'scroll', height: '500px', width: '70%', padding: '20px' }}>
+            <ProfileButton onClick={moveToEdit}>프로필 편집</ProfileButton>
+          </ProfileSection>
+          <ArticlesSection>
             {articles.map((article) => (
-              <div key={article.articleId} style={{ margin: '10px 0', padding: '10px', border: '1px solid #ddd' }}>
+              <ArticleContainer key={article.articleId} onClick={() => moveToPost(article.articleId)}>
                 <h3>{article.title}</h3>
                 <p>{article.content}</p>
-              </div>
+              </ArticleContainer>
             ))}
-          </section>
+          </ArticlesSection>
         </>
       ) : (
-        <p>사용자 정보를 불러오는 중입니다...</p>
+        <LoadingBar />
       )}
-    </div>
+    </ProfileWrapper>
   );
 };
 

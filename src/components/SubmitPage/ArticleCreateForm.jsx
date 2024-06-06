@@ -180,9 +180,7 @@ const ArticleCreateForm = () => {
           placeholder="What is Happening? "
         ></StyledTextArea>
       </InputContainer>
-      <SubmitButton>
-        <SubmitButton onClick={handleOnSubmit}>Post</SubmitButton>
-      </SubmitButton>
+      <SubmitButton onClick={handleOnSubmit}>Submit</SubmitButton>
     </StyledSection>
   );
 };
