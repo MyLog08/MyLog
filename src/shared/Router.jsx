@@ -11,10 +11,12 @@ import RegisterPage from '../pages/RegisterPage/RegisterPage';
 import ArticleCreatePage from '../pages/SubmitPage/ArticleCreatePage';
 import ArticleUpdatePage from '../pages/SubmitPage/ArticleUpdatePage';
 import NotFoundPage from '../pages/ErrorPage/NotFoundPage';
+import ScrollToTop from '../utils/common/scrollToTop';
 
 const Router = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<MainPage />} /> {/*로그인 페이지로 바꿔야됨 */}
         <Route path="/:searchParam" element={<Search />} /> {/*로그인 페이지로 바꿔야됨 */}

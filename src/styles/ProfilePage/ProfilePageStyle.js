@@ -90,3 +90,12 @@ export const ProfileWrapper = styled.div`
   margin-top: ${({ theme }) => theme.spacing.large};
   /* justify-content: space-between; */
 `;
+
+export const Logo = styled.img`
+  width: 60px;
+  height: 40px;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
+`;

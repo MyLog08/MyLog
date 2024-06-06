@@ -6,12 +6,14 @@ import { checkSignIn } from '../redux/slices/authSlice';
 import {
   ArticleContainer,
   ArticlesSection,
+  Logo,
   ProfileButton,
   ProfileImage,
   ProfileSection,
   ProfileWrapper
 } from '../styles/ProfilePage/ProfilePageStyle';
 import LoadingBar from './Common/LoadingBar';
+import myLogoImage from '../../src/assets/MyLogLogo_blue_bold.png';
 
 const UserProfile = () => {
   const user = useSelector((state) => state.auth.user);
@@ -48,10 +50,7 @@ const UserProfile = () => {
     const textId = async () => {
       if (!user?.id) return;
       try {
-        const { data, error } = await supabase
-        .from('Users')
-        .select('*')
-        .eq('userId', user.id);
+        const { data, error } = await supabase.from('Users').select('*').eq('userId', user.id);
 
         if (error) {
           console.log('Error:', error);
@@ -68,10 +67,10 @@ const UserProfile = () => {
   const moveToEdit = () => {
     navigate('/editprofile');
   };
- 
+
   const moveToHome = () => {
     navigate('/');
-  }
+  };
 
   const moveToPost = (articleId) => {
     navigate(`/articles/${articleId}`);
@@ -82,6 +81,7 @@ const UserProfile = () => {
       {user ? (
         <>
           <ProfileSection>
+            <Logo src={myLogoImage} alt="로고" onClick={moveToHome} />
             <ProfileImage src={dataUser.length > 0 ? dataUser[0].imageUrl || '' : ''} alt="Profile" />
             <h2>{dataUser.length > 0 ? dataUser[0].name : 'No Name'}</h2>
             <h5></h5>
