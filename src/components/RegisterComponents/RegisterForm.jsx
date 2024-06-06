@@ -172,9 +172,9 @@ function RegisterForm() {
           />
           <ErrorText>
             {errors.confirm && (
-              <div style={{ color: 'red' }}>
+              <div>
                 {errors.confirm}
-                {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>}
+                {errors.general}
               </div>
             )}
           </ErrorText>
