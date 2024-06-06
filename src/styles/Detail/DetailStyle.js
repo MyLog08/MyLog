@@ -47,6 +47,14 @@ export const DetailPageDate = styled.div`
 
 export const DetailPageImg = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.medium};
+  display: flex;
+  justify-content: center;
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: auto;
+  }
 `;
 
 export const DetailContent = styled.div`
