@@ -50,8 +50,8 @@ const Header = ({ onSearch }) => {
         </SearchContainer>
         {isLoggedIn ? (
           <LoggedInButtons>
-            <NavLink to="/articles/write">
-              <HeaderButton>Write</HeaderButton>
+            <NavLink to="/articles/Post">
+              <HeaderButton>Post</HeaderButton>
             </NavLink>
             <NavLink to="/profile">
               <HeaderButton>My Profile</HeaderButton>
