@@ -100,10 +100,10 @@ function LoginForm() {
             onChange={handleOnChange}
           />
           <ErrorText>
-            {errors.system && <div style={{ color: 'red' }}>{errors.system}</div>}
-            {errors.email && <div style={{ color: 'red' }}>{errors.email}</div>}
-            {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
-            {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>}
+            {errors.system}
+            {errors.email}
+            {errors.password}
+            {errors.general}
           </ErrorText>
         </LogInPasswordInput>
         <LogInButton>
