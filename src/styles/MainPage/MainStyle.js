@@ -10,22 +10,6 @@ export const MainSort = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.medium};
 `;
 
-export const SortButton = styled.button`
-  padding: ${({ theme }) => theme.spacing.small};
-  font-size: 20px;
-  font-weight: bold;
-  background-color: ${({ selected }) => (selected ? '#ffbfbf' : '#fafafa')};
-  color: ${({ selected }) => (selected ? '#fff' : '#8aa9e4')};
-  border: none;
-  border-radius: 7px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    color: #ffbfbf;
-  }
-`;
-
 export const ImageGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -38,22 +22,21 @@ export const ImageCard = styled.div`
   position: relative;
   width: 100%;
   height: 400px;
-  background-color: #d9d9d9;
+  background-color: ${({ theme }) => theme.colors.background};
+  border: 1px solid ${({ theme }) => theme.colors.primary};
   padding: 10px;
   box-sizing: border-box;
-  border: 1px solid #ddd;
-  border-radius: 10px;
+  border-radius: ${({ theme }) => theme.borderRadius};
   transition: transform 0.3s, box-shadow 0.3s;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px ${({ theme }) => theme.colors.secondary};
   }
 `;
 
 export const Image = styled.img`
-  background-color: #ccc;
-  /* margin-top: ${({ theme }) => theme.spacing.small}; */
+  background-color: ${({ theme }) => theme.colors.background};
   margin-bottom: ${({ theme }) => theme.spacing.small};
   width: 100%;
   height: 200px;

@@ -48,13 +48,6 @@ export const PostImageGrid = styled.div`
   margin-top: 20px;
 `;
 
-// export const Label = styled.div`
-//   margin-bottom: ${({ theme }) => theme.spacing.small};
-//   color: ${({ theme }) => theme.colors.text};
-//   font-weight: bold;
-//   font-family: ${({ theme }) => theme.fonts.bold};
-// `;
-
 export const StyledInput = styled.input`
   width: 100%;
   padding: ${({ theme }) => theme.spacing.small};
