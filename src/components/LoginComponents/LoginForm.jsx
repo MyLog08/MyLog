@@ -70,8 +70,6 @@ function LoginForm() {
       const user = await handleAuthLogin(email, password);
 
       dispatch(login(user));
-
-      alert('로그인 완료');
       handleResetInputs();
       setErrors({});
       navigate('/');

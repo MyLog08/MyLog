@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import supabase from '../supabase/supabase';
+import supabase from '../../supabase/supabase';
 import { v4 as uuidv4 } from 'uuid';
-import useFormInputs from '../hooks/useInput';
-import { checkSignIn } from '../redux/slices/authSlice';
-import { logout } from '../redux/slices/authSlice';
-import { validatePasswordFormat, validatePasswordMatch } from '../utils/validators';
+import useFormInputs from '../../hooks/useInput';
+import { checkSignIn } from '../../redux/slices/authSlice';
+import { logout } from '../../redux/slices/authSlice';
+import { validatePasswordFormat, validatePasswordMatch } from '../../utils/validators';
 import {
   EditButtons,
   EditErrorMessage,
@@ -20,8 +20,8 @@ import {
   ProfileEditFormWrapper,
   ProfileImageGrid,
   RedStyledButton
-} from '../styles/ProfilePage/ProfileEditPageStyle';
-import { StyledButton } from '../styles/Common/ButtonStyle';
+} from '../../styles/ProfilePage/ProfileEditPageStyle';
+import { StyledButton } from '../../styles/Common/ButtonStyle';
 
 const initialState = {
   name: '',

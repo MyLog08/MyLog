@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import supabase from '../supabase/supabase';
-import { checkSignIn } from '../redux/slices/authSlice';
+import supabase from '../../supabase/supabase';
+import { checkSignIn } from '../../redux/slices/authSlice';
 import {
   ArticleContainer,
   ArticlesSection,
@@ -11,9 +11,9 @@ import {
   ProfileImage,
   ProfileSection,
   ProfileWrapper
-} from '../styles/ProfilePage/ProfilePageStyle';
-import LoadingBar from './Common/LoadingBar';
-import myLogoImage from '../../src/assets/MyLogLogo_blue_bold.png';
+} from '../../styles/ProfilePage/ProfilePageStyle';
+import LoadingBar from '../Common/LoadingBar';
+import myLogoImage from '../../assets/MyLogLogo_blue_bold.png';
 
 const UserProfile = () => {
   const user = useSelector((state) => state.auth.user);
@@ -31,10 +31,7 @@ const UserProfile = () => {
       if (!user?.id) return;
 
       try {
-        const { data, error } = await supabase
-        .from('Articles')
-        .select('*')
-        .eq('userId', user.id);
+        const { data, error } = await supabase.from('Articles').select('*').eq('userId', user.id);
 
         if (error) {
           console.log('Error:', error);
@@ -53,12 +50,7 @@ const UserProfile = () => {
     const textId = async () => {
       if (!user?.id) return;
       try {
-        const { data, error } = await supabase
-        .from('Users')
-        .select('*')
-        .eq('userId', user.id)
-        
-      
+        const { data, error } = await supabase.from('Users').select('*').eq('userId', user.id);
 
         if (error) {
           console.log('Error:', error);

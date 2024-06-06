@@ -19,17 +19,14 @@ export const EditImageFormSection = styled.section`
   margin: 5px auto 20px auto;
   margin-bottom: 20px;
   width: 700px;
-  padding-top: 50px;
   font-family: ${({ theme }) => theme.fonts.regular};
-  margin-top: 50px;
   transition: box-shadow 0.3s ease-in-out;
 `;
 
 export const EditFormSection = styled.section`
-  margin-bottom: ${({ theme }) => theme.spacing.medium};
-  max-width: 60%;
-  width: 350px;
-  padding-right: ${({ theme }) => theme.spacing.medium};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   box-sizing: border-box;
 `;
 
@@ -114,11 +111,10 @@ export const EditErrorMessage = styled.div`
 `;
 
 export const EditButtons = styled.div`
-  margin-top: ${({ theme }) => theme.spacing.medium};
-  margin-bottom: ${({ theme }) => theme.spacing.small};
+  margin-bottom: ${({ theme }) => theme.spacing.medium};
   display: flex;
   flex-direction: column;
-  align-items: center; /* 수직 방향으로 중앙 정렬 */
+  align-items: center;
 `;
 
 export const RedStyledButton = styled.div`
@@ -163,7 +159,9 @@ export const PreviewImgContainer = styled.div`
   align-items: center;
   margin-top: 10px;
   padding: 10px;
-  /* 이미지 높이를 500px로 지정 */
+  width: 300px;
+  height: 300px;
+  overflow: auto;
 
   img {
     object-fit: cover;
