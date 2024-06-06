@@ -2,15 +2,46 @@
 import styled from 'styled-components';
 
 export const StyledSection = styled.section`
-  padding: ${({ theme }) => theme.spacing.medium};
   background-color: ${({ theme }) => theme.colors.background};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: ${({ theme }) => theme.spacing.large};
+  color: ${({ theme }) => theme.colors.text};
+  font-family: ${({ theme }) => theme.fonts.regular};
+  padding: 20px;
+
+  & > div {
+    margin-bottom: 20px;
+  }
+  input[type='text'],
+  textarea {
+    width: 700px;
+    padding: 10px;
+    border: 2px solid ${({ theme }) => theme.colors.primary};
+    border-radius: 10px;
+    font-family: ${({ theme }) => theme.fonts.regular};
+    margin-top: 5px;
+
+    transition: box-shadow 0.3s ease-in-out;
+
+    &:hover,
+    &:focus {
+      box-shadow: 0 0 8px ${({ theme }) => theme.colors.secondary};
+      outline-color: ${({ theme }) => theme.colors.primary};
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 150px;
+  }
 `;
 
 export const InputContainer = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.medium};
+`;
+
+export const PostImageGrid = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 `;
 
 export const Label = styled.div`
@@ -39,38 +70,45 @@ export const StyledTextArea = styled.textarea`
 `;
 
 export const PreviewContainer = styled.div`
-  margin-bottom: ${({ theme }) => theme.spacing.medium};
+  border: 2px solid ${({ theme }) => theme.colors.primary};
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px;
+  min-width: 300px;
+  min-height: 300px;
+  width: fit-content;
+  height: fit-content;
+  transition: box-shadow 0.3s ease-in-out;
+
+  &:hover,
+  &:focus {
+    box-shadow: 0 0 8px ${({ theme }) => theme.colors.secondary};
+    outline-color: ${({ theme }) => theme.colors.primary};
+  }
+
+  img {
+    object-fit: cover;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+  }
+
+  span {
+    font-family: ${({ theme }) => theme.fonts.regular};
+  }
 `;
 
 export const PreviewLabel = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.small};
   color: ${({ theme }) => theme.colors.text};
-  font-weight: bold;
-  font-family: ${({ theme }) => theme.fonts.bold};
+  font-family: ${({ theme }) => theme.fonts.regular};
 `;
 
-export const PreviewImageContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius};
-  padding: ${({ theme }) => theme.spacing.small};
-  background-color: #fff;
-  height: 200px;
-
-  img {
-    max-width: 100%;
-    max-height: 100%;
-    display: block;
-    object-fit: cover;
-  }
-
-  span {
-    color: ${({ theme }) => theme.colors.text};
-    font-family: ${({ theme }) => theme.fonts.regular};
-  }
-`;
+export const PreviewImageContainer = styled.div``;
 
 export const SubmitButtonContainer = styled.div`
   display: flex;
@@ -92,4 +130,22 @@ export const SubmitButton = styled.button`
   &:hover {
     color: ${({ theme }) => theme.colors.secondary};
   }
+`;
+
+export const WritePageLogo = styled.div`
+  margin-bottom: ${({ theme }) => theme.spacing.medium};
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
+export const WriteHomeLogo = styled.img`
+  cursor: pointer;
+  height: 8%;
+  width: 8%;
 `;

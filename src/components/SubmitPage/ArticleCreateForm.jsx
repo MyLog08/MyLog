@@ -12,15 +12,25 @@ import {
   PreviewLabel,
   StyledSection,
   StyledTextArea,
-  SubmitButton
+  SubmitButton,
+  WriteHomeLogo,
+  WritePageLogo
 } from '../../styles/WriteStyle/WriteStyle';
 import { StyledInput } from '../../styles/Common/InputStyle';
+import {
+  FileInputContainer,
+  FileNameDisplay,
+  FileUploadContainer,
+  PostImageGrid
+} from '../../styles/Detail/DetailEditStyle';
+import myLogoImage from '../../assets/MyLogLogo_blue_bold.png';
 
 const ArticleCreateForm = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');
+  const [selectedFileName, setSelectedFileName] = useState('');
 
   const navigate = useNavigate();
 
@@ -40,6 +50,7 @@ const ArticleCreateForm = () => {
   const handleImageChange = async (imageFile) => {
     const file = imageFile;
     setImage(file);
+    setSelectedFileName(imageFile.name);
     setPreviewUrl(URL.createObjectURL(file));
   };
 
@@ -117,50 +128,62 @@ const ArticleCreateForm = () => {
     }
   };
 
+  const handleLogoClick = () => {
+    navigate(`/`);
+  };
+
   return (
-    <>
-      <StyledSection>
-        <InputContainer>
-          <StyledInput
-            type="text"
-            value={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
-            placeholder="제목을 입력하세요."
-          ></StyledInput>
-        </InputContainer>
-        <InputContainer>
-          이미지
-          <StyledInput
+    <StyledSection>
+      <WritePageLogo>
+        <WriteHomeLogo src={myLogoImage} alt="로고" onClick={handleLogoClick} />
+      </WritePageLogo>
+      <div>Title</div>
+      <InputContainer>
+        <StyledInput
+          type="text"
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
+          placeholder="Title"
+        ></StyledInput>
+      </InputContainer>
+      <div>New Image</div>
+      <FileUploadContainer>
+        <FileInputContainer>
+          Image
+          <input
             type="file"
             accept="image/jpeg, image/png"
             onChange={(e) => {
               handleImageChange(e.target.files[0]);
             }}
-          ></StyledInput>
-        </InputContainer>
+          />
+        </FileInputContainer>
+        <FileNameDisplay>{selectedFileName || 'Select a New Photo'}</FileNameDisplay>
+      </FileUploadContainer>
+      <PreviewLabel>Posted Image</PreviewLabel>
+      <PostImageGrid>
         <PreviewContainer>
-          <PreviewLabel>첨부된 이미지 미리보기</PreviewLabel>
           <PreviewImageContainer>
-            {previewUrl ? <img src={previewUrl} alt="미리보기 이미지" /> : <span>이미지를 첨부해 주세요.</span>}
+            {previewUrl ? <img src={previewUrl} alt="미리보기 이미지" /> : <span>Upload a Image</span>}
           </PreviewImageContainer>
         </PreviewContainer>
-        <InputContainer>
-          <StyledTextArea
-            type="text"
-            value={content}
-            onChange={(e) => {
-              setContent(e.target.value);
-            }}
-            placeholder="당신의 이야기를 적어보세요..."
-          ></StyledTextArea>
-        </InputContainer>
-        <SubmitButton>
-          <SubmitButton onClick={handleOnSubmit}>출간하기</SubmitButton>
-        </SubmitButton>
-      </StyledSection>
-    </>
+      </PostImageGrid>
+      <InputContainer>
+        <StyledTextArea
+          type="text"
+          value={content}
+          onChange={(e) => {
+            setContent(e.target.value);
+          }}
+          placeholder="What is Happening? "
+        ></StyledTextArea>
+      </InputContainer>
+      <SubmitButton>
+        <SubmitButton onClick={handleOnSubmit}>Post</SubmitButton>
+      </SubmitButton>
+    </StyledSection>
   );
 };
 

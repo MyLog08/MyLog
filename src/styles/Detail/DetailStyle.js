@@ -13,6 +13,10 @@ export const DetailPageLogo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 export const HomeLogo = styled.img`
