@@ -17,8 +17,13 @@ export const DetailEditSection = styled.section`
     border-radius: 10px;
     font-family: ${({ theme }) => theme.fonts.regular};
     margin-top: 5px;
-
+    caret-color: ${({ theme }) => theme.colors.primary};
     transition: box-shadow 0.3s ease-in-out;
+
+    &::placeholder {
+      color: ${({ theme }) => theme.colors.primary};
+      font-family: ${({ theme }) => theme.fonts.regular};
+    }
 
     &:hover,
     &:focus {

@@ -18,5 +18,5 @@ export const theme = {
     extraBold: 'NanumSquareNeoExtraBold',
     heavy: 'NanumSquareNeoHeavy'
   },
-  borderRadius: '10px'
+  borderRadius: '15px'
 };

@@ -6,6 +6,8 @@ import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { validateLength } from '../../utils/validators';
+import { CommentPost, CommentPostingBox, CommentsCount, InputContainer } from '../../styles/Detail/CommentStyle';
+import { StyledButton } from '../../styles/Common/ButtonStyle';
 
 const CommentInput = ({ fetchData }) => {
   const { articleId } = useParams();
@@ -82,22 +84,20 @@ const CommentInput = ({ fetchData }) => {
   };
 
   return (
-    <section>
-      <div>{commentsCount}개의 댓글</div>
-      <div>
-        <input
+    <CommentPostingBox>
+      <CommentsCount>{commentsCount}개의 댓글</CommentsCount>
+      <InputContainer>
+        <CommentPost
           type="text"
           value={content}
           onChange={(e) => {
             setContent(e.target.value);
           }}
-          placeholder="댓글을 작성하세요."
-        ></input>
-      </div>
-      <div>
-        <button onClick={handleOnSubmit}>등록</button>
-      </div>
-    </section>
+          placeholder="Post your reply"
+        ></CommentPost>
+        <StyledButton onClick={handleOnSubmit}>Post</StyledButton>
+      </InputContainer>
+    </CommentPostingBox>
   );
 };
 
