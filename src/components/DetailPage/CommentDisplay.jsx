@@ -4,6 +4,21 @@ import { checkSignIn } from '../../redux/slices/authSlice';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
 import { validateLength } from '../../utils/validators';
+import {
+  ActionButton,
+  CommentActions,
+  CommentContent,
+  CommentDate,
+  CommentHeader,
+  CommentInfo,
+  CommentItem,
+  CommentsList,
+  CommentsSection,
+  EditInput,
+  Nickname,
+  ProfileImage
+} from '../../styles/Detail/CommentDisplayStyle';
+import { Divider } from '../../styles/Detail/DetailStyle';
 
 const CommentDisplay = ({ comments, setComments }) => {
   const [users, setUsers] = useState([]);
@@ -101,8 +116,8 @@ const CommentDisplay = ({ comments, setComments }) => {
   };
 
   return (
-    <section>
-      <ul>
+    <CommentsSection>
+      <CommentsList>
         {comments.length === 0 ? (
           <div>댓글이 존재하지 않습니다.</div>
         ) : (
@@ -110,45 +125,53 @@ const CommentDisplay = ({ comments, setComments }) => {
             // imageUrl가 null인 경우 기본 프로필 이미지 나오도록 나중에 교체할 것
             const userInfo = users[comment.userId] || { nickname: 'Unknown', imageUrl: '#' };
             return (
-              <li key={comment.commentId}>
-                <div>
-                  <div>
-                    <img src={userInfo.imageUrl} alt="프로필 이미지" />
-                  </div>
-                  <div>
-                    <span>{userInfo.nickname}</span>
-                    <span>
-                      {comment.createdAt === comment.updatedAt
-                        ? dayjs(comment.createdAt).format('YYYY년 MM월 DD일')
-                        : dayjs(comment.updatedAt).format('YYYY년 MM월 DD일')}
-                    </span>
-                  </div>
-                  {/* 로그인한 유저의 아이디와 댓글 작성자 아이디가 일치할 경우 수정 삭제 버튼 보여주기 */}
-                  {user && comment.userId === user.id ? (
-                    <div>
-                      {editingCommentId === comment.commentId ? (
-                        <button onClick={() => handleUpdateComment(comment.commentId)}>저장</button>
-                      ) : (
-                        <button onClick={() => toggleEditMode(comment.commentId, comment.content)}>수정</button>
-                      )}
-                      <button onClick={() => handleDeleteComment(comment.commentId)}>삭제</button>
-                    </div>
+              <>
+                <CommentItem key={comment.commentId}>
+                  <CommentHeader>
+                    <ProfileImage src={userInfo.imageUrl} alt="프로필 이미지" />
+                    <CommentInfo>
+                      <Nickname>{userInfo.nickname}</Nickname>
+                      <CommentDate>
+                        {comment.createdAt === comment.updatedAt
+                          ? dayjs(comment.createdAt).format('YYYY년 MM월 DD일')
+                          : dayjs(comment.updatedAt).format('YYYY년 MM월 DD일')}
+                      </CommentDate>
+                    </CommentInfo>
+                    {/* 로그인한 유저의 아이디와 댓글 작성자 아이디가 일치할 경우 수정 삭제 버튼 보여주기 */}
+                    {user && comment.userId === user.id ? (
+                      <CommentActions>
+                        {editingCommentId === comment.commentId ? (
+                          <ActionButton onClick={() => handleUpdateComment(comment.commentId)}>저장</ActionButton>
+                        ) : (
+                          <ActionButton onClick={() => toggleEditMode(comment.commentId, comment.content)}>
+                            수정
+                          </ActionButton>
+                        )}
+                        <ActionButton onClick={() => handleDeleteComment(comment.commentId)}>삭제</ActionButton>
+                      </CommentActions>
+                    ) : (
+                      ''
+                    )}
+                  </CommentHeader>
+                  {/* 스타일 작업 시 아래 스타일 적용 부탁드립니다! */}
+                  {editingCommentId === comment.commentId ? (
+                    <EditInput
+                      type="text"
+                      placeholder="Edit Comment"
+                      value={editedContent}
+                      onChange={(e) => setEditedContent(e.target.value)}
+                    />
                   ) : (
-                    ''
+                    <CommentContent>{comment.content}</CommentContent>
                   )}
-                </div>
-                {/* 스타일 작업 시 아래 스타일 적용 부탁드립니다! */}
-                {editingCommentId === comment.commentId ? (
-                  <input type="text" value={editedContent} onChange={(e) => setEditedContent(e.target.value)} />
-                ) : (
-                  <div style={{ whiteSpace: 'pre-wrap' }}>{comment.content}</div>
-                )}
-              </li>
+                </CommentItem>
+                <Divider />
+              </>
             );
           })
         )}
-      </ul>
-    </section>
+      </CommentsList>
+    </CommentsSection>
   );
 };
 
