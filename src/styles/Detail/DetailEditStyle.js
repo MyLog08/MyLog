@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const DetailEditSection = styled.section`
   background-color: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.text};
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.bold};
   padding: 20px;
 
   & > div {
@@ -77,7 +77,7 @@ export const PreviewContainer = styled.div`
   }
 
   span {
-    font-family: ${({ theme }) => theme.fonts.regular};
+    font-family: ${({ theme }) => theme.fonts.bold};
   }
 `;
 
@@ -96,7 +96,7 @@ export const FileUploadContainer = styled.div`
   padding: 10px;
   border: 2px solid ${({ theme }) => theme.colors.primary};
   border-radius: 10px;
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.bold};
   margin-top: 5px;
   transition: box-shadow 0.3s ease-in-out;
 

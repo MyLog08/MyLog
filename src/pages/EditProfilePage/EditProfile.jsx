@@ -222,17 +222,6 @@ function EditProfile() {
             </EditErrorMessage>
           </EditFormGroup>
         )}
-
-        <EditFormGroup>
-          <EditInput
-            type="text"
-            id="mylogReason"
-            name="mylogReason"
-            value={mylogReason}
-            onChange={handleOnChange}
-            placeholder="Mylog is for :"
-          />
-        </EditFormGroup>
         <EditErrorMessage>{errors.general}</EditErrorMessage>
       </EditFormSection>
       <EditButtons>
