@@ -24,9 +24,11 @@ function EditProfile() {
   const { name, nickname, currentPassword, mylogReason } = inputs;
   const [picture, setPicture] = useState('');
   const [errors, setErrors] = useState({});
+
+
   useEffect(() => {
     dispatch(checkSignIn());
-  }, [dispatch]);
+  }, [dispatch, user.id]);
 
   const handleUploadProfile = async (file) => {
     if (!file) return;
@@ -44,7 +46,6 @@ function EditProfile() {
       console.log(urlError);
       return;
     }
-    console.log(publicURL.publicUrl);
     setPicture(publicURL.publicUrl);
     return publicURL;
   };
@@ -64,27 +65,28 @@ function EditProfile() {
     const newErrors = {};
 
     try {
-      if (!name || !currentPassword) {
+      if (!name || currentPassword) {
         newErrors.general = '모든 필드를 입력해주세요.';
         throw new Error('모든 필드를 입력해주세요.');
       }
-      if (!validatePasswordFormat(currentPassword)) {
+      
+      const { data: userData, error: userError } = await supabase
+      .from('Users')
+      .select('password, social')
+      .eq('userId', user.id)
+      .single();
+      
+      if (!userData.social && !validatePasswordFormat(currentPassword)) {
         newErrors.password = '비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.';
         throw new Error('비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.');
       }
-
-      const { data: userData, error: userError } = await supabase
-        .from('Users')
-        .select('password')
-        .eq('userId', user.id)
-        .single();
-
+      
       if (userError) {
         newErrors.general = '사용자의 정보를 가져오는 중 오류가 발생했습니다.';
         throw new Error('사용자 정보를 가져오는 중 오류가 발생했습니다.');
       }
-
-      if (!validatePasswordMatch(currentPassword, userData.password)) {
+     
+      if (!userData.social && !validatePasswordMatch(currentPassword, userData.password)) {
         newErrors.unPassword = '비밀번호가 일치하지 않습니다';
         throw new Error('비밀번호 불일치');
       }
@@ -156,11 +158,21 @@ function EditProfile() {
         </div>
         <div>
           <label htmlFor="name">이름:</label>
-          <input type="text" id="name" name="name" value={name} onChange={handleOnChange} />
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={name}
+            onChange={handleOnChange} />
         </div>
         <div>
           <label htmlFor="nickname">닉네임:</label>
-          <input type="text" id="nickname" name="nickname" value={nickname} onChange={handleOnChange} />
+          <input
+            type="text"
+            id="nickname"
+            name="nickname"
+            value={nickname}
+            onChange={handleOnChange} />
         </div>
         <div>
           <label htmlFor="currentPassword">현재 비밀번호:</label>

@@ -39,7 +39,10 @@ const UserProfile = () => {
     const textId = async () => {
       if (!user?.id) return;
       try {
-        const { data, error } = await supabase.from('Users').select('*').eq('userId', user.id);
+        const { data, error } = await supabase
+        .from('Users')
+        .select('*')
+        .eq('userId', user.id);
 
         if (error) {
           console.log('Error:', error);
@@ -57,12 +60,16 @@ const UserProfile = () => {
     navigate('/editprofile');
   };
  
+  const moveToHome = () => {
+    navigate('/');
+  }
 
   return (
     <div style={{ display: 'flex', padding: '20px' }}>
       {user ? (
         <>
           <section style={{ width: '30%', padding: '20px', borderRight: '1px solid #ddd' }}>
+        <button onClick={moveToHome}>홈으로</button>
             <img src={dataUser.length > 0 ? dataUser[0].imageUrl || '' : ''} alt="Profile" style={{ width: '100%' }} />
             <h2>{dataUser.length > 0 ? dataUser[0].name : '사용자 이름 없음'}</h2>
             <h5></h5>
