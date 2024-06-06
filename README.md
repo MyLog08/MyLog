@@ -20,6 +20,10 @@
 
 ## 📂 폴더 구조
 
+<details>
+<summary>폴더 구조</summary>
+<br>
+
 ```
 
 📦 MyLog
@@ -144,6 +148,8 @@
 └── 📜 yarn.lock
 
 ```
+
+</details>
 
 ## 🧨 트러블 슈팅
 

@@ -3,6 +3,7 @@ import AuthStatus from '../components/AuthStatus/AuthStatus';
 import Search from '../components/MainPage/Search';
 import DetailPage from '../pages/DetailPage/DetailPage';
 import EditProfile from '../pages/EditProfilePage/EditProfile';
+import NotFoundPage from '../pages/ErrorPage/NotFoundPage';
 import LoadingPage from '../pages/LoadingPage/LoadingPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import MainPage from '../pages/MainPage/MainPage';
@@ -10,7 +11,6 @@ import MyPage from '../pages/MyPage/MyPage';
 import RegisterPage from '../pages/RegisterPage/RegisterPage';
 import ArticleCreatePage from '../pages/SubmitPage/ArticleCreatePage';
 import ArticleUpdatePage from '../pages/SubmitPage/ArticleUpdatePage';
-import NotFoundPage from '../pages/ErrorPage/NotFoundPage';
 import ScrollToTop from '../utils/common/scrollToTop';
 
 const Router = () => {
@@ -30,7 +30,7 @@ const Router = () => {
         <Route path="/articles/post" element={<ArticleCreatePage />} />
         <Route path="/profile" element={<MyPage />} />
         <Route path="/profile/edit" element={<EditProfile />} />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path="/*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
