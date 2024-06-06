@@ -1,4 +1,7 @@
-import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, useNavigate } from 'react-router-dom';
+import myLogoImage from '../../assets/MyLogLogo_blue_bold.png';
+import { logout } from '../../redux/slices/authSlice';
 import {
   HeaderContainer,
   HomeButton,
@@ -12,14 +15,12 @@ import {
   SigninButton,
   WriteButton
 } from '../../styles/MainPage/HeaderStyle';
-import myLogoImage from '../../assets/MyLogLogo_blue_bold.png';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../redux/slices/authSlice';
 import supabase from '../../supabase/supabase';
 
 const Header = ({ onSearch }) => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const navigate = useNavigate();
 
   const handleLogoClick = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -38,7 +39,7 @@ const Header = ({ onSearch }) => {
   };
 
   const handleRefreshPage = () => {
-    window.location.reload();
+    navigate('/');
   };
 
   return (
