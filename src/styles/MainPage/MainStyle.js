@@ -53,7 +53,7 @@ export const ImageCard = styled.div`
 
 export const Image = styled.img`
   background-color: #ccc;
-  margin-top: ${({ theme }) => theme.spacing.small};
+  /* margin-top: ${({ theme }) => theme.spacing.small}; */
   margin-bottom: ${({ theme }) => theme.spacing.small};
   width: 100%;
   height: 200px;

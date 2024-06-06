@@ -9,7 +9,8 @@ export const theme = {
   spacing: {
     small: '10px',
     medium: '20px',
-    large: '30px'
+    large: '30px',
+    xlarge: '50px'
   },
   fonts: {
     light: 'NanumSquareNeoLight',
@@ -18,5 +19,5 @@ export const theme = {
     extraBold: 'NanumSquareNeoExtraBold',
     heavy: 'NanumSquareNeoHeavy'
   },
-  borderRadius: '10px'
+  borderRadius: '15px'
 };

@@ -20,7 +20,11 @@ export const StyledSection = styled.section`
     margin-top: 5px;
 
     transition: box-shadow 0.3s ease-in-out;
-
+    caret-color: ${({ theme }) => theme.colors.primary};
+    &::placeholder {
+      color: ${({ theme }) => theme.colors.primary};
+      font-family: ${({ theme }) => theme.fonts.regular};
+    }
     &:hover,
     &:focus {
       box-shadow: 0 0 8px ${({ theme }) => theme.colors.secondary};
@@ -44,12 +48,12 @@ export const PostImageGrid = styled.div`
   margin-top: 20px;
 `;
 
-export const Label = styled.div`
-  margin-bottom: ${({ theme }) => theme.spacing.small};
-  color: ${({ theme }) => theme.colors.text};
-  font-weight: bold;
-  font-family: ${({ theme }) => theme.fonts.bold};
-`;
+// export const Label = styled.div`
+//   margin-bottom: ${({ theme }) => theme.spacing.small};
+//   color: ${({ theme }) => theme.colors.text};
+//   font-weight: bold;
+//   font-family: ${({ theme }) => theme.fonts.bold};
+// `;
 
 export const StyledInput = styled.input`
   width: 100%;
@@ -83,6 +87,7 @@ export const PreviewContainer = styled.div`
   width: fit-content;
   height: fit-content;
   transition: box-shadow 0.3s ease-in-out;
+  color: ${({ theme }) => theme.colors.primary};
 
   &:hover,
   &:focus {
@@ -120,11 +125,10 @@ export const SubmitButton = styled.button`
   background-color: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.primary};
   padding: ${({ theme }) => `${theme.spacing.small} ${theme.spacing.medium}`};
-  font-weight: bold;
   border: none;
   border-radius: ${({ theme }) => theme.borderRadius};
   cursor: pointer;
-  font-family: ${({ theme }) => theme.fonts.bold};
+  font-family: ${({ theme }) => theme.fonts.heavy};
   transition: background-color 0.3s ease-in-out;
 
   &:hover {
