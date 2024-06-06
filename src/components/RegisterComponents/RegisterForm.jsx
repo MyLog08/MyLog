@@ -11,9 +11,7 @@ import {
 } from '../../utils/validators';
 import Button from '../Common/Button';
 import Input from '../Common/Input';
-
 import { useDispatch } from 'react-redux';
-import { login } from '../../redux/slices/authSlice';
 import { useNavigate } from 'react-router-dom';
 import {
   ErrorText,
@@ -21,6 +19,7 @@ import {
   RegisterInputWrapper,
   RegisterPageTitle
 } from '../../styles/Register/RegisterStyle';
+import { login } from '../../redux/slices/authSlice';
 
 function RegisterForm() {
   const initialState = {
@@ -141,7 +140,7 @@ function RegisterForm() {
         </RegisterInputWrapper>
 
         <RegisterInputWrapper>
-          <Input placeholder="생년월일" value={birth} name="birth" id="birth" onChange={handleOnChange} />
+          <Input placeholder="생년월일(YYYYMMDD)" value={birth} name="birth" id="birth" onChange={handleOnChange} />
         </RegisterInputWrapper>
 
         <RegisterInputWrapper>
