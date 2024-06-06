@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import LoadingBar from '../Common/LoadingBar';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
+  DetailButtons,
   DetailContent,
   DetailPageDate,
   DetailPageImg,
@@ -14,10 +12,11 @@ import {
   DetailPageNickname,
   DetailPageTitle,
   DetailSection,
-  HomeLogo,
   Divider,
-  DetailButtons
+  HomeLogo
 } from '../../styles/Detail/DetailStyle';
+import supabase from '../../supabase/supabase';
+import LoadingBar from '../Common/LoadingBar';
 
 import myLogoImage from '../../assets/MyLogLogo_blue_bold.png';
 import { StyledButton } from '../../styles/Common/ButtonStyle';
@@ -32,32 +31,35 @@ const ArticleDisplay = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // 게시글 정보 가져오기
-      const { data: articleData, error: articleError } = await supabase
-        .from('Articles')
-        .select('*')
-        .eq('articleId', articleId)
-        .single();
-      if (articleError) {
-        console.log(articleError);
-        return;
-      }
-      const fetchedArticle = articleData;
+      try {
+        // 게시글 정보 가져오기
+        const { data: articleData, error: articleError } = await supabase
+          .from('Articles')
+          .select('*')
+          .eq('articleId', articleId)
+          .single();
+        if (articleError) {
+          throw new Error(articleError);
+        }
+        const fetchedArticle = articleData;
 
-      // 작성자 닉네임 가져오기
-      const { data: userNicknameData, error: userNicknameError } = await supabase
-        .from('Users')
-        .select('nickname')
-        .eq('userId', fetchedArticle.userId)
-        .single();
-      if (userNicknameError) {
-        console.log(userNicknameError);
-        return;
-      }
-      const fetchedNickname = userNicknameData;
+        // 작성자 닉네임 가져오기
+        const { data: userNicknameData, error: userNicknameError } = await supabase
+          .from('Users')
+          .select('nickname')
+          .eq('userId', fetchedArticle.userId)
+          .single();
+        if (userNicknameError) {
+          throw new Error(userNicknameError);
+        }
+        const fetchedNickname = userNicknameData;
 
-      setArticle(fetchedArticle);
-      setUserNickname(fetchedNickname);
+        setArticle(fetchedArticle);
+        setUserNickname(fetchedNickname);
+      } catch (err) {
+        console.error(err);
+        navigate(`/error/404`);
+      }
     };
 
     fetchData();
