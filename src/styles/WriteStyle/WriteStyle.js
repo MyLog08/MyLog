@@ -125,11 +125,10 @@ export const SubmitButton = styled.button`
   background-color: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.primary};
   padding: ${({ theme }) => `${theme.spacing.small} ${theme.spacing.medium}`};
-  font-weight: bold;
   border: none;
   border-radius: ${({ theme }) => theme.borderRadius};
   cursor: pointer;
-  font-family: ${({ theme }) => theme.fonts.bold};
+  font-family: ${({ theme }) => theme.fonts.heavy};
   transition: background-color 0.3s ease-in-out;
 
   &:hover {
