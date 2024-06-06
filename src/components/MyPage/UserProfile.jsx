@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import supabase from '../../supabase/supabase';
+import myLogoImage from '../../assets/MyLogLogo_blue_bold.png';
 import { checkSignIn } from '../../redux/slices/authSlice';
 import {
   ArticleContainer,
@@ -12,8 +12,8 @@ import {
   ProfileSection,
   ProfileWrapper
 } from '../../styles/ProfilePage/ProfilePageStyle';
+import supabase from '../../supabase/supabase';
 import LoadingBar from '../Common/LoadingBar';
-import myLogoImage from '../../assets/MyLogLogo_blue_bold.png';
 
 const UserProfile = () => {
   const user = useSelector((state) => state.auth.user);
@@ -65,7 +65,7 @@ const UserProfile = () => {
   }, [user]);
 
   const moveToEdit = () => {
-    navigate('/profile/edit');
+    navigate('/profile');
   };
 
   const moveToHome = () => {
