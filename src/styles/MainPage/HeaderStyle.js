@@ -77,12 +77,12 @@ export const HeaderButton = styled.button`
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.hoverBackground};
-    color: ${({ theme }) => theme.colors.hoverText};
+    color: ${({ theme }) => theme.colors.secondary};
   }
 `;
 
 export const HomeButton = styled(HeaderButton)`
-  color: ${({ selected, theme }) => (selected ? theme.colors.hoverText : theme.colors.primary)};
+  color: ${({ selected, theme }) => (selected ? theme.colors.secondary : theme.colors.primary)};
 
   button {
     padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.small};
@@ -95,7 +95,7 @@ export const HomeButton = styled(HeaderButton)`
     cursor: pointer;
 
     &:hover {
-      color: ${({ theme }) => theme.colors.hoverText};
+      color: ${({ theme }) => theme.colors.secondary};
     }
   }
 `;
