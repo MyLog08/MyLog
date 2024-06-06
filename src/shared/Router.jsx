@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthStatus from '../components/AuthStatus/AuthStatus';
 import LoadingPage from '../pages/LoadingPage/LoadingPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
-import MyPage from '../pages/MyPage';
+import MyPage from '../pages/MyPage'
 import EditProfile from '../pages/EditProfile';
 import MainPage from '../pages/MainPage/MainPage';
 import RegisterPage from '../pages/RegisterPage/RegisterPage';
