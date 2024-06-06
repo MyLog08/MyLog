@@ -4,6 +4,7 @@ import { handleAuthSignUp, handleUserRegisterInsert } from '../../api/authApi';
 import useFormInputs from '../../hooks/useInput';
 import {
   validateCheckDuplicate,
+  validateDateCheck,
   validateEmailFormat,
   validateNameLength,
   validatePasswordFormat,
@@ -62,6 +63,10 @@ function RegisterForm() {
       }
     } catch (err) {
       newErrors.nickname = '이미 사용중인 닉네임 입니다.';
+    }
+
+    if (!validateDateCheck(birth)) {
+      newErrors.birth = '날짜 형식은 YYYYMMDD 입니다.';
     }
 
     if (!validatePasswordFormat(password)) {
@@ -137,6 +142,7 @@ function RegisterForm() {
 
         <RegisterInputWrapper>
           <Input placeholder="생년월일(YYYYMMDD)" value={birth} name="birth" id="birth" onChange={handleOnChange} />
+          <ErrorText>{errors.birth && <div style={{ color: 'red' }}>{errors.birth}</div>}</ErrorText>
         </RegisterInputWrapper>
 
         <RegisterInputWrapper>
