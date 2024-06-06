@@ -1,7 +1,16 @@
 import dayjs from 'dayjs';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { handleAuthSignUp, handleUserRegisterInsert } from '../../api/authApi';
 import useFormInputs from '../../hooks/useInput';
+import { login } from '../../redux/slices/authSlice';
+import {
+  ErrorText,
+  RegisterButton,
+  RegisterInputWrapper,
+  RegisterPageTitle
+} from '../../styles/Register/RegisterStyle';
 import {
   validateCheckDuplicate,
   validateDateCheck,
@@ -12,15 +21,6 @@ import {
 } from '../../utils/validators';
 import Button from '../Common/Button';
 import Input from '../Common/Input';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import {
-  ErrorText,
-  RegisterButton,
-  RegisterInputWrapper,
-  RegisterPageTitle
-} from '../../styles/Register/RegisterStyle';
-import { login } from '../../redux/slices/authSlice';
 
 function RegisterForm() {
   const initialState = {
@@ -120,7 +120,7 @@ function RegisterForm() {
       setErrors({});
       navigate('/');
     } catch (err) {
-      console.error(err);
+      console.error(err.message);
       alert('회원가입 중 오류 발생');
     }
   };
