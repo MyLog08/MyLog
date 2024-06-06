@@ -128,7 +128,7 @@ function EditProfile() {
           nickname: nickname,
           password: currentPassword,
           reason: mylogReason,
-          imageUrl: picture
+          ...(picture ? { imageUrl: picture } : {})
         })
         .eq('userId', user.id);
       console.log(data);
