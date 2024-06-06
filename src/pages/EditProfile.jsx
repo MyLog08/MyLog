@@ -40,13 +40,12 @@ function EditProfile() {
     }
   }, [user]);
 
-
-
   const handleUploadProfile = async (file) => {
     if (!file) return;
-    
-  
-    const { data, error } = await supabase.storage.from('images').upload(`/${uuidv4()}`, file);
+      
+    const { data, error } = await supabase.storage
+    .from('images')
+    .upload(`/${uuidv4()}`, file);
 
     if (error) {
       console.log(error);
@@ -60,12 +59,9 @@ function EditProfile() {
     }
     setPicture(publicURL.publicUrl);
     return publicURL;
-
     };
 
-
-
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault();
 
     const fileElement = document.getElementById('profilePicture');
@@ -76,6 +72,7 @@ function EditProfile() {
       inputs.profilePicture = profilePictureUrl.publicUrl;
     }
   };
+
   const handleChangeProfile = async (file) => {
     const newErrors = {};
 
@@ -110,8 +107,6 @@ function EditProfile() {
         setSelectedFileName(file.picture);
         setPreviewUrl(URL.createObjectURL(file));
     
-
-
       }
       const { data, error } = await supabase
         .from('Users')
@@ -134,13 +129,10 @@ function EditProfile() {
       console.log(err);
     }
   };
-
-  // 뒤로가기
   const handleBack = () => {
     navigate(-1);
   };
 
-  // 탈퇴하기
   const handleDeleteAccount = async () => {
     if (confirm('정말로 계정을 삭제하시겠습니까?')) {
       const { error } = await supabase.from('Users').delete().eq('userId', user.id);
@@ -166,6 +158,9 @@ function EditProfile() {
     <>
       <button onClick={handleBack}>뒤로가기</button>
       <form onSubmit={handleSubmit}>
+              <section>
+                <div>{previewUrl ? <img src={previewUrl} alt="미리보기 이미지" /> : <span>Please Select a Image</span>}</div>
+                </section>
         <div>
           <label htmlFor="profilePicture">프로필 사진:</label>
           <input
@@ -210,9 +205,6 @@ function EditProfile() {
           변경 완료
         </button>
 
-        <section>
-          <div>{previewUrl ? <img src={previewUrl} alt="미리보기 이미지" /> : <span>Please Select a Image</span>}</div>
-          </section>
       </form>
       <button onClick={handleDeleteAccount} style={{ color: 'red' }}>
         탈퇴하기
