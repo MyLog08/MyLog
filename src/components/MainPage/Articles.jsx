@@ -18,6 +18,7 @@ import {
 import Header from './Header';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
+import LoadingBar from '../Common/LoadingBar';
 
 const Articles = () => {
   const [articles, setArticles] = useState([]);
@@ -26,6 +27,7 @@ const Articles = () => {
   const [loadingMore, setLoadingMore] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [noResults, setNoResults] = useState(false);
+
   const observer = useRef();
   const navigate = useNavigate();
 
@@ -183,6 +185,7 @@ const Articles = () => {
           </ImageGrid>
         )}
       </Content>
+      {!loading && <LoadingBar />}
     </div>
   );
 };

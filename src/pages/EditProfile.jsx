@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import supabase from '../supabase/supabase';
@@ -20,8 +20,8 @@ function EditProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
-  const { inputs, handleOnChange} = useFormInputs(initialState);
-  const { name, nickname, currentPassword, mylogReason, profilePicture } = inputs;
+  const { inputs, handleOnChange } = useFormInputs(initialState);
+  const { name, nickname, currentPassword, mylogReason } = inputs;
   const [picture, setPicture] = useState('');
   const [errors, setErrors] = useState({});
   useEffect(() => {

@@ -2,7 +2,7 @@ import ArticleDisplay from '../../components/DetailPage/ArticleDisplay';
 import CommentInput from '../../components/DetailPage/CommentInput';
 import CommentDisplay from '../../components/DetailPage/CommentDisplay';
 
-const Detail = () => {
+const DetailPage = () => {
   return (
     <>
       <ArticleDisplay />
@@ -12,4 +12,4 @@ const Detail = () => {
   );
 };
 
-export default Detail;
+export default DetailPage;

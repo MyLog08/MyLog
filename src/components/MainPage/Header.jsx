@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import {
   HeaderContainer,
+  HomeButton,
   LoggedInButtons,
   LoginButton,
   Logo,
@@ -25,7 +26,9 @@ const Header = ({ onSearch }) => {
   };
 
   const handleKeyDown = (e) => {
-    onSearch(e);
+    if (e.key === 'Enter') {
+      onSearch(e);
+    }
   };
 
   const handleLogout = async () => {
@@ -34,11 +37,17 @@ const Header = ({ onSearch }) => {
     dispatch(logout());
   };
 
+  const handleRefreshPage = () => {
+    window.location.reload();
+  };
+
   return (
     <HeaderContainer>
       <div>
         <Logo src={myLogoImage} alt="로고" onClick={handleLogoClick} />
-        {/* <Button value="Home" /> */}
+        <HomeButton>
+          <button onClick={handleRefreshPage}>Home</button>
+        </HomeButton>
         <SearchContainer>
           <SearchBar type="text" placeholder="Search..." onKeyDown={handleKeyDown} />
         </SearchContainer>
@@ -47,7 +56,9 @@ const Header = ({ onSearch }) => {
             <NavLink to="/articles/write">
               <WriteButton>Write</WriteButton>
             </NavLink>
-            <ProfileButton>My Profile</ProfileButton>
+            <NavLink to="/profile">
+              <ProfileButton>My Profile</ProfileButton>
+            </NavLink>
             <LogoutButton onClick={handleLogout}>Log Out</LogoutButton>
           </LoggedInButtons>
         ) : (
