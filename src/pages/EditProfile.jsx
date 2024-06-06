@@ -24,10 +24,24 @@ function EditProfile() {
   const { name, nickname, currentPassword, mylogReason } = inputs;
   const [picture, setPicture] = useState('');
   const [errors, setErrors] = useState({});
+  const [ isSocialLogin, setIsSocialLogin] = useState(false)
 
   useEffect(() => {
     dispatch(checkSignIn());
   }, [dispatch]);
+
+  useEffect(() => {
+    if(user) {
+      if(user.app_metadata && user.app_metadata.provider) {
+        setIsSocialLogin(true);
+      } else if(user.user && user.user.app_metadata && user.user.app_metadata.provider) {
+        setIsSocialLogin(false);
+      } else {
+        setIsSocialLogin(false);
+      }
+    }
+  },[])
+  
 
   const handleUploadProfile = async (file) => {
     if (!file) return;
@@ -75,22 +89,23 @@ function EditProfile() {
         .eq('userId', user.id)
         .single();
 
+       
       if (userError) {
         newErrors.general = '사용자의 정보를 가져오는 중 오류가 발생했습니다.';
         throw new Error('사용자 정보를 가져오는 중 오류가 발생했습니다.');
       }
 
       if (!userData.social) {
-        if (!validatePasswordFormat(currentPassword)) {
+        if (!validatePasswordFormat(currentPassword) ) {
           newErrors.password = '비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.';
           throw new Error('비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.');
         }
+        
         if (!validatePasswordMatch(currentPassword, userData.password)) {
           newErrors.unPassword = '비밀번호가 일치하지 않습니다';
           throw new Error('비밀번호 불일치');
         }
-      }
-
+      } 
       const { data, error } = await supabase
         .from('Users')
         .update({
@@ -139,6 +154,8 @@ function EditProfile() {
       alert('계정 삭제가 취소되었습니다.');
     }
   };
+  
+
 
   return (
     <>
@@ -161,7 +178,8 @@ function EditProfile() {
           <label htmlFor="nickname">닉네임:</label>
           <input type="text" id="nickname" name="nickname" value={nickname} onChange={handleOnChange} />
         </div>
-        <div>
+
+        <div>{ isSocialLogin ? null : (<div> 
           <label htmlFor="currentPassword">현재 비밀번호:</label>
           <input
             type="password"
@@ -169,9 +187,14 @@ function EditProfile() {
             name="currentPassword"
             value={currentPassword}
             onChange={handleOnChange}
+            
           />
           {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
           {errors.unPassword && <div style={{ color: 'red' }}>{errors.unPassword}</div>}
+         </div>)  }
+         
+         
+          
         </div>
 
         <div>
