@@ -48,7 +48,10 @@ const UserProfile = () => {
     const textId = async () => {
       if (!user?.id) return;
       try {
-        const { data, error } = await supabase.from('Users').select('*').eq('userId', user.id);
+        const { data, error } = await supabase
+        .from('Users')
+        .select('*')
+        .eq('userId', user.id);
 
         if (error) {
           console.log('Error:', error);
@@ -65,6 +68,10 @@ const UserProfile = () => {
   const moveToEdit = () => {
     navigate('/editprofile');
   };
+ 
+  const moveToHome = () => {
+    navigate('/');
+  }
 
   const moveToPost = (articleId) => {
     navigate(`/articles/${articleId}`);

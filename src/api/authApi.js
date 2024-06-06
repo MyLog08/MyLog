@@ -46,7 +46,10 @@ export const handleUserRegisterInsert = async (object) => {
 };
 
 export const handleUserFindByEmailIsExist = async (email, social) => {
-  const { data, error } = await supabase.from('Users').update({ social }).eq('email', email);
+  const { data, error } = await supabase
+  .from('Users')
+  .update({ social })
+  .eq('email', email);
 
   if (error) {
     alert(error.message);
