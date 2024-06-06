@@ -52,23 +52,33 @@ function EditProfile() {
     }
   }, [user]);
 
-  const handleUploadProfile = async (file) => {
+  const handleImageChange = async (file) => {
     if (!file) return;
 
-    const { data, error } = await supabase.storage.from('images').upload(`/${uuidv4()}`, file);
-
+    
+    const { data, error } = await supabase.storage
+    .from('images')
+    .upload(`/${uuidv4()}`, file);
+    
     if (error) {
       console.log(error);
       return;
-    }
-    const { data: publicURL, error: urlError } = await supabase.storage.from('images').getPublicUrl(data.path);
-
-    if (urlError) {
-      console.log(urlError);
-      return;
-    }
-    setPicture(publicURL.publicUrl);
-    return publicURL;
+      }
+      // 업로드 이미지url 가져오기
+      const { data: imageUploadData, error: imageUploadError } = await supabase
+      .storage
+      .from('images')
+      .getPublicUrl(data.path);
+      
+      if (imageUploadError) {
+        console.log(imageUploadError);
+        return;
+        }
+        setPreviewUrl(URL.createObjectURL(file))
+        setPicture(imageUploadData.publicUrl);
+        return imageUploadData;
+        
+   
   };
 
   const handleSubmit = async (e) => {
@@ -76,15 +86,16 @@ function EditProfile() {
 
     const fileElement = document.getElementById('profilePicture');
     const file = fileElement.files[0];
-    const profilePictureUrl = await handleUploadProfile(file);
+    const profilePictureUrl = await handleImageChange(file);
 
     if (profilePictureUrl) {
       inputs.profilePicture = profilePictureUrl.publicUrl;
     }
   };
 
-  const handleChangeProfile = async (file) => {
+  const handleChangeProfile = async () => {
     const newErrors = {};
+
 
     try {
       if (!name) {
@@ -114,6 +125,7 @@ function EditProfile() {
           throw new Error('비밀번호 불일치');
         }
       }
+
       const { data, error } = await supabase
         .from('Users')
         .update({
@@ -141,7 +153,10 @@ function EditProfile() {
 
   const handleDeleteAccount = async () => {
     if (confirm('정말로 계정을 삭제하시겠습니까?')) {
-      const { error } = await supabase.from('Users').delete().eq('userId', user.id);
+      const { error } = await supabase
+      .from('Users')
+      .delete()
+      .eq('userId', user.id);
 
       if (error) {
         alert('계정 삭제 중 오류가 발생했습니다: ');
@@ -189,6 +204,7 @@ function EditProfile() {
             value={nickname}
             onChange={handleOnChange}
             placeholder="Nickname :"
+>>>>>>> ff2d6197467dcc924f449f99a05bca240631f8a7
           />
         </EditFormGroup>
 
