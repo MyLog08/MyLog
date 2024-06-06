@@ -48,3 +48,28 @@ export const DetailPageImg = styled.div`
 export const DetailContent = styled.div`
   font-family: ${({ theme }) => theme.fonts.regular};
 `;
+
+export const DetailButtons = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.small};
+  margin-bottom: ${({ theme }) => theme.spacing.small};
+  justify-content: center;
+`;
+
+export const DetailButton = styled.button`
+  padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.medium};
+  font-size: 16px;
+  font-weight: bold;
+  font-family: ${({ theme }) => theme.fonts.bold};
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.background};
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.hoverBackground};
+    color: ${({ theme }) => theme.colors.hoverText};
+  }
+`;
