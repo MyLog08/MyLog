@@ -126,8 +126,11 @@ export const SelectFileButton = styled.label`
 `;
 
 export const FileNameDisplay = styled.span`
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.bold};
   margin-top: 5px;
+  > p {
+    font-family: ${({ theme }) => theme.fonts.bold};
+  }
 `;
 
 export const FileInputContainer = styled.label`
@@ -145,6 +148,9 @@ export const FileInputContainer = styled.label`
 
   input[type='file'] {
     display: none;
+  }
+  > p {
+    ${({ theme }) => theme.fonts.bold};
   }
 `;
 

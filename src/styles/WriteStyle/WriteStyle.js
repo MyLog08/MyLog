@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const StyledSection = styled.section`
   background-color: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.text};
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.bold};
   padding: 20px;
 
   & > div {
@@ -54,7 +54,7 @@ export const StyledInput = styled.input`
   margin-top: ${({ theme }) => theme.spacing.small};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius};
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.bold};
 `;
 
 export const StyledTextArea = styled.textarea`
@@ -62,7 +62,7 @@ export const StyledTextArea = styled.textarea`
   padding: ${({ theme }) => theme.spacing.small};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius};
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.bold};
   margin-top: ${({ theme }) => theme.spacing.small};
 `;
 
@@ -96,14 +96,14 @@ export const PreviewContainer = styled.div`
   }
 
   span {
-    font-family: ${({ theme }) => theme.fonts.regular};
+    font-family: ${({ theme }) => theme.fonts.bold};
   }
 `;
 
 export const PreviewLabel = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.small};
   color: ${({ theme }) => theme.colors.text};
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.bold};
 `;
 
 export const PreviewImageContainer = styled.div``;

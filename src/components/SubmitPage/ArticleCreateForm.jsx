@@ -160,7 +160,7 @@ const ArticleCreateForm = () => {
             }}
           />
         </FileInputContainer>
-        <FileNameDisplay>{selectedFileName || 'Select a New Photo'}</FileNameDisplay>
+        <FileNameDisplay>{selectedFileName || <p>Select a New Photo</p>}</FileNameDisplay>
       </FileUploadContainer>
       <PreviewLabel>Posted Image</PreviewLabel>
       <PostImageGrid>
