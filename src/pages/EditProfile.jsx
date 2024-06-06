@@ -73,22 +73,21 @@ function EditProfile() {
         throw new Error('비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.');
       }
 
-      const { data:userData, error: userError} = await supabase
-      .from('Users')
-      .select('password')
-      .eq('userId', user.id)
-      .single()
+      const { data: userData, error: userError } = await supabase
+        .from('Users')
+        .select('password')
+        .eq('userId', user.id)
+        .single();
 
       if (userError) {
-        newErrors.general = '사용자의 정보를 가져오는 중 오류가 발생했습니다.'
-        throw new Error('사용자 정보를 가져오는 중 오류가 발생했습니다.')
+        newErrors.general = '사용자의 정보를 가져오는 중 오류가 발생했습니다.';
+        throw new Error('사용자 정보를 가져오는 중 오류가 발생했습니다.');
       }
-      
-      if (!validatePasswordMatch(currentPassword,userData.password)) {
-        newErrors.unPassword = '비밀번호가 일치하지 않습니다'
-        throw new Error('비밀번호 불일치')
+
+      if (!validatePasswordMatch(currentPassword, userData.password)) {
+        newErrors.unPassword = '비밀번호가 일치하지 않습니다';
+        throw new Error('비밀번호 불일치');
       }
-     
 
       const { data, error } = await supabase
         .from('Users')
@@ -119,24 +118,29 @@ function EditProfile() {
 
   // 탈퇴하기
   const handleDeleteAccount = async () => {
-    const { error } = await supabase
-    .from('Users')
-    .delete()
-    .eq('userId', user.id);
-    
-    if (error) {
-      alert('계정 삭제 중 오류가 발생했습니다' + error.message);
-    } else {
-      const { error } = await supabase.auth.signOut();
+    if (confirm('정말로 계정을 삭제하시겠습니까?')) {
+      const { error } = await supabase
+      .from('Users')
+      .delete()
+      .eq('userId', user.id);
+
       if (error) {
-        alert('로그아웃 중 오류가 발생했습니다');
+        alert('계정 삭제 중 오류가 발생했습니다: ');
       } else {
-        dispatch(logout());
-        alert('계정이 성공적으로 삭제되었습니다.');
-        navigate('/');
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+          alert('로그아웃 중 오류가 발생했습니다');
+        } else {
+          dispatch(logout());
+          alert('계정이 성공적으로 삭제되었습니다.');
+          navigate('/');
+        }
       }
+    } else {
+      alert('계정 삭제가 취소되었습니다.');
     }
   };
+
   return (
     <>
       <button onClick={handleBack}>뒤로가기</button>
