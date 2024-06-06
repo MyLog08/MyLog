@@ -10,7 +10,6 @@ import MyPage from '../pages/MyPage';
 import RegisterPage from '../pages/RegisterPage/RegisterPage';
 import ArticleCreatePage from '../pages/SubmitPage/ArticleCreatePage';
 import ArticleUpdatePage from '../pages/SubmitPage/ArticleUpdatePage';
-import DetailPage from '../pages/DetailPage/DetailPage';
 import NotFoundPage from '../pages/ErrorPage/NotFoundPage';
 
 const Router = () => {
