@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
-import supabase from '../../supabase/supabase';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ArticleDisplay from '../../components/DetailPage/ArticleDisplay';
-import CommentInput from '../../components/DetailPage/CommentInput';
 import CommentDisplay from '../../components/DetailPage/CommentDisplay';
+import CommentInput from '../../components/DetailPage/CommentInput';
+import supabase from '../../supabase/supabase';
 
 const DetailPage = () => {
   const { articleId } = useParams();
   const [comments, setComments] = useState([]);
+  const [commentsCount, setCommentsCount] = useState(0);
 
   const fetchData = async () => {
     try {
@@ -34,8 +35,13 @@ const DetailPage = () => {
   return (
     <>
       <ArticleDisplay />
-      <CommentInput fetchData={fetchData} />
-      <CommentDisplay comments={comments} setComments={setComments} />
+      <CommentInput fetchData={fetchData} commentsCount={commentsCount} setCommentsCount={setCommentsCount} />
+      <CommentDisplay
+        comments={comments}
+        setComments={setComments}
+        commentsCount={commentsCount}
+        setCommentsCount={setCommentsCount}
+      />
     </>
   );
 };

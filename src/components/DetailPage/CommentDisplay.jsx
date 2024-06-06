@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { checkSignIn } from '../../redux/slices/authSlice';
-import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
-import { validateLength } from '../../utils/validators';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkSignIn } from '../../redux/slices/authSlice';
 import {
   ActionButton,
   CommentActions,
@@ -19,8 +17,10 @@ import {
   ProfileImage
 } from '../../styles/Detail/CommentDisplayStyle';
 import { Divider } from '../../styles/Detail/DetailStyle';
+import supabase from '../../supabase/supabase';
+import { validateLength } from '../../utils/validators';
 
-const CommentDisplay = ({ comments, setComments }) => {
+const CommentDisplay = ({ comments, setComments, setCommentsCount }) => {
   const [users, setUsers] = useState([]);
 
   const user = useSelector((state) => state.auth.user);
@@ -108,6 +108,7 @@ const CommentDisplay = ({ comments, setComments }) => {
           throw commentDeleteError;
         } else {
           setComments(comments.filter((comment) => comment.commentId !== targetId));
+          setCommentsCount((prevCount) => prevCount - 1);
         }
       } catch (error) {
         console.error(error);
