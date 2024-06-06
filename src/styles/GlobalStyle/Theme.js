@@ -4,7 +4,9 @@ export const theme = {
     secondary: '#ffbfbf',
     background: '#fafafa',
     text: '#333',
-    border: '#fafafa'
+    shade: '#d9d9d9',
+    border: '#fafafa',
+    error: 'red'
   },
   spacing: {
     small: '10px',

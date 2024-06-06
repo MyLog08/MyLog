@@ -7,6 +7,18 @@ import useFormInputs from '../hooks/useInput';
 import { checkSignIn } from '../redux/slices/authSlice';
 import { logout } from '../redux/slices/authSlice';
 import { validatePasswordFormat, validatePasswordMatch } from '../utils/validators';
+import {
+  EditButtons,
+  EditErrorMessage,
+  EditFormGroup,
+  EditFormSection,
+  EditInput,
+  EditLabel,
+  EditPhotoLabel,
+  ProfileEditFormWrapper,
+  RedStyledButton
+} from '../styles/ProfilePage/ProfileEditPageStyle';
+import { StyledButton } from '../styles/Common/ButtonStyle';
 
 const initialState = {
   name: '',
@@ -164,11 +176,12 @@ function EditProfile() {
   };
 
   return (
-    <>
-      <button onClick={handleBack}>뒤로가기</button>
+    <ProfileEditFormWrapper>
+      <StyledButton onClick={handleBack}>◀️ Profile</StyledButton>
       <form onSubmit={handleSubmit}>
-        <section>
+        <EditFormSection>
           <div>{previewUrl ? <img src={previewUrl} alt="미리보기 이미지" /> : <span>Please Select a Image</span>}</div>
+<<<<<<< HEAD
         </section>
         <div>
           <label htmlFor="profilePicture">프로필 사진:</label>
@@ -177,47 +190,72 @@ function EditProfile() {
             id="profilePicture"
             name="profilePicture"
             onChange={(e) => handleImageChange(e.target.files[0])}
+=======
+        </EditFormSection>
+        <EditFormGroup>
+          <EditPhotoLabel htmlFor="profilePicture">
+            Profile Photo:
+            <input
+              type="file"
+              id="profilePicture"
+              name="profilePicture"
+              onChange={(e) => handleUploadProfile(e.target.files[0])}
+            />
+          </EditPhotoLabel>
+        </EditFormGroup>
+        <EditFormGroup>
+          <EditInput type="text" id="name" name="name" value={name} onChange={handleOnChange} placeholder="Name :" />
+        </EditFormGroup>
+        <EditFormGroup>
+          <EditInput
+            type="text"
+            id="nickname"
+            name="nickname"
+            value={nickname}
+            onChange={handleOnChange}
+            placeholder="Nickname :"
+>>>>>>> ff2d6197467dcc924f449f99a05bca240631f8a7
           />
-        </div>
-        <div>
-          <label htmlFor="name">이름:</label>
-          <input type="text" id="name" name="name" value={name} onChange={handleOnChange} />
-        </div>
-        <div>
-          <label htmlFor="nickname">닉네임:</label>
-          <input type="text" id="nickname" name="nickname" value={nickname} onChange={handleOnChange} />
-        </div>
+        </EditFormGroup>
 
-        <div>
-          {!isSocialLogin && (
-            <div>
-              <label htmlFor="currentPassword">현재 비밀번호:</label>
-              <input
-                type="password"
-                id="currentPassword"
-                name="currentPassword"
-                value={currentPassword}
-                onChange={handleOnChange}
-              />
-              {errors.password && <div style={{ color: 'red' }}>{errors.password}</div>}
-              {errors.unPassword && <div style={{ color: 'red' }}>{errors.unPassword}</div>}
-            </div>
-          )}
-        </div>
+        {!isSocialLogin && (
+          <EditFormGroup>
+            <EditInput
+              type="password"
+              id="currentPassword"
+              name="currentPassword"
+              value={currentPassword}
+              onChange={handleOnChange}
+              placeholder="Current Password :"
+            />
+            <EditErrorMessage>
+              {errors.password}
+              {errors.unPassword}
+            </EditErrorMessage>
+          </EditFormGroup>
+        )}
 
-        <div>
-          <label htmlFor="reasonToUseBlog">Mylog 운영 이유:</label>
-          <input type="text" id="mylogReason" name="mylogReason" value={mylogReason} onChange={handleOnChange} />
-        </div>
-        {errors.general && <div style={{ color: 'red' }}>{errors.general}</div>}
-        <button type="submit" style={{ color: 'blue' }} onClick={handleChangeProfile}>
-          변경 완료
-        </button>
+        <EditFormGroup>
+          <EditInput
+            type="text"
+            id="mylogReason"
+            name="mylogReason"
+            value={mylogReason}
+            onChange={handleOnChange}
+            placeholder="Mylog is for :"
+          />
+        </EditFormGroup>
+        <EditErrorMessage>{errors.general}</EditErrorMessage>
       </form>
-      <button onClick={handleDeleteAccount} style={{ color: 'red' }}>
-        탈퇴하기
-      </button>
-    </>
+      <EditButtons>
+        <StyledButton type="submit" onClick={handleChangeProfile}>
+          Edit
+        </StyledButton>
+      </EditButtons>
+      <EditButtons>
+        <RedStyledButton onClick={handleDeleteAccount}>Quit</RedStyledButton>
+      </EditButtons>
+    </ProfileEditFormWrapper>
   );
 }
 

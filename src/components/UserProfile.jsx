@@ -50,7 +50,12 @@ const UserProfile = () => {
     const textId = async () => {
       if (!user?.id) return;
       try {
-        const { data, error } = await supabase.from('Users').select('*').eq('userId', user.id);
+        const { data, error } = await supabase
+        .from('Users')
+        .select('*')
+        .eq('userId', user.id)
+        
+      
 
         if (error) {
           console.log('Error:', error);
@@ -84,7 +89,7 @@ const UserProfile = () => {
             <Logo src={myLogoImage} alt="로고" onClick={moveToHome} />
             <ProfileImage src={dataUser.length > 0 ? dataUser[0].imageUrl || '' : ''} alt="Profile" />
             <h2>{dataUser.length > 0 ? dataUser[0].name : 'No Name'}</h2>
-            <h5></h5>
+            <h5>Mylog 운영 이유 : </h5>
             <ProfileButton onClick={moveToEdit}>프로필 편집</ProfileButton>
           </ProfileSection>
           <ArticlesSection>
