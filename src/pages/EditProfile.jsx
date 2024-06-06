@@ -73,10 +73,22 @@ function EditProfile() {
         throw new Error('비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.');
       }
 
-      // if (!validatePasswordMatch(currentPassword, data.password)) {
-      //   newErrors.unPassword = '비밀번호가 일치하지 않습니다.';
-      //   throw new Error('비밀번호 불일치');
-      // }
+      const { data:userData, error: userError} = await supabase
+      .from('Users')
+      .select('password')
+      .eq('userId', user.id)
+      .single()
+
+      if (userError) {
+        newErrors.general = '사용자의 정보를 가져오는 중 오류가 발생했습니다.'
+        throw new Error('사용자 정보를 가져오는 중 오류가 발생했습니다.')
+      }
+      
+      if (!validatePasswordMatch(currentPassword,userData.password)) {
+        newErrors.unPassword = '비밀번호가 일치하지 않습니다'
+        throw new Error('비밀번호 불일치')
+      }
+     
 
       const { data, error } = await supabase
         .from('Users')
@@ -107,7 +119,11 @@ function EditProfile() {
 
   // 탈퇴하기
   const handleDeleteAccount = async () => {
-    const { error } = await supabase.from('Users').delete().eq('userId', user.id);
+    const { error } = await supabase
+    .from('Users')
+    .delete()
+    .eq('userId', user.id);
+    
     if (error) {
       alert('계정 삭제 중 오류가 발생했습니다' + error.message);
     } else {
