@@ -1,12 +1,11 @@
-import React from 'react';
 import UserProfile from '../components/UserProfile';
 
-const Mypage = () => {
+const MyPage = () => {
   return (
     <>
-      <UserProfile/>
+      <UserProfile />
     </>
   );
 };
 
-export default Mypage;
+export default MyPage;
