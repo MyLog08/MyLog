@@ -136,9 +136,9 @@ function EditProfile() {
       if (error) {
         console.error('업데이트에 문제가 발생했습니다.', error);
       } else {
-        return alert('업데이트가 완료 됐습니다!', data);
+        alert('업데이트가 완료 됐습니다!', data);
+        navigate('/profile');
       }
-      navigate('/profile');
     } catch (err) {
       setErrors(newErrors);
       console.log(err);
