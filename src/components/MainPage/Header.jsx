@@ -3,17 +3,13 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import myLogoImage from '../../assets/MyLogLogo_blue_bold.png';
 import { logout } from '../../redux/slices/authSlice';
 import {
+  HeaderButton,
   HeaderContainer,
   HomeButton,
   LoggedInButtons,
-  LoginButton,
   Logo,
-  LogoutButton,
-  ProfileButton,
   SearchBar,
-  SearchContainer,
-  SigninButton,
-  WriteButton
+  SearchContainer
 } from '../../styles/MainPage/HeaderStyle';
 import supabase from '../../supabase/supabase';
 
@@ -55,20 +51,20 @@ const Header = ({ onSearch }) => {
         {isLoggedIn ? (
           <LoggedInButtons>
             <NavLink to="/articles/write">
-              <WriteButton>Write</WriteButton>
+              <HeaderButton>Write</HeaderButton>
             </NavLink>
             <NavLink to="/profile">
-              <ProfileButton>My Profile</ProfileButton>
+              <HeaderButton>My Profile</HeaderButton>
             </NavLink>
-            <LogoutButton onClick={handleLogout}>Log Out</LogoutButton>
+            <HeaderButton onClick={handleLogout}>Log Out</HeaderButton>
           </LoggedInButtons>
         ) : (
           <LoggedInButtons>
             <NavLink to="/auth/register">
-              <SigninButton>Sign In</SigninButton>
+              <HeaderButton>Sign In</HeaderButton>
             </NavLink>
             <NavLink to="/auth/login">
-              <LoginButton>Log In</LoginButton>
+              <HeaderButton>Log In</HeaderButton>
             </NavLink>
           </LoggedInButtons>
         )}

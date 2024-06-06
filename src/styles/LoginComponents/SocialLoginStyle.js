@@ -4,19 +4,20 @@ export const SocialSectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin-top: ${({ theme }) => theme.spacing.medium};
 `;
 
 export const SocialSectionTitle = styled.div`
-  color: #8aa9e4;
+  color: ${({ theme }) => theme.colors.primary};
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: ${({ theme }) => theme.spacing.small};
+  font-family: ${({ theme }) => theme.fonts.regular};
 `;
 
 export const IconWrapper = styled.div`
   display: flex;
-  gap: 10px;
+  gap: ${({ theme }) => theme.spacing.small};
   cursor: pointer;
 `;
 
@@ -30,7 +31,6 @@ export const SocialIcon = styled.div`
   background-color: #fafafa;
   transition: background-color 0.3s ease;
   &:hover {
-    //transform: translateY(-5px);
     transform: scale(1.1);
   }
 `;
