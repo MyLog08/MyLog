@@ -24,7 +24,7 @@ export const CommentPost = styled.input`
   border-radius: 10px;
   font-family: ${({ theme }) => theme.fonts.bold};
   margin-top: 5px;
-  margin-right: ${({ theme }) => theme.spacing.small}; /* Add margin-right to create a gap between input and button */
+  margin-right: ${({ theme }) => theme.spacing.small};
   transition: box-shadow 0.3s ease-in-out;
   caret-color: ${({ theme }) => theme.colors.primary};
 

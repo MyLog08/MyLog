@@ -1,21 +1,36 @@
 import styled from 'styled-components';
 
 export const ProfileEditFormWrapper = styled.div`
+  background-color: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.text};
+  font-family: ${({ theme }) => theme.fonts.regular};
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  width: 60vw;
-  height: 80vh;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+  height: 100vh; /* 화면의 높이를 전체 뷰포트 높이로 설정 */
+`;
+
+export const EditImageFormSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5px auto 20px auto;
+  margin-bottom: 20px;
+  width: 700px;
+  padding-top: 50px;
+  font-family: ${({ theme }) => theme.fonts.regular};
+  margin-top: 50px;
+  transition: box-shadow 0.3s ease-in-out;
 `;
 
 export const EditFormSection = styled.section`
   margin-bottom: ${({ theme }) => theme.spacing.medium};
+  max-width: 60%;
+  width: 350px;
+  padding-right: ${({ theme }) => theme.spacing.medium};
+  box-sizing: border-box;
 `;
 
 export const EditFormGroup = styled.div`
@@ -45,6 +60,9 @@ export const EditPhotoLabel = styled.div`
 
   input[type='file'] {
     display: none;
+  }
+  > label {
+    ${({ theme }) => theme.fonts.bold};
   }
 `;
 
@@ -100,6 +118,7 @@ export const EditButtons = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.small};
   display: flex;
   flex-direction: column;
+  align-items: center; /* 수직 방향으로 중앙 정렬 */
 `;
 
 export const RedStyledButton = styled.div`
@@ -112,5 +131,48 @@ export const RedStyledButton = styled.div`
 
   &:hover {
     color: ${({ theme }) => theme.colors.error};
+  }
+`;
+
+export const EditPhotoGroup = styled.div`
+  padding-top: ${({ theme }) => theme.spacing.medium};
+  margin-top: ${({ theme }) => theme.spacing.medium};
+  max-width: 500px; /* 이미지 폭을 500px로 지정 */
+  max-height: 500px; /* 이미지 높이를 500px로 지정 */
+
+  img {
+    object-fit: cover;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+export const ProfileImageGrid = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  max-width: 500px; /* 이미지 폭을 500px로 지정 */
+  max-height: 500px;
+`;
+
+export const PreviewImgContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px;
+  /* 이미지 높이를 500px로 지정 */
+
+  img {
+    object-fit: cover;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+  }
+
+  span {
+    font-family: ${({ theme }) => theme.fonts.regular};
   }
 `;

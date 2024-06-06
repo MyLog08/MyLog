@@ -151,7 +151,7 @@ const ArticleCreateForm = () => {
       <div>New Image</div>
       <FileUploadContainer>
         <FileInputContainer>
-          Image
+          <p>Image</p>
           <input
             type="file"
             accept="image/jpeg, image/png"

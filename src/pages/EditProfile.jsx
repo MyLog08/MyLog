@@ -12,10 +12,13 @@ import {
   EditErrorMessage,
   EditFormGroup,
   EditFormSection,
+  EditImageFormSection,
   EditInput,
-  EditLabel,
+  EditPhotoGroup,
   EditPhotoLabel,
+  PreviewImgContainer,
   ProfileEditFormWrapper,
+  ProfileImageGrid,
   RedStyledButton
 } from '../styles/ProfilePage/ProfileEditPageStyle';
 import { StyledButton } from '../styles/Common/ButtonStyle';
@@ -55,30 +58,24 @@ function EditProfile() {
   const handleImageChange = async (file) => {
     if (!file) return;
 
-    
-    const { data, error } = await supabase.storage
-    .from('images')
-    .upload(`/${uuidv4()}`, file);
-    
+    const { data, error } = await supabase.storage.from('images').upload(`/${uuidv4()}`, file);
+
     if (error) {
       console.log(error);
       return;
-      }
-      // 업로드 이미지url 가져오기
-      const { data: imageUploadData, error: imageUploadError } = await supabase
-      .storage
+    }
+    // 업로드 이미지url 가져오기
+    const { data: imageUploadData, error: imageUploadError } = await supabase.storage
       .from('images')
       .getPublicUrl(data.path);
-      
-      if (imageUploadError) {
-        console.log(imageUploadError);
-        return;
-        }
-        setPreviewUrl(URL.createObjectURL(file))
-        setPicture(imageUploadData.publicUrl);
-        return imageUploadData;
-        
-   
+
+    if (imageUploadError) {
+      console.log(imageUploadError);
+      return;
+    }
+    setPreviewUrl(URL.createObjectURL(file));
+    setPicture(imageUploadData.publicUrl);
+    return imageUploadData;
   };
 
   const handleSubmit = async (e) => {
@@ -95,7 +92,6 @@ function EditProfile() {
 
   const handleChangeProfile = async () => {
     const newErrors = {};
-
 
     try {
       if (!name) {
@@ -153,10 +149,7 @@ function EditProfile() {
 
   const handleDeleteAccount = async () => {
     if (confirm('정말로 계정을 삭제하시겠습니까?')) {
-      const { error } = await supabase
-      .from('Users')
-      .delete()
-      .eq('userId', user.id);
+      const { error } = await supabase.from('Users').delete().eq('userId', user.id);
 
       if (error) {
         alert('계정 삭제 중 오류가 발생했습니다: ');
@@ -178,21 +171,27 @@ function EditProfile() {
   return (
     <ProfileEditFormWrapper>
       <StyledButton onClick={handleBack}>◀️ Profile</StyledButton>
-      <form onSubmit={handleSubmit}>
-        <EditFormSection>
-          <div>{previewUrl ? <img src={previewUrl} alt="미리보기 이미지" /> : <span>Please Select a Image</span>}</div>
-        </EditFormSection>
-        <EditFormGroup>
-          <EditPhotoLabel htmlFor="profilePicture">
-            Profile Photo:
-            <input
-              type="file"
-              id="profilePicture"
-              name="profilePicture"
-              onChange={(e) => handleUploadProfile(e.target.files[0])}
-            />
-          </EditPhotoLabel>
-        </EditFormGroup>
+      <EditImageFormSection onSubmit={handleSubmit}>
+        <EditPhotoGroup>
+          <EditFormGroup>
+            <ProfileImageGrid>
+              <PreviewImgContainer>
+                {previewUrl ? <img src={previewUrl} alt="미리보기 이미지" /> : <span>Please Select New Image</span>}
+              </PreviewImgContainer>
+            </ProfileImageGrid>
+            <EditPhotoLabel>
+              <label htmlFor="profilePicture">Click to Upload New Image</label>
+              <input
+                type="file"
+                id="profilePicture"
+                name="profilePicture"
+                onChange={(e) => handleImageChange(e.target.files[0])}
+              />
+            </EditPhotoLabel>
+          </EditFormGroup>
+        </EditPhotoGroup>
+      </EditImageFormSection>
+      <EditFormSection>
         <EditFormGroup>
           <EditInput type="text" id="name" name="name" value={name} onChange={handleOnChange} placeholder="Name :" />
         </EditFormGroup>
@@ -204,7 +203,6 @@ function EditProfile() {
             value={nickname}
             onChange={handleOnChange}
             placeholder="Nickname :"
->>>>>>> ff2d6197467dcc924f449f99a05bca240631f8a7
           />
         </EditFormGroup>
 
@@ -216,7 +214,7 @@ function EditProfile() {
               name="currentPassword"
               value={currentPassword}
               onChange={handleOnChange}
-              placeholder="Current Password :"
+              placeholder="Password :"
             />
             <EditErrorMessage>
               {errors.password}
@@ -236,7 +234,7 @@ function EditProfile() {
           />
         </EditFormGroup>
         <EditErrorMessage>{errors.general}</EditErrorMessage>
-      </form>
+      </EditFormSection>
       <EditButtons>
         <StyledButton type="submit" onClick={handleChangeProfile}>
           Edit
