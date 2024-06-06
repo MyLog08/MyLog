@@ -223,17 +223,6 @@ function EditProfile() {
             </EditErrorMessage>
           </EditFormGroup>
         )}
-
-        <EditFormGroup>
-          <EditInput
-            type="text"
-            id="mylogReason"
-            name="mylogReason"
-            value={mylogReason}
-            onChange={handleOnChange}
-            placeholder="Mylog is for :"
-          />
-        </EditFormGroup>
         <EditErrorMessage>{errors.general}</EditErrorMessage>
       </EditFormSection>
       <EditButtons>
@@ -242,7 +231,7 @@ function EditProfile() {
         </StyledButton>
       </EditButtons>
       <EditButtons>
-        <RedStyledButton onClick={handleDeleteAccount}>Quit</RedStyledButton>
+        <RedStyledButton onClick={handleDeleteAccount}>Delete</RedStyledButton>
       </EditButtons>
     </ProfileEditFormWrapper>
   );
