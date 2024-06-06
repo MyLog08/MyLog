@@ -2,13 +2,11 @@ import styled from 'styled-components';
 
 export const StyledButton = styled.button`
   font-size: 20px;
-  font-weight: bold;
-  background-color: ${({ theme }) => theme.colors.background};
   color: ${({ selected, theme }) => (selected ? theme.colors.secondary : theme.colors.primary)};
   border: none;
   cursor: pointer;
   transition: color 0.3s;
-  font-family: ${({ theme }) => theme.fonts.regular};
+  font-family: ${({ theme }) => theme.fonts.bold};
 
   &:hover {
     color: ${({ theme }) => theme.colors.secondary};
