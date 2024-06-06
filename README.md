@@ -22,7 +22,126 @@
 
 ```
 
-
+📦 MyLog
+├── 📜 README.md
+├── 📜 index.html
+├── 📜 package.json
+├── 📂 public
+│   └── 📜 vite.svg
+├── 📂 src
+│   ├── 📜 App.jsx
+│   ├── 📂 api
+│   │   └── 📜 authApi.js
+│   ├── 📂 assets
+│   │   ├── 📜 MyLogLogo_1.svg
+│   │   ├── 📜 MyLogLogo_blue_bold.png
+│   │   └── 📜 No_image_available.png
+│   ├── 📂 components
+│   │   ├── 📂 AuthStatus
+│   │   │   └── 📜 AuthStatus.jsx
+│   │   ├── 📂 Common
+│   │   │   ├── 📜 Button.jsx
+│   │   │   ├── 📜 Input.jsx
+│   │   │   └── 📜 LoadingBar.jsx
+│   │   ├── 📂 DetailPage
+│   │   │   ├── 📜 ArticleDisplay.jsx
+│   │   │   ├── 📜 CommentDisplay.jsx
+│   │   │   └── 📜 CommentInput.jsx
+│   │   ├── 📂 LoginComponents
+│   │   │   ├── 📜 LoginForm.jsx
+│   │   │   └── 📜 SocialSection.jsx
+│   │   ├── 📂 MainPage
+│   │   │   ├── 📜 Articles.jsx
+│   │   │   ├── 📜 Header.jsx
+│   │   │   └── 📜 Search.jsx
+│   │   ├── 📂 MyPage
+│   │   │   └── 📜 UserProfile.jsx
+│   │   ├── 📂 RegisterComponents
+│   │   │   └── 📜 RegisterForm.jsx
+│   │   └── 📂 SubmitPage
+│   │       ├── 📜 ArticleCreateForm.jsx
+│   │       └── 📜 ArticleUpdateForm.jsx
+│   ├── 📂 hooks
+│   │   └── 📜 useInput.jsx
+│   ├── 📂 icons
+│   │   ├── 📜 DiscordIcon.jsx
+│   │   ├── 📜 GithubIcon.jsx
+│   │   ├── 📜 GoogleIcon.jsx
+│   │   ├── 📜 KaKaoIcon.jsx
+│   │   └── 📜 SlackIcon.jsx
+│   ├── 📜 main.jsx
+│   ├── 📂 pages
+│   │   ├── 📂 DetailPage
+│   │   │   └── 📜 DetailPage.jsx
+│   │   ├── 📂 EditProfilePage
+│   │   │   └── 📜 EditProfile.jsx
+│   │   ├── 📂 ErrorPage
+│   │   │   └── 📜 NotFoundPage.jsx
+│   │   ├── 📂 LoadingPage
+│   │   │   └── 📜 LoadingPage.jsx
+│   │   ├── 📂 LoginPage
+│   │   │   └── 📜 LoginPage.jsx
+│   │   ├── 📂 MainPage
+│   │   │   └── 📜 MainPage.jsx
+│   │   ├── 📂 MyPage
+│   │   │   └── 📜 MyPage.jsx
+│   │   ├── 📂 RegisterPage
+│   │   │   └── 📜 RegisterPage.jsx
+│   │   └── 📂 SubmitPage
+│   │       ├── 📜 ArticleCreatePage.jsx
+│   │       └── 📜 ArticleUpdatePage.jsx
+│   ├── 📂 redux
+│   │   ├── 📂 slices
+│   │   │   ├── 📜 authSlice.js
+│   │   │   └── 📜 userProfileSlice.js
+│   │   └── 📜 store.js
+│   ├── 📂 shared
+│   │   └── 📜 Router.jsx
+│   ├── 📂 styles
+│   │   ├── 📂 Common
+│   │   │   ├── 📜 ButtonStyle.js
+│   │   │   ├── 📜 InputStyle.js
+│   │   │   └── 📜 LoadingBarStyle.js
+│   │   ├── 📂 Detail
+│   │   │   ├── 📜 CommentDisplayStyle.js
+│   │   │   ├── 📜 CommentStyle.js
+│   │   │   ├── 📜 DetailEditStyle.js
+│   │   │   └── 📜 DetailStyle.js
+│   │   ├── 📂 ErrorPage
+│   │   │   └── 📜 NotFoundPageStyle.js
+│   │   ├── 📂 GlobalStyle
+│   │   │   ├── 📜 AppStyle.js
+│   │   │   ├── 📜 GlobalStyle.js
+│   │   │   └── 📜 Theme.js
+│   │   ├── 📂 LoginComponents
+│   │   │   ├── 📜 LoginStyle.js
+│   │   │   └── 📜 SocialLoginStyle.js
+│   │   ├── 📂 MainPage
+│   │   │   ├── 📜 HeaderStyle.js
+│   │   │   └── 📜 MainStyle.js
+│   │   ├── 📂 ProfilePage
+│   │   │   ├── 📜 ProfileEditPageStyle.js
+│   │   │   └── 📜 ProfilePageStyle.js
+│   │   ├── 📂 Register
+│   │   │   └── 📜 RegisterStyle.js
+│   │   └── 📂 WriteStyle
+│   │       └── 📜 WriteStyle.js
+│   ├── 📂 supabase
+│   │   └── 📜 supabase.js
+│   └── 📂 utils
+│       ├── 📂 common
+│       │   └── 📜 scrollToTop.js
+│       └── 📂 validators
+│           ├── 📜 index.js
+│           ├── 📜 validateCheckDuplicate.js
+│           ├── 📜 validateDateFormat.js
+│           ├── 📜 validateEmailFormat.js
+│           ├── 📜 validateLength.js
+│           ├── 📜 validateNameLength.js
+│           ├── 📜 validatePasswordFormat.js
+│           └── 📜 validatePasswordMatch.js
+├── 📜 vite.config.js
+└── 📜 yarn.lock
 
 ```
 
