@@ -230,7 +230,7 @@ function EditProfile() {
         </StyledButton>
       </EditButtons>
       <EditButtons>
-        <RedStyledButton onClick={handleDeleteAccount}>Quit</RedStyledButton>
+        <RedStyledButton onClick={handleDeleteAccount}>Delete</RedStyledButton>
       </EditButtons>
     </ProfileEditFormWrapper>
   );
