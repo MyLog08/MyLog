@@ -25,10 +25,9 @@ function EditProfile() {
   const [picture, setPicture] = useState('');
   const [errors, setErrors] = useState({});
 
-
   useEffect(() => {
     dispatch(checkSignIn());
-  }, [dispatch, user.id]);
+  }, [dispatch]);
 
   const handleUploadProfile = async (file) => {
     if (!file) return;
@@ -65,30 +64,31 @@ function EditProfile() {
     const newErrors = {};
 
     try {
-      if (!name || currentPassword) {
+      if (!name) {
         newErrors.general = '모든 필드를 입력해주세요.';
         throw new Error('모든 필드를 입력해주세요.');
       }
-      
+
       const { data: userData, error: userError } = await supabase
-      .from('Users')
-      .select('password, social')
-      .eq('userId', user.id)
-      .single();
-      
-      if (!userData.social && !validatePasswordFormat(currentPassword)) {
-        newErrors.password = '비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.';
-        throw new Error('비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.');
-      }
-      
+        .from('Users')
+        .select('password, social')
+        .eq('userId', user.id)
+        .single();
+
       if (userError) {
         newErrors.general = '사용자의 정보를 가져오는 중 오류가 발생했습니다.';
         throw new Error('사용자 정보를 가져오는 중 오류가 발생했습니다.');
       }
-     
-      if (!userData.social && !validatePasswordMatch(currentPassword, userData.password)) {
-        newErrors.unPassword = '비밀번호가 일치하지 않습니다';
-        throw new Error('비밀번호 불일치');
+
+      if (!userData.social) {
+        if (!validatePasswordFormat(currentPassword)) {
+          newErrors.password = '비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.';
+          throw new Error('비밀번호는 영문 대소문자, 특수문자를 포함하여 8자리 이상이어야 합니다.');
+        }
+        if (!validatePasswordMatch(currentPassword, userData.password)) {
+          newErrors.unPassword = '비밀번호가 일치하지 않습니다';
+          throw new Error('비밀번호 불일치');
+        }
       }
 
       const { data, error } = await supabase
@@ -121,10 +121,7 @@ function EditProfile() {
   // 탈퇴하기
   const handleDeleteAccount = async () => {
     if (confirm('정말로 계정을 삭제하시겠습니까?')) {
-      const { error } = await supabase
-      .from('Users')
-      .delete()
-      .eq('userId', user.id);
+      const { error } = await supabase.from('Users').delete().eq('userId', user.id);
 
       if (error) {
         alert('계정 삭제 중 오류가 발생했습니다: ');
@@ -158,21 +155,11 @@ function EditProfile() {
         </div>
         <div>
           <label htmlFor="name">이름:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={name}
-            onChange={handleOnChange} />
+          <input type="text" id="name" name="name" value={name} onChange={handleOnChange} />
         </div>
         <div>
           <label htmlFor="nickname">닉네임:</label>
-          <input
-            type="text"
-            id="nickname"
-            name="nickname"
-            value={nickname}
-            onChange={handleOnChange} />
+          <input type="text" id="nickname" name="nickname" value={nickname} onChange={handleOnChange} />
         </div>
         <div>
           <label htmlFor="currentPassword">현재 비밀번호:</label>
