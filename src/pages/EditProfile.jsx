@@ -26,6 +26,7 @@ function EditProfile() {
   const [errors, setErrors] = useState({});
   const [isSocialLogin, setIsSocialLogin] = useState(false);
   const [previewUrl, setPreviewUrl] = useState('')
+
   useEffect(() => {
     dispatch(checkSignIn());
   }, [dispatch]);
@@ -40,7 +41,7 @@ function EditProfile() {
     }
   }, [user]);
 
-  const handleUploadProfile = async (file) => {
+  const handleUploadProfile = async () => {
     if (!file) return;
       
     const { data, error } = await supabase.storage
@@ -51,7 +52,10 @@ function EditProfile() {
       console.log(error);
       return;
     }
-    const { data: publicURL, error: urlError } = await supabase.storage.from('images').getPublicUrl(data.path);
+    const { data: publicURL, error: urlError } = await supabase
+    .storage
+    .from('images')
+    .getPublicUrl(data.path);
 
     if (urlError) {
       console.log(urlError);
@@ -73,7 +77,7 @@ function EditProfile() {
     }
   };
 
-  const handleChangeProfile = async (file) => {
+  const handleChangeProfile = async () => {
     const newErrors = {};
 
     try {
@@ -103,10 +107,7 @@ function EditProfile() {
           newErrors.unPassword = '비밀번호가 일치하지 않습니다';
           throw new Error('비밀번호 불일치');
         }
-        setEditedImage(file);
-        setSelectedFileName(file.picture);
-        setPreviewUrl(URL.createObjectURL(file));
-    
+           
       }
       const { data, error } = await supabase
         .from('Users')
