@@ -17,19 +17,20 @@ export const StLoginPageWrapper = styled.div`
 export const LogInContainer = styled.div`
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: ${({ theme }) => theme.spacing.medium};
   position: relative;
-  border-radius: 8px;
+  border-radius: ${({ theme }) => theme.borderRadius};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
 `;
 
 export const LogInTitle = styled.div`
   background-color: #fafafa;
-  color: #8aa9e4;
+  color: ${({ theme }) => theme.colors.primary};
   font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
+
+  margin-bottom: ${({ theme }) => theme.spacing.medium};
+  font-family: ${({ theme }) => theme.fonts.bold};
 `;
 
 export const LogInForm = styled.form`
@@ -38,18 +39,17 @@ export const LogInForm = styled.form`
 `;
 
 export const ErrorText = styled.div`
-  color: #ff1744;
-  margin-top: 5px;
+  color: ${({ theme }) => theme.colors.error};
   font-size: 16px;
-  font-weight: bold;
+  font-family: ${({ theme }) => theme.fonts.regular};
 `;
 
 export const LogInButton = styled.div`
-  margin-top: 10px;
+  margin-top: ${({ theme }) => theme.spacing.small};
 `;
 
 export const RegisterButton = styled.div`
-  margin-top: 10px;
+  margin-top: ${({ theme }) => theme.spacing.small};
 `;
 
 export const LogInEmailInput = styled.div`

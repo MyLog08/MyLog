@@ -16,14 +16,15 @@ export const StRegisterPageWrapper = styled.div`
 
 export const RegisterPageTitle = styled.div`
   background-color: #fafafa;
-  color: #8aa9e4;
+  color: ${({ theme }) => theme.colors.primary};
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: ${({ theme }) => theme.spacing.medium};
+  font-family: ${({ theme }) => theme.fonts.regular};
 `;
 
 export const RegisterInputWrapper = styled.div`
-  margin-bottom: 15px;
+  margin-bottom: ${({ theme }) => theme.spacing.medium};
   height: 55px;
   position: relative;
 `;
@@ -31,21 +32,22 @@ export const RegisterInputWrapper = styled.div`
 export const RegisterInput = styled.input`
   padding: 8px 12px;
   font-size: 15px;
-  border: 1px solid #8aa9e4;
+  border: 1px solid ${({ theme }) => theme.colors.primary};
   border-radius: 20px;
   transition: box-shadow 0.3s ease-in-out;
 
   &::placeholder {
-    color: #8aa9e4;
+    color: ${({ theme }) => theme.colors.primary};
   }
   &:hover,
   &:focus {
-    box-shadow: 0 0 8px #ffbfbf;
-    outline-color: #8aa9e4;
+    box-shadow: 0 0 8px ${({ theme }) => theme.colors.secondary};
+    outline-color: ${({ theme }) => theme.colors.primary};
   }
 `;
 
 export const ErrorText = styled.div`
-  color: red;
-  font-size: 14px;
+  color: ${({ theme }) => theme.colors.error};
+  font-size: 16px;
+  font-family: ${({ theme }) => theme.fonts.regular};
 `;

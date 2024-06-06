@@ -107,7 +107,8 @@ const ArticleUpdateForm = () => {
         throw ArticleUpdateError;
       }
 
-      navigate(`/articles/${articleId}`);
+      // 수정한 게시글로 이동
+      navigate(`/articles/${articleId}`, { replace: true });
     } catch (error) {
       console.error(error);
     }

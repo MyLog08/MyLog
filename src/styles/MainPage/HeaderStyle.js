@@ -6,14 +6,15 @@ export const HeaderContainer = styled.header`
   left: 0;
   right: 0;
   height: 70px;
-  padding: 10px 20px;
+  padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.medium};
   z-index: 1000;
-  background-color: #fafafa;
+  background-color: ${({ theme }) => theme.colors.background};
   > div {
     display: flex;
     align-items: center;
     justify-content: space-between;
     max-width: 1400px;
+    min-width: 900px;
     width: 100%;
     margin: auto;
   }
@@ -39,142 +40,62 @@ export const SearchBar = styled.input`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  padding: 8px 12px;
+  padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.medium};
   font-size: 15px;
-  border: 1px solid #8aa9e4;
-  caret-color: #8aa9e4;
+  border: 1px solid ${({ theme }) => theme.colors.primary};
+  caret-color: ${({ theme }) => theme.colors.primary};
   border-radius: 20px;
   transition: box-shadow 0.3s ease-in-out;
 
   &::placeholder {
-    color: #8aa9e4;
+    color: ${({ theme }) => theme.colors.primary};
+    font-family: ${({ theme }) => theme.fonts.regular};
   }
   &:hover,
   &:focus {
-    box-shadow: 0 0 8px #ffbfbf;
-    outline-color: #8aa9e4;
+    box-shadow: 0 0 8px ${({ theme }) => theme.colors.secondary};
+    outline-color: ${({ theme }) => theme.colors.primary};
   }
 `;
 
 export const LoggedInButtons = styled.div`
   display: flex;
-  gap: 10px;
+  gap: ${({ theme }) => theme.spacing.small};
 `;
 
-export const WriteButton = styled.button`
-  padding: 8px 16px;
+export const HeaderButton = styled.button`
+  padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.small};
   font-size: 20px;
-  //background-color: #8aa9e4;
   font-weight: bold;
-  background-color: #fafafa;
-  color: #8aa9e4;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-
-  &:hover {
-    //background-color: #ffbfbf;
-    color: #ffbfbf;
-  }
-`;
-
-export const ProfileButton = styled.button`
-  padding: 8px 16px;
-  font-size: 20px;
-  //background-color: #8aa9e4;
-  font-weight: bold;
-  background-color: #fafafa;
-  color: #8aa9e4;
+  font-family: ${({ theme }) => theme.fonts.bold};
+  background-color: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.primary};
   border: none;
   border-radius: 20px;
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 
   &:hover {
-    //background-color: #ffbfbf;
-    color: #ffbfbf;
+    background-color: ${({ theme }) => theme.colors.hoverBackground};
+    color: ${({ theme }) => theme.colors.hoverText};
   }
 `;
 
-export const LoginButton = styled.button`
-  padding: 8px 16px;
-  font-size: 20px;
-  //background-color: #8aa9e4;
-  font-weight: bold;
-  background-color: #fafafa;
-  color: #8aa9e4;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-
-  &:hover {
-    //background-color: #ffbfbf;
-    color: #ffbfbf;
-  }
-`;
-
-export const LogoutButton = styled.button`
-  padding: 8px 16px;
-  font-size: 20px;
-  //background-color: #928b8b;
-  font-weight: bold;
-  background-color: #fafafa;
-  color: #928b8b;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-
-  &:hover {
-    //background-color: #e45f5f;
-    color: #e45f5f;
-  }
-`;
-
-export const SigninButton = styled.button`
-  padding: 8px 16px;
-  font-size: 20px;
-  //background-color: #8aa9e4;
-  font-weight: bold;
-  background-color: #fafafa;
-  color: #8aa9e4;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-
-  &:hover {
-    //background-color: #ffbfbf;
-    color: #ffbfbf;
-  }
-`;
-
-export const HomeButton = styled.div`
-  padding: 10px;
-  font-size: 20px;
-  font-weight: bold;
-  background-color: #fafafa;
-  color: ${({ selected }) => (selected ? '#ffbfbf' : '#8aa9e4')};
-  border: none;
-  border-radius: 7px;
-  cursor: pointer;
-  transition: color 0.3s;
+export const HomeButton = styled(HeaderButton)`
+  color: ${({ selected, theme }) => (selected ? theme.colors.hoverText : theme.colors.primary)};
 
   button {
-    // 버튼에 스타일을 적용합니다.
-    padding: 5px 10px;
-    border: 1px solid #fafafa;
+    padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.small};
+    border: 1px solid ${({ theme }) => theme.colors.background};
     border-radius: 5px;
     background-color: transparent;
-    color: #8aa9e4;
+    color: ${({ theme }) => theme.colors.primary};
     font-size: inherit;
     font-weight: inherit;
     cursor: pointer;
 
     &:hover {
-      color: #ffbfbf;
+      color: ${({ theme }) => theme.colors.hoverText};
     }
   }
 `;

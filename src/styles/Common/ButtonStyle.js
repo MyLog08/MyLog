@@ -1,18 +1,18 @@
 import styled from 'styled-components';
 
 export const StyledButton = styled.button`
-  padding: 10px;
+  padding: ${({ theme }) => theme.spacing.small};
   font-size: 20px;
   font-weight: bold;
-  background-color: #fafafa;
-  color: ${({ selected }) => (selected ? '#ffbfbf' : '#8aa9e4')};
+  background-color: ${({ theme }) => theme.colors.background};
+  color: ${({ selected, theme }) => (selected ? theme.colors.secondary : theme.colors.primary)};
   border: none;
-  border-radius: 7px;
+  border-radius: ${({ theme }) => theme.borderRadius};
   cursor: pointer;
   transition: color 0.3s;
+  font-family: ${({ theme }) => theme.fonts.regular};
 
   &:hover {
-    //background-color: #ffbfbf;
-    color: #ffbfbf;
+    color: ${({ theme }) => theme.colors.secondary};
   }
 `;

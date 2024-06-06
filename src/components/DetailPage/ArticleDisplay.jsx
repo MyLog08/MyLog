@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import LoadingBar from '../Common/LoadingBar';
 import {
-  DetailButtons,
   DetailContent,
   DetailPageDate,
   DetailPageImg,
@@ -17,7 +16,7 @@ import {
   DetailSection,
   HomeLogo
 } from '../../styles/Detail/DetailStyle';
-import Button from '../Common/Button';
+
 import myLogoImage from '../../assets/MyLogLogo_blue_bold.png';
 
 const ArticleDisplay = () => {
@@ -100,8 +99,8 @@ const ArticleDisplay = () => {
       <DetailPageLogo>
         <HomeLogo src={myLogoImage} alt="로고" onClick={handleLogoClick} />
       </DetailPageLogo>
-      <DetailPageTitle>{article.title}</DetailPageTitle>
       <DetailPageInfo>
+        <DetailPageTitle>{article.title}</DetailPageTitle>
         {/* {user && article.userId === user.id ? (
           <DetailButtons>
             <Button onClick={handleUpdateArticle} value="수정" />
@@ -127,11 +126,12 @@ const ArticleDisplay = () => {
             ? dayjs(article.createdAt).format('YYYY년 MM월 DD일')
             : dayjs(article.updatedAt).format('YYYY년 MM월 DD일')}
         </DetailPageDate>
+        <DetailPageImg>
+          <img src={article.imageUrl} alt="이미지" />
+        </DetailPageImg>
+
+        <DetailContent>{article.content}</DetailContent>
       </DetailPageInfo>
-      <DetailPageImg>
-        <img src={article.imageUrl} alt="이미지" />
-      </DetailPageImg>
-      <DetailContent>{article.content}</DetailContent>
     </DetailSection>
   );
 };
