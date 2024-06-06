@@ -10,6 +10,8 @@ import MyPage from '../pages/MyPage';
 import RegisterPage from '../pages/RegisterPage/RegisterPage';
 import ArticleCreatePage from '../pages/SubmitPage/ArticleCreatePage';
 import ArticleUpdatePage from '../pages/SubmitPage/ArticleUpdatePage';
+import DetailPage from '../pages/DetailPage/DetailPage';
+import NotFoundPage from '../pages/ErrorPage/NotFoundPage';
 
 const Router = () => {
   return (
@@ -27,6 +29,7 @@ const Router = () => {
         <Route path="/articles/write" element={<ArticleCreatePage />} />
         <Route path="/profile" element={<MyPage />} />
         <Route path="/editprofile" element={<EditProfile />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
