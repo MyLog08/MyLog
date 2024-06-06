@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import LoadingBar from '../Common/LoadingBar';
 import {
+  DetailButton,
+  DetailButtons,
   DetailContent,
   DetailPageDate,
   DetailPageImg,
@@ -101,21 +103,12 @@ const ArticleDisplay = () => {
       </DetailPageLogo>
       <DetailPageInfo>
         <DetailPageTitle>{article.title}</DetailPageTitle>
-        {/* {user && article.userId === user.id ? (
-          <DetailButtons>
-            <Button onClick={handleUpdateArticle} value="수정" />
-            <Button onClick={() => handleDeleteArticle(articleId)} value="삭제" />
-          </DetailButtons>
-
-        ) : (
-          ''
-        )} */}
         <div>
           {user && article.userId === user.id ? (
-            <>
-              <button onClick={handleUpdateArticle}>수정</button>
-              <button onClick={() => handleDeleteArticle(articleId)}>삭제</button>
-            </>
+            <DetailButtons>
+              <DetailButton onClick={handleUpdateArticle}>수정</DetailButton>
+              <DetailButton onClick={() => handleDeleteArticle(articleId)}>삭제</DetailButton>
+            </DetailButtons>
           ) : (
             ''
           )}
