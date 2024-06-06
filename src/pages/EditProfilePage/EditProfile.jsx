@@ -1,12 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import supabase from '../../supabase/supabase';
 import { v4 as uuidv4 } from 'uuid';
 import useFormInputs from '../../hooks/useInput';
-import { checkSignIn } from '../../redux/slices/authSlice';
-import { logout } from '../../redux/slices/authSlice';
-import { validatePasswordFormat, validatePasswordMatch } from '../../utils/validators';
+import { checkSignIn, logout } from '../../redux/slices/authSlice';
+import { StyledButton } from '../../styles/Common/ButtonStyle';
 import {
   EditButtons,
   EditErrorMessage,
@@ -21,7 +19,8 @@ import {
   ProfileImageGrid,
   RedStyledButton
 } from '../../styles/ProfilePage/ProfileEditPageStyle';
-import { StyledButton } from '../../styles/Common/ButtonStyle';
+import supabase from '../../supabase/supabase';
+import { validatePasswordFormat, validatePasswordMatch } from '../../utils/validators';
 
 const initialState = {
   name: '',
@@ -132,12 +131,14 @@ function EditProfile() {
           imageUrl: picture
         })
         .eq('userId', user.id);
+      console.log(data);
 
       if (error) {
         console.error('업데이트에 문제가 발생했습니다.', error);
       } else {
         return alert('업데이트가 완료 됐습니다!', data);
       }
+      navigate('/profile');
     } catch (err) {
       setErrors(newErrors);
       console.log(err);
