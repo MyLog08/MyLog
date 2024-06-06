@@ -25,7 +25,7 @@ function EditProfile() {
   const [picture, setPicture] = useState('');
   const [errors, setErrors] = useState({});
   const [isSocialLogin, setIsSocialLogin] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState('')
+  const [previewUrl, setPreviewUrl] = useState('');
   useEffect(() => {
     dispatch(checkSignIn());
   }, [dispatch]);
@@ -42,10 +42,8 @@ function EditProfile() {
 
   const handleUploadProfile = async (file) => {
     if (!file) return;
-      
-    const { data, error } = await supabase.storage
-    .from('images')
-    .upload(`/${uuidv4()}`, file);
+
+    const { data, error } = await supabase.storage.from('images').upload(`/${uuidv4()}`, file);
 
     if (error) {
       console.log(error);
@@ -59,9 +57,9 @@ function EditProfile() {
     }
     setPicture(publicURL.publicUrl);
     return publicURL;
-    };
+  };
 
-    const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const fileElement = document.getElementById('profilePicture');
@@ -103,10 +101,6 @@ function EditProfile() {
           newErrors.unPassword = '비밀번호가 일치하지 않습니다';
           throw new Error('비밀번호 불일치');
         }
-        setEditedImage(file);
-        setSelectedFileName(file.picture);
-        setPreviewUrl(URL.createObjectURL(file));
-    
       }
       const { data, error } = await supabase
         .from('Users')
@@ -158,9 +152,9 @@ function EditProfile() {
     <>
       <button onClick={handleBack}>뒤로가기</button>
       <form onSubmit={handleSubmit}>
-              <section>
-                <div>{previewUrl ? <img src={previewUrl} alt="미리보기 이미지" /> : <span>Please Select a Image</span>}</div>
-                </section>
+        <section>
+          <div>{previewUrl ? <img src={previewUrl} alt="미리보기 이미지" /> : <span>Please Select a Image</span>}</div>
+        </section>
         <div>
           <label htmlFor="profilePicture">프로필 사진:</label>
           <input
@@ -204,7 +198,6 @@ function EditProfile() {
         <button type="submit" style={{ color: 'blue' }} onClick={handleChangeProfile}>
           변경 완료
         </button>
-
       </form>
       <button onClick={handleDeleteAccount} style={{ color: 'red' }}>
         탈퇴하기

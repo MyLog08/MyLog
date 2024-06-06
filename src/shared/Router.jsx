@@ -27,9 +27,9 @@ const Router = () => {
         <Route path="/auth/loading/:provider" element={<LoadingPage />} />
         <Route path="/articles/:articleId/edit" element={<ArticleUpdatePage />} />
         <Route path="/articles/:articleId" element={<DetailPage />} />
-        <Route path="/articles/Post" element={<ArticleCreatePage />} />
+        <Route path="/articles/post" element={<ArticleCreatePage />} />
         <Route path="/profile" element={<MyPage />} />
-        <Route path="/editprofile" element={<EditProfile />} />
+        <Route path="/profile/edit" element={<EditProfile />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

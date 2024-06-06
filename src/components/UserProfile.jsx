@@ -65,7 +65,7 @@ const UserProfile = () => {
   }, [user]);
 
   const moveToEdit = () => {
-    navigate('/editprofile');
+    navigate('/profile/edit');
   };
 
   const moveToHome = () => {
