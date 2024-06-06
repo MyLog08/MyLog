@@ -1,17 +1,15 @@
-import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { checkSignIn } from '../../redux/slices/authSlice';
-import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import { validateLength } from '../../utils/validators';
-import { CommentPost, CommentPostingBox, CommentsCount, InputContainer } from '../../styles/Detail/CommentStyle';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { checkSignIn } from '../../redux/slices/authSlice';
 import { StyledButton } from '../../styles/Common/ButtonStyle';
+import { CommentPost, CommentPostingBox, CommentsCount, InputContainer } from '../../styles/Detail/CommentStyle';
+import supabase from '../../supabase/supabase';
+import { validateLength } from '../../utils/validators';
 
-const CommentInput = ({ fetchData }) => {
+const CommentInput = ({ fetchData, commentsCount, setCommentsCount }) => {
   const { articleId } = useParams();
-  const [commentsCount, setCommentsCount] = useState(0);
   const [content, setContent] = useState('');
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
