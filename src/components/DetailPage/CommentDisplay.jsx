@@ -3,12 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { checkSignIn } from '../../redux/slices/authSlice';
 import supabase from '../../supabase/supabase';
 import dayjs from 'dayjs';
-import { useParams } from 'react-router-dom';
 import { validateLength } from '../../utils/validators';
 
-const CommentDisplay = () => {
-  const { articleId } = useParams();
-  const [comments, setComments] = useState([]);
+const CommentDisplay = ({ comments, setComments }) => {
   const [users, setUsers] = useState([]);
 
   const user = useSelector((state) => state.auth.user);
@@ -19,23 +16,14 @@ const CommentDisplay = () => {
 
   useEffect(() => {
     dispatch(checkSignIn());
+  }, [dispatch]);
 
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        // 댓글 정보를 댓글 업데이트 날짜 최신순으로 가져오기
-        const { data: commentsData, error: commentsError } = await supabase
-          .from('Comments')
-          .select('*')
-          .eq('articleId', articleId)
-          .order('updatedAt', { ascending: false });
-        if (commentsError) {
-          throw commentsError;
-        }
-        setComments(commentsData);
-
         // 댓글 작성자 아이디, 닉네임, 프로필 사진 가져오기
-        if (commentsData.length > 0) {
-          const userIds = [...new Set(commentsData.map((comment) => comment.userId))];
+        if (comments.length > 0) {
+          const userIds = [...new Set(comments.map((comment) => comment.userId))];
           const { data: userData, error: userError } = await supabase
             .from('Users')
             .select('userId, nickname, imageUrl')
@@ -57,7 +45,7 @@ const CommentDisplay = () => {
     };
 
     fetchData();
-  }, [dispatch, articleId]);
+  }, [comments]);
 
   // 댓글 수정 모드 토글
   const toggleEditMode = (commentId, initialContent) => {
@@ -100,16 +88,11 @@ const CommentDisplay = () => {
       return;
     } else {
       try {
-        const { commentDeleteError } = await supabase
-        .from('Comments')
-        .delete()
-        .eq('commentId', targetId);
-
+        const { commentDeleteError } = await supabase.from('Comments').delete().eq('commentId', targetId);
         if (commentDeleteError) {
           throw commentDeleteError;
         } else {
-          setComments(comments.filter((comment) =>
-             comment.commentId !== targetId));
+          setComments(comments.filter((comment) => comment.commentId !== targetId));
         }
       } catch (error) {
         console.error(error);
