@@ -80,8 +80,9 @@ const ArticleCreateForm = () => {
 
       // 게시글 등록
       const timestamp = dayjs().format('YYYY-MM-DD HH:mm:ss');
+      const articleId = crypto.randomUUID();
       const { articleError } = await supabase.from('Articles').insert({
-        articleId: crypto.randomUUID(),
+        articleId,
         title,
         content,
         imageUrl: publicUrl,
@@ -98,8 +99,8 @@ const ArticleCreateForm = () => {
         setImage(null);
         setPreviewUrl('');
 
-        // 메인 페이지로 이동
-        navigate('/');
+        // 작성한 게시글로 이동
+        navigate(`/articles/${articleId}`, { replace: true });
       }
     } catch (error) {
       console.error(error);
