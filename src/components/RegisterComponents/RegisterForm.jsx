@@ -171,12 +171,8 @@ function RegisterForm() {
             onChange={handleOnChange}
           />
           <ErrorText>
-            {errors.confirm && (
-              <div>
-                {errors.confirm}
-                {errors.general}
-              </div>
-            )}
+            {errors.confirm && <div>{errors.confirm}</div>}
+            {errors.general && <div>{errors.general}</div>}
           </ErrorText>
         </RegisterInputWrapper>
         <RegisterButton>
